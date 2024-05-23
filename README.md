@@ -1,9 +1,9 @@
 ## V 1.01
-npm install react-router-dom \n
-파일 시작시 export default function 이름(){} \n
-BrowserRouter - Routes - Route 순서대로, BrowserRouter은 무조건 최상위 \n
-여러 파일 -> App -> main \n
-css파일 적용시 App.module.css처럼 로컬 범위로 제한 import styles from './App.module.css'; className={styles.header}
+npm install react-router-dom <br />
+파일 시작시 export default function 이름(){} <br />
+BrowserRouter - Routes - Route 순서대로, BrowserRouter은 무조건 최상위 <br />
+여러 파일 -> App -> main <br />
+css파일 적용시 App.module.css처럼 로컬 범위로 제한 import styles from './App.module.css'; className={styles.header} <br />
 
 # React + TypeScript + Vite
 
