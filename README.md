@@ -1,3 +1,7 @@
+## V 1.02
+npm install axios <br />
+제품 나열하는 리스트 작성
+
 ## V 1.01
 npm install react-router-dom <br />
 파일 시작시 export default function 이름(){} <br />
