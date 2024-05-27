@@ -1,3 +1,9 @@
+## V 1.03
+Diagnosis폴더 추가 <br />
+Diagnosis.tsx의 const question에 질문지 작성 <br />
+Result.tsx 결과페이지에 점수에 맞게 진단 <br />
+css 찾아보고 진단테스트 스타일 꾸미기
+
 ## V 1.02
 npm install axios <br />
 제품 나열하는 리스트 작성
