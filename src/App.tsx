@@ -1,12 +1,13 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
-import Diagnose from "./assets/Navpages/Diagnose";
 import Products from "./assets/Navpages/Products";
 import Test from "./Test";
 import ProductList from "./assets/Product/ProductList";
 import "./App.css";
 import Footer from "./Footer";
+import Diagnosis from './assets/Diagnosis/Diagonsis'
+import Result from './assets/Diagnosis/Result'
 
 const App: React.FC = () => {
   return (
@@ -32,6 +33,8 @@ const App: React.FC = () => {
         />
         <Route path="/scalp/sub1" element={<div>Scalp Subcategory 1</div>} />
         <Route path="/scalp/sub2" element={<div>Scalp Subcategory 2</div>} />
+        <Route path='/diagnosis' element={<Diagnosis />} />
+        <Route path='/result' element={<Result />} />
       </Routes>
       <Footer />
     </div>
