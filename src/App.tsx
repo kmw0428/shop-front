@@ -1,5 +1,5 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import Navbar from "./assets/Nav_Foot/Navbar";
 import Footer from "./assets/Nav_Foot/Footer";
@@ -11,6 +11,24 @@ import Diagnosis from './assets/Diagnosis/Diagonsis';
 import Result from './assets/Diagnosis/Result';
 
 const App: React.FC = () => {
+  const location = useLocation();
+
+  const noOverflowPaths = [
+    "/login"
+  ];
+
+  useEffect(() => {
+    if (noOverflowPaths.includes(location.pathname)) {
+      document.body.classList.add("no-overflow");
+    } else {
+      document.body.classList.remove("no-overflow");
+    }
+
+    return () => {
+      document.body.classList.remove("no-overflow");
+    };
+  }, [location.pathname, noOverflowPaths]);
+
   return (
     <div>
       <Navbar />
