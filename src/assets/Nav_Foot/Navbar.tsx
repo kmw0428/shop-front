@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
-import logo from "./img/logo.png";
 
 const Navbar: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -34,7 +33,7 @@ const Navbar: React.FC = () => {
         <div className="navbar__logo">
           <li>
             <Link to="/">
-              <img src={logo} alt="Logo" style={{ height: "40px" }} />
+              <img src="/logo.png" alt="Logo" style={{ height: "40px" }} />
             </Link>
           </li>
         </div>
@@ -42,7 +41,7 @@ const Navbar: React.FC = () => {
           <span>진단</span>
           <ul className="sub-menu">
             <li>
-              <Link to="/diagnose">피부 진단</Link>
+              <Link to="/diagnosis">피부 진단</Link>
             </li>
             <li>
               <Link to="">두피 진단</Link>

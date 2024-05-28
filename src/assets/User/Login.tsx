@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './Login.css'; // CSS 파일을 import
-import logo from "./Image/logo.png"
 
 interface LoginFormProps {
     // 필요한 경우 props를 정의할 수 있습니다.
@@ -26,7 +25,7 @@ const Login: React.FC<LoginFormProps> = () => {
         <div className="login-page">
             <div className={`login-content login-content-signin ${showSignIn ? '' : 'ng-hide'}`}>
                 <div>
-                    <img src={logo} alt='logo' className='imgstyle'></img>
+                    <img src="/logo.png" alt='logo' className='imgstyle'></img>
                     <br></br><br></br><br></br>
                     <h2>Login</h2>
                     <form className="wrapper-box" role="form" onSubmit={handleLogin}>
@@ -54,7 +53,7 @@ const Login: React.FC<LoginFormProps> = () => {
 
             <div className={`login-content login-content-signup ${showSignIn ? 'ng-hide' : ''}`}>
                 <div>
-                    <img src={logo} alt='logo' className='imgstyle'></img>
+                    <img src="/logo.png" alt='logo' className='imgstyle'></img>
                     <br></br><br></br><br></br>
                     <h2>Sign Up</h2>
                     <form className="wrapper-box" role="form" onSubmit={handleRegister}>
