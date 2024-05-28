@@ -1,3 +1,6 @@
+## V 1.04
+Navbar, Footer 추가
+
 ## V 1.03
 Diagnosis폴더 추가 <br />
 Diagnosis.tsx의 const question에 질문지 작성 <br />
