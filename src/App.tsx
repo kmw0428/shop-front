@@ -1,4 +1,3 @@
-import ReviewPage from './ReviewPage'
 import React, { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
@@ -10,6 +9,7 @@ import Products from "./assets/Product/Products";
 import ProductList from "./assets/Product/ProductList";
 import Diagnosis from './assets/Diagnosis/Diagonsis';
 import Result from './assets/Diagnosis/Result';
+import ReviewPage from './assets/Product/ReviewPage'
 
 const App: React.FC = () => {
   const location = useLocation();
