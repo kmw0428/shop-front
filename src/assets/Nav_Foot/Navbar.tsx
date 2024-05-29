@@ -44,7 +44,7 @@ const Navbar: React.FC = () => {
           <span>진단</span>
           <ul className="sub-menu">
             <li>
-              <Link to="/diagnose">피부 진단</Link>
+              <Link to="/diagnosis">피부 진단</Link>
             </li>
             <li>
               <Link to="">두피 진단</Link>

@@ -2,6 +2,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./slider.css";
+import { Link } from "react-router-dom";
 
 const Banner: React.FC = () => {
   const settings = {
@@ -18,9 +19,21 @@ const Banner: React.FC = () => {
 
   return (
     <Slider {...settings}>
-      <img src="/banner-01.png" />
-      <img src="/banner-02.png" />
-      <img src="/banner-03.png" />
+      <div className="slide-container">
+        <Link to="/diagnosis">
+          <img src="/banner-01.png" />
+        </Link>
+      </div>
+      <div className="slide-container">
+        <Link to="/">
+          <img src="/banner-02.png" />
+        </Link>
+      </div>
+      <div className="slide-container">
+        <Link to="/">
+          <img src="/banner-03.png" />
+        </Link>
+      </div>
     </Slider>
   );
 };

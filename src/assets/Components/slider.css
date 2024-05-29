@@ -1,7 +1,17 @@
 .slider-container {
   position: relative;
   width: 100%;
+  max-width: 1200px; /* 슬라이드의 최대 너비 설정 */
+  margin: 0 auto; /* 가운데 정렬 */
   overflow: hidden;
+}
+
+.slide-container img {
+  width: 100%;
+  height: auto; /* 이미지를 컨테이너에 맞추기 */
+  display: block; /* 이미지를 블록 요소로 설정 */
+  max-height: 785px;
+  object-fit: cover; /* 이미지가 컨테이너를 꽉 채우도록 함 */
 }
 
 .slider-item {
@@ -10,11 +20,4 @@
   align-items: center;
   width: 100%;
   height: 785px; /* 베너 높이 */
-}
-
-.slider-item img {
-  width: 100%;
-  height: auto;
-  max-height: 785px;
-  object-fit: cover; /* 이미지가 컨테이너를 꽉 채우도록 함 */
 }
