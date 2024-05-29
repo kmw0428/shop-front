@@ -6,10 +6,15 @@
 }
 
 body {
-  padding-top: 50px;
-  padding-bottom: 50px;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: hidden; /* 화면 높이에서 navbar와 footer 높이를 뺀 값 */
+}
+
+.maincontent {
+  height: calc(100vh - 100px);
+  padding-top: 50px;
+  padding-bottom: 70px;
+  width: 1280px;
 }
 
 .no-overflow {
@@ -50,4 +55,9 @@ body {
 
 .read-the-docs {
   color: #888;
+}
+
+.search-bar {
+  margin-top: 10px;
+  margin-bottom: -40px;
 }

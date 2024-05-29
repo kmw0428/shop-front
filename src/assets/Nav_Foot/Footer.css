@@ -11,6 +11,13 @@
   height: auto;
 }
 
+.no-overflow #Footer {
+  opacity: 1 !important; 
+  visibility: visible !important;
+  bottom: 0 !important;
+  transform: none !important;
+}
+
 #Footer.hidden {
   opacity: 0;
   visibility: hidden;

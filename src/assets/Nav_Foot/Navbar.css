@@ -111,6 +111,7 @@ nav:hover {
   list-style: none;
   display: flex;
   justify-content: flex-end;
+  gap: 10px
 }
 
 .login li {

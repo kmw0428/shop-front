@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import SearchBar from "./SearchBar";
 
 const Navbar: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const lastScrollTop = useRef(0);
+
+  const handleSearchClick = () => {
+    setShowSearch(!showSearch);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +37,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
+    <>
     <nav className={isVisible ? "visible" : "hidden"}>
       <div className="navbar__logo">
         <li>
@@ -44,10 +51,10 @@ const Navbar: React.FC = () => {
           <span>진단</span>
           <ul className="sub-menu">
             <li>
-              <Link to="/diagnosis">피부 진단</Link>
+              <Link to="/diagnosisSkin">피부 진단</Link>
             </li>
             <li>
-              <Link to="">두피 진단</Link>
+              <Link to="/diagnosisSclap">두피 진단</Link>
             </li>
           </ul>
         </li>
@@ -96,6 +103,9 @@ const Navbar: React.FC = () => {
         </li>
       </ul>
       <ul className="login">
+        <li>
+          <img src="/search-icon.png" style={{height: "20px", paddingTop: "2px", cursor: "pointer"}} onClick={handleSearchClick} />
+        </li>
         {isLoggedIn ? (
           <li>
             <Link to="/mypage">마이페이지</Link> /{" "}
@@ -108,6 +118,8 @@ const Navbar: React.FC = () => {
         )}
       </ul>
     </nav>
+
+{showSearch && <SearchBar />}</>
   );
 };
 

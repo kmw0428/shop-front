@@ -20,12 +20,12 @@ const Banner: React.FC = () => {
   return (
     <Slider {...settings}>
       <div className="slide-container">
-        <Link to="/diagnosis">
+        <Link to="/diagnosisSkin">
           <img src="/banner-01.png" />
         </Link>
       </div>
       <div className="slide-container">
-        <Link to="/">
+        <Link to="/diagnosisSclap">
           <img src="/banner-02.png" />
         </Link>
       </div>

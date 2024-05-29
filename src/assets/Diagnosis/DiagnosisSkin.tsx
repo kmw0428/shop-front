@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Question from "./Question";
+import "./Diagnosis.css";
 
 const questions = [
     {
@@ -31,7 +32,7 @@ const questions = [
     },
 ];
 
-const Diagnosis: React.FC = () => {
+const DiagnosisSkin: React.FC = () => {
     const [answers, setAnswers] = useState<number[]>(Array(questions.length).fill(0));
 
     const handleAnswer = (index: number, score: number) => {
@@ -47,7 +48,7 @@ const Diagnosis: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="diagnosis">
             {questions.map((q, index) => (
                 <Question
                     key={index}
@@ -61,4 +62,4 @@ const Diagnosis: React.FC = () => {
     );
 };
 
-export default Diagnosis;
+export default DiagnosisSkin;

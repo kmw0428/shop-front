@@ -7,7 +7,8 @@ import HomePage from "./assets/HomePage";
 import Login from './assets/User/Login';
 import Products from "./assets/Product/Products";
 import ProductList from "./assets/Product/ProductList";
-import Diagnosis from './assets/Diagnosis/Diagonsis';
+import DiagnosisSclap from './assets/Diagnosis/DiagonsisSclap';
+import DiagnosisSkin from "./assets/Diagnosis/DiagnosisSkin";
 import Result from './assets/Diagnosis/Result';
 import ReviewPage from './assets/Product/ReviewPage'
 
@@ -33,11 +34,12 @@ const App: React.FC = () => {
   return (
     <div>
       <Navbar />
+      <div className="maincontent">
       <Routes>
-        <Route path='/reviews' element={<ReviewPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/diagnosis" element={<Diagnosis />} />
+        <Route path="/diagnosisSclap" element={<DiagnosisSclap />} />
+        <Route path="/diagnosisSkin" element={<DiagnosisSkin />} />
         <Route path="/product-list" element={<ProductList />} />
         <Route path="/products" element={<Products />} />
         <Route path="/all/sub1" element={<div>All Subcategory 1</div>} />
@@ -48,9 +50,10 @@ const App: React.FC = () => {
         <Route path="/skincare/sub2" element={<div>Skincare Subcategory 2</div>} />
         <Route path="/scalp/sub1" element={<div>Scalp Subcategory 1</div>} />
         <Route path="/scalp/sub2" element={<div>Scalp Subcategory 2</div>} />
-        <Route path='/diagnosis' element={<Diagnosis />} />
         <Route path='/result' element={<Result />} />
+        <Route path='/reviews' element={<ReviewPage />} />
       </Routes>
+      </div>
       <Footer />
     </div>
   );
