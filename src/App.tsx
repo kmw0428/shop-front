@@ -1,3 +1,4 @@
+import ReviewPage from './ReviewPage'
 import React, { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
@@ -33,6 +34,7 @@ const App: React.FC = () => {
     <div>
       <Navbar />
       <Routes>
+        <Route path='/reviews' element={<ReviewPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/diagnosis" element={<Diagnosis />} />
