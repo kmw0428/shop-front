@@ -4,6 +4,7 @@ import "./Navbar.css";
 
 const Navbar: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const lastScrollTop = useRef(0);
 
   useEffect(() => {
@@ -11,13 +12,11 @@ const Navbar: React.FC = () => {
       const scrollTop =
         window.pageYOffset || document.documentElement.scrollTop;
       if (scrollTop > lastScrollTop.current) {
-        // Scrolling down
         setIsVisible(false);
       } else {
-        // Scrolling up
         setIsVisible(true);
       }
-      lastScrollTop.current = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
+      lastScrollTop.current = scrollTop <= 0 ? 0 : scrollTop;
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -27,21 +26,25 @@ const Navbar: React.FC = () => {
     };
   }, []);
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
   return (
     <nav className={isVisible ? "visible" : "hidden"}>
+      <div className="navbar__logo">
+        <li>
+          <Link to="/">
+            <img src="/logo.png" alt="Logo" style={{ height: "40px" }} />
+          </Link>
+        </li>
+      </div>
       <ul className="main-menu">
-        <div className="navbar__logo">
-          <li>
-            <Link to="/">
-              <img src="/logo.png" alt="Logo" style={{ height: "40px" }} />
-            </Link>
-          </li>
-        </div>
         <li>
           <span>진단</span>
           <ul className="sub-menu">
             <li>
-              <Link to="/diagnosis">피부 진단</Link>
+              <Link to="/diagnose">피부 진단</Link>
             </li>
             <li>
               <Link to="">두피 진단</Link>
@@ -49,38 +52,28 @@ const Navbar: React.FC = () => {
           </ul>
         </li>
         <li>
-          <Link to="/products">상품보기</Link>
+          <Link to="/all">전체</Link>
         </li>
         <li>
-          <span>전체</span>
-          <ul className="sub-menu">
-            <li>
-              <Link to="/all/sub1">서브 카테고리 1</Link>
-            </li>
-            <li>
-              <Link to="/all/sub2">서브 카테고리 2</Link>
-            </li>
-          </ul>
+          <Link to="/custom">맞춤</Link>
         </li>
         <li>
-          <span>맞춤</span>
+          <span>스킨</span>
           <ul className="sub-menu">
             <li>
-              <Link to="/custom/sub1">서브 카테고리 1</Link>
+              <Link to="/skincare/sub1">클렌져</Link>
             </li>
             <li>
-              <Link to="/custom/sub2">서브 카테고리 2</Link>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <span>스킨케어</span>
-          <ul className="sub-menu">
-            <li>
-              <Link to="/skincare/sub1">서브 카테고리 1</Link>
+              <Link to="/skincare/sub2">토너</Link>
             </li>
             <li>
-              <Link to="/skincare/sub2">서브 카테고리 2</Link>
+              <Link to="/skincare/sub3">세럼&에센스</Link>
+            </li>
+            <li>
+              <Link to="/skincare/sub2">로션&크림</Link>
+            </li>
+            <li>
+              <Link to="/skincare/sub2">선케어</Link>
             </li>
           </ul>
         </li>
@@ -88,19 +81,32 @@ const Navbar: React.FC = () => {
           <span>두피</span>
           <ul className="sub-menu">
             <li>
-              <Link to="/scalp/sub1">서브 카테고리 1</Link>
+              <Link to="/scalp/sub1">샴푸</Link>
             </li>
             <li>
-              <Link to="/scalp/sub2">서브 카테고리 2</Link>
+              <Link to="/scalp/sub2">트리트먼트</Link>
+            </li>
+            <li>
+              <Link to="/scalp/sub2">토닉&세럼</Link>
+            </li>
+            <li>
+              <Link to="/scalp/sub2">스케일링</Link>
             </li>
           </ul>
         </li>
       </ul>
-      <ul className="main-menu right-menu">
+      <ul className="login">
+        {isLoggedIn ? (
           <li>
-            <Link to="/login">로그인</Link>
+            <Link to="/mypage">마이페이지</Link> /{" "}
+            <button onClick={handleLogout}>로그아웃</button>
           </li>
-        </ul>
+        ) : (
+          <li>
+            <Link to="/login">로그인 / 회원가입</Link>
+          </li>
+        )}
+      </ul>
     </nav>
   );
 };
