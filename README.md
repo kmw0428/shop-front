@@ -1,3 +1,6 @@
+## V 1.07
+배너 추가 및 Navbar 수정
+
 ## V 1.06
 폴더 정리 <br />
 Navbar, Footer 문제 수정
