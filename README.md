@@ -1,5 +1,8 @@
 ## V 1.07
-배너 추가 및 Navbar 수정
+배너 추가 및 Navbar 수정 <br />
+npm install swiper <br />
+npm install react-slick slick-carousel <br />
+npm install --save-dev @types/react-slick
 
 ## V 1.06
 폴더 정리 <br />
