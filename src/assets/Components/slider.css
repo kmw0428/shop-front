@@ -21,3 +21,7 @@
   width: 100%;
   height: 785px; /* 베너 높이 */
 }
+
+.slick-dots li button {
+  margin-top: 5px;
+}
