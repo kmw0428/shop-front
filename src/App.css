@@ -5,6 +5,17 @@
   text-align: center;
 }
 
+body {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  overflow: auto;
+  height: 80%;
+}
+
+.no-overflow {
+  overflow: hidden;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;

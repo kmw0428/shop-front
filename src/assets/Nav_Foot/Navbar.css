@@ -1,0 +1,102 @@
+@font-face {
+  font-family: "SOGANGUNIVERSITYTTF";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2312-1@1.1/SOGANGUNIVERSITYTTF.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+nav {
+  position: fixed;
+  font-family: "SOGANGUNIVERSITYTTF";
+  background-color: #f1eae6;
+  color: #9c8779;
+  padding: 10px 20px; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  transition: top 0.3s; 
+}
+
+nav.visible {
+  top: 0;
+}
+
+nav.hidden {
+  top: -100px; 
+}
+
+.main-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  gap: 20px
+}
+
+.left-menu {
+  flex-grow: 1;
+}
+
+.right-menu {
+  margin-left: 0;
+}
+
+.main-menu > li {
+  position: relative;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.main-menu > li:last-child {
+  margin-right: 0; 
+}
+
+.main-menu > li > span,
+.main-menu > li > a {
+  color: #9c8779;
+  text-decoration: none;
+}
+
+.sub-menu {
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+  background-color: #e1cbb7;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  white-space: nowrap; 
+}
+
+.main-menu > li:hover .sub-menu {
+  display: inline-block; 
+}
+
+.sub-menu > li {
+  display: block; 
+}
+
+.sub-menu > li > a {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  padding: 5px 10px; 
+}
+
+.sub-menu > li > a:hover {
+  text-decoration: underline;
+}
+
+body {
+  padding-top: 50px; 
+}
