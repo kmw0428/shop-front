@@ -1,3 +1,6 @@
+## V 1.08
+배너 이미지에 링크 추가
+
 ## V 1.07
 배너 추가 및 Navbar 수정 <br />
 npm install swiper <br />
