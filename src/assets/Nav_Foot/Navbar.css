@@ -1,13 +1,4 @@
-@font-face {
-  font-family: "SOGANGUNIVERSITYTTF";
-  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2312-1@1.1/SOGANGUNIVERSITYTTF.woff2")
-    format("woff2");
-  font-weight: normal;
-  font-style: normal;
-}
-
 nav {
-  font-family: "SOGANGUNIVERSITYTTF";
   position: fixed;
   top: 0;
   left: 0;
