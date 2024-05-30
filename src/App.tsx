@@ -3,7 +3,8 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import Navbar from "./assets/Nav_Foot/Navbar";
 import Footer from "./assets/Nav_Foot/Footer";
-// import HomePage from "./assets/HomePage";
+import ScrollToTop from "./assets/ScrollToTop";
+import HomePage from "./assets/HomePage";
 import Login from './assets/User/Login';
 import Products from "./assets/Product/Products";
 import ProductList from "./assets/Product/ProductList";
@@ -35,14 +36,15 @@ const App: React.FC = () => {
   return (
     <div>
       <Navbar />
+      <ScrollToTop />
       <div className="maincontent">
         <Routes>
-          {/* <Route path="/" element={<HomePage />} /> */}
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/diagnosisSclap" element={<DiagnosisSclap />} />
           <Route path="/diagnosisSkin" element={<DiagnosisSkin />} />
           <Route path="/product-list" element={<ProductList />} />
-          <Route path="/" element={<Products />} />
+          <Route path="/product" element={<Products />} />
           <Route path="/all/sub1" element={<div>All Subcategory 1</div>} />
           <Route path="/all/sub2" element={<div>All Subcategory 2</div>} />
           <Route path="/custom/sub1" element={<div>Custom Subcategory 1</div>} />
