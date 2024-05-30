@@ -43,7 +43,7 @@
   transform: translateX(-50%);
 }
 
-h2 {
+.h2styled {
   text-align: left;
   color: #9c8779;
   text-transform: uppercase;
@@ -54,14 +54,14 @@ h2 {
 }
 
 form.wrapper-box {
-  margin-top: 25px;
+  margin-top: 20px;
 }
 
-input {
+.wrapper-box input {
   font-family: "NEXON Lv1 Gothic OTF";
   margin-top: 30px;
   width: 440px;
-  height: 30px;
+  height: 35px;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 0;
@@ -71,11 +71,11 @@ input {
   outline: none;
 }
 
-input:valid {
+.wrapper-box input:valid {
   border-bottom: 1px solid #e1cbb7;
 }
 
-input:focus:invalid {
+.wrapper-box input:focus:invalid {
   border-bottom: 1px solid #9c8779;
 }
 
@@ -91,6 +91,9 @@ input:focus:invalid {
 
 .btn {
   font-family: "NEXON Lv1 Gothic OTF";
+  margin-left: 340px;
+  margin-top: 20px;
+  font-size: 16px;
 }
 
 .outer-link:hover {

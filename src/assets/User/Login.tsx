@@ -27,7 +27,7 @@ const Login: React.FC<LoginFormProps> = () => {
                 <div>
                     <img src="/logo.png" alt='logo' className='imgstyle'></img>
                     <br></br><br></br><br></br>
-                    <h2>Login</h2>
+                    <h2 className='h2styled'>Login</h2>
                     <form className="wrapper-box" role="form" onSubmit={handleLogin}>
                         <input
                             type="email"
@@ -55,7 +55,7 @@ const Login: React.FC<LoginFormProps> = () => {
                 <div>
                     <img src="/logo.png" alt='logo' className='imgstyle'></img>
                     <br></br><br></br><br></br>
-                    <h2>Sign Up</h2>
+                    <h2 className='h2styled'>Sign Up</h2>
                     <form className="wrapper-box" role="form" onSubmit={handleRegister}>
                         <input
                             type="text"
