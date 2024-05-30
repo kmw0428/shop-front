@@ -3,7 +3,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import Navbar from "./assets/Nav_Foot/Navbar";
 import Footer from "./assets/Nav_Foot/Footer";
-import HomePage from "./assets/HomePage";
+// import HomePage from "./assets/HomePage";
 import Login from './assets/User/Login';
 import Products from "./assets/Product/Products";
 import ProductList from "./assets/Product/ProductList";
@@ -36,25 +36,25 @@ const App: React.FC = () => {
     <div>
       <Navbar />
       <div className="maincontent">
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/diagnosisSclap" element={<DiagnosisSclap />} />
-        <Route path="/diagnosisSkin" element={<DiagnosisSkin />} />
-        <Route path="/product-list" element={<ProductList />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/all/sub1" element={<div>All Subcategory 1</div>} />
-        <Route path="/all/sub2" element={<div>All Subcategory 2</div>} />
-        <Route path="/custom/sub1" element={<div>Custom Subcategory 1</div>} />
-        <Route path="/custom/sub2" element={<div>Custom Subcategory 2</div>} />
-        <Route path="/skincare/sub1" element={<div>Skincare Subcategory 1</div>} />
-        <Route path="/skincare/sub2" element={<div>Skincare Subcategory 2</div>} />
-        <Route path="/scalp/sub1" element={<div>Scalp Subcategory 1</div>} />
-        <Route path="/scalp/sub2" element={<div>Scalp Subcategory 2</div>} />
-        <Route path='/result' element={<Result />} />
-        <Route path='/reviews' element={<ReviewPage />} />
-        <Route path='/cartpage' element={<CartPage />} />
-      </Routes>
+        <Routes>
+          {/* <Route path="/" element={<HomePage />} /> */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/diagnosisSclap" element={<DiagnosisSclap />} />
+          <Route path="/diagnosisSkin" element={<DiagnosisSkin />} />
+          <Route path="/product-list" element={<ProductList />} />
+          <Route path="/" element={<Products />} />
+          <Route path="/all/sub1" element={<div>All Subcategory 1</div>} />
+          <Route path="/all/sub2" element={<div>All Subcategory 2</div>} />
+          <Route path="/custom/sub1" element={<div>Custom Subcategory 1</div>} />
+          <Route path="/custom/sub2" element={<div>Custom Subcategory 2</div>} />
+          <Route path="/skincare/sub1" element={<div>Skincare Subcategory 1</div>} />
+          <Route path="/skincare/sub2" element={<div>Skincare Subcategory 2</div>} />
+          <Route path="/scalp/sub1" element={<div>Scalp Subcategory 1</div>} />
+          <Route path="/scalp/sub2" element={<div>Scalp Subcategory 2</div>} />
+          <Route path='/result' element={<Result />} />
+          <Route path='/reviews' element={<ReviewPage />} />
+          <Route path='/cartpage' element={<CartPage />} />
+        </Routes>
       </div>
       <Footer />
     </div>

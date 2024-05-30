@@ -1,0 +1,182 @@
+.products .header {
+    margin-top: 80px;
+    margin-bottom: 50px;
+    text-align: center; /* 텍스트를 가운데 정렬합니다. */
+}
+
+.products .header h2 {
+    font-size: 2.8rem;
+    font-weight: 400;
+    color: #9C8779; 
+    display: inline-block; /* 헤더를 인라인 블록 요소로 설정하여 중앙 정렬합니다. */
+    margin: 0 auto; /* 좌우 여백을 자동으로 맞추어 가운데 정렬합니다. */
+}
+
+.products .custom-hr {
+    text-align: center;
+    margin-left: 0;
+    margin-top: 50px;
+}
+
+.custom-hr hr {
+    width: 1200px;
+    border: 1.5px solid #9C8779;
+}
+
+.products .single-product {
+    margin-top: 20px;
+    margin-bottom: 20px; /* 제품 사이의 간격을 조절합니다. */
+    width: calc(33.333% - 60px); /* 한 줄에 3개의 제품이 나열되도록 너비를 설정합니다. */
+    margin-right: 30px; /* 오른쪽 마진을 설정하여 각 제품의 간격을 유지합니다. */
+    margin-left: 30px; /* 왼쪽 마진을 설정하여 각 제품의 간격을 유지합니다. */
+    float: left; /* 왼쪽 정렬을 위해 플로팅을 설정합니다. */
+    box-sizing: border-box; /* 요소의 너비와 높이에 padding과 border를 포함시킵니다. */
+}
+
+.products .single-product .part-1 {
+    position: relative;
+    height: 290px;
+    max-height: 290px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.products .single-product .part-1::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* .section-products .single-product:hover .part-1::before {
+    transform: scale(1.2,1.2) rotate(5deg);
+} */
+
+.products #product-1 .part-1::before {
+    background: url("/shampoo1.jpg") no-repeat center;
+    background-size: cover;
+    transition: all 0.3s;
+}
+
+.products #product-2 .part-1::before {
+    background: url("/shampoo2.jpg") no-repeat center;
+    background-size: cover;
+}
+
+.products #product-3 .part-1::before {
+    background: url("/shampoo3.jpg") no-repeat center;
+    background-size: cover;
+}
+
+.products #product-4 .part-1::before {
+    background: url("/shampoo4.jpg") no-repeat center;
+    background-size: cover;
+}
+
+.products #product-5 .part-1::before {
+    background: url("/shampoo5.jpg") no-repeat center;
+    background-size: cover;
+}
+
+.products #product-6 .part-1::before {
+    background: url("/shampoo6.jpg") no-repeat center;
+    background-size: cover;
+}
+
+.products #product-7 .part-1::before {
+    background: url("/shampoo7.jpg") no-repeat center;
+    background-size: cover;
+}
+
+.products #product-8 .part-1::before {
+    background: url("/shampoo8.jpg") no-repeat center;
+    background-size: cover;
+}
+
+.products #product-9 .part-1::before {
+    background: url("/shampoo9.jpg") no-repeat center;
+    background-size: cover;
+}
+
+.products .single-product .part-1 .discount,
+.products .single-product .part-1 .new {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    color: #ffffff;
+    background-color: #fe302f;
+    padding: 2px 8px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.products .single-product .part-1 .new {
+    left: 0;
+    background-color: #444444;
+}
+
+.products .single-product .part-1 ul {
+    position: absolute;
+    bottom: -41px;
+    left: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    opacity: 0;
+    transition: bottom 0.5s, opacity 0.5s;
+}
+
+.products .single-product:hover .part-1 ul {
+    bottom: 30px;
+    opacity: 1;
+}
+
+.products .single-product .part-1 ul li {
+    display: inline-block;
+    margin-right: 4px;
+}
+
+.products .single-product .part-1 ul li a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #ffffff;
+    color: #444444;
+    text-align: center;
+    box-shadow: 0 2px 20px rgb(50 50 50 / 10%);
+    transition: color 0.2s;
+}
+
+.products .single-product .part-1 ul li a:hover {
+    color: #fe302f;
+}
+
+.products .single-product .part-2 .product-title {
+    font-size: 1rem;
+}
+
+.products .single-product .part-2 h4 {
+    display: inline-block;
+    font-size: 1rem;
+}
+
+.products .single-product .part-2 .product-old-price {
+    position: relative;
+    padding: 0 7px;
+    margin-right: 2px;
+    opacity: 0.6;
+}
+
+.products .single-product .part-2 .product-old-price::after {
+    position: absolute;
+    content: "";
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #444444;
+    transform: translateY(-50%);
+}
