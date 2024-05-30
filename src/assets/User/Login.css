@@ -1,4 +1,13 @@
 /* Login.css */
+
+@font-face {
+  font-family: "NEXON Lv1 Gothic OTF";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .login-page {
   position: absolute;
   width: 100%;
@@ -49,6 +58,7 @@ form.wrapper-box {
 }
 
 input {
+  font-family: "NEXON Lv1 Gothic OTF";
   margin-top: 30px;
   width: 440px;
   height: 30px;
@@ -69,28 +79,6 @@ input:focus:invalid {
   border-bottom: 1px solid #9c8779;
 }
 
-.btn {
-  display: inline-block;
-  margin-right: -350px;
-  margin-top: 20px;
-  border: 2px solid;
-  border-radius: 25px;
-  padding: 3px 12px 5px 12px;
-  color: #9c8779;
-  font-size: 14px;
-  letter-spacing: 0px;
-  transition: all 0.1s ease-out;
-}
-
-.btn:hover {
-  color: #E1CBB7;
-  background: #fff;
-}
-
-.btn:active {
-  box-shadow: none;
-}
-
 .outer-link {
   display: inline-block;
   margin-top: 45px;
@@ -99,6 +87,10 @@ input:focus:invalid {
   display: block;
   color: rgba(0, 0, 0, 0.4);
   transition: all 0.1s ease-out;
+}
+
+.btn {
+  font-family: "NEXON Lv1 Gothic OTF";
 }
 
 .outer-link:hover {
