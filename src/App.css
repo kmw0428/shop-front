@@ -1,20 +1,32 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@font-face {
+  font-family: 'NEXON Lv1 Gothic OTF';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
+  font-family: 'NEXON Lv1 Gothic OTF';
   overflow-y: auto;
-  overflow-x: hidden; /* 화면 높이에서 navbar와 footer 높이를 뺀 값 */
+  overflow-x: hidden; /* 수평 스크롤은 숨김 */
+  margin: 0;
+  padding: 0;
+  min-height: 100vh; 
+}
+
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+  padding-top: 2rem;
+  text-align: center;
 }
 
 .maincontent {
-  height: calc(100vh - 100px);
+  min-height: 100vh;
   padding-top: 50px;
   padding-bottom: 70px;
-  width: 1280px;
+  width: 100%;
+  overflow-y: auto; /* 수직 스크롤 가능 */
 }
 
 .no-overflow {
@@ -27,9 +39,11 @@ body {
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -61,3 +75,4 @@ body {
   margin-top: 10px;
   margin-bottom: -40px;
 }
+

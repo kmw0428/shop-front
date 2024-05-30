@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css'; // CSS 파일을 import
+import { ClassNames } from '@emotion/react';
 
 interface LoginFormProps {
     // 필요한 경우 props를 정의할 수 있습니다.
@@ -89,11 +90,11 @@ const Login: React.FC<LoginFormProps> = () => {
             <div className="login-switcher">
                 <div className="login-switcher-signin" style={{ display: showSignIn ? 'block' : 'none' }}>
                     <h3 style={{ marginRight: 30 }}>Don't have an account?</h3>
-                    <button onClick={() => setShowSignIn(false)} style={{ marginLeft: 40 }}>Sign Up</button>
+                    <button className="btn" onClick={() => setShowSignIn(false)} style={{ marginLeft: 40 }}>Sign Up</button>
                 </div>
                 <div className="login-switcher-signup" style={{ display: showSignIn ? 'none' : 'block' }}>
                     <h3 style={{ marginLeft: 45 }}>Have an account?</h3>
-                    <button onClick={() => setShowSignIn(true)}>Login</button>
+                    <button className="btn" onClick={() => setShowSignIn(true)}>Login</button>
                 </div>
             </div>
         </div>
