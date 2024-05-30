@@ -1,5 +1,5 @@
 import React from "react";
-import "./Card.css";
+import "./Recommend.css";
 
 interface ProductCardProps {
   image: string;

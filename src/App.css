@@ -25,7 +25,7 @@ body {
 .maincontent {
   min-height: 100vh;
   padding-top: 50px;
-  padding-bottom: 70px;
+  padding-bottom: 50px;
   width: 100%;
   overflow-y: auto; /* 수직 스크롤 가능 */
 }
@@ -78,6 +78,7 @@ body {
 }
 
 button {
+  font-family: "NEXON Lv1 Gothic OTF";
   background-color: #fff;
   color: #9c8779;
   border: none;
