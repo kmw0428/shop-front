@@ -51,7 +51,7 @@ const App: React.FC = () => {
           <Route path="/custom/sub2" element={<div>Custom Subcategory 2</div>} />
           <Route path="/skincare/sub1" element={<div>Skincare Subcategory 1</div>} />
           <Route path="/skincare/sub2" element={<div>Skincare Subcategory 2</div>} />
-          <Route path="/scalp/sub1" element={<div>Scalp Subcategory 1</div>} />
+          <Route path="/scalp/sub1" element={<Products />} />
           <Route path="/scalp/sub2" element={<div>Scalp Subcategory 2</div>} />
           <Route path='/result' element={<Result />} />
           <Route path='/reviews' element={<ReviewPage />} />

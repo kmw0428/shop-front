@@ -50,10 +50,6 @@
     height: 100%;
 }
 
-/* .section-products .single-product:hover .part-1::before {
-    transform: scale(1.2,1.2) rotate(5deg);
-} */
-
 .products #product-1 .part-1::before {
     background: url("/shampoo1.jpg") no-repeat center;
     background-size: cover;
@@ -119,7 +115,7 @@
 
 .products .single-product .part-1 ul {
     position: absolute;
-    bottom: -41px;
+    bottom: -20px;
     left: 20px;
     margin: 0;
     padding: 0;
@@ -129,19 +125,24 @@
 }
 
 .products .single-product:hover .part-1 ul {
-    bottom: 30px;
+    bottom: 13px;
     opacity: 1;
+    margin-left: -5px;
+}
+
+.custom-icon {
+    margin-top: 5px; /* 아이콘 위치를 아래로 조정 */
 }
 
 .products .single-product .part-1 ul li {
     display: inline-block;
-    margin-right: 4px;
+    margin-right: 10px; /*아이콘 사이 간격*/
 }
 
 .products .single-product .part-1 ul li a {
     display: inline-block;
     width: 40px;
-    height: 40px;
+    height: 35px;
     line-height: 40px;
     background-color: #ffffff;
     color: #444444;
@@ -151,7 +152,7 @@
 }
 
 .products .single-product .part-1 ul li a:hover {
-    color: #fe302f;
+    color: #f54343;
 }
 
 .products .single-product .part-2 .product-title {
