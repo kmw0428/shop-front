@@ -170,12 +170,11 @@ const DiagnosisSclap: React.FC = () => {
         setPart(prev => prev - 1);
     };
 
-    
     const calculatePartScores = () => {
         const part1Score = answers.slice(0, questionsPart1.length).reduce((acc, score) => acc + score, 0);
         const part2Score = answers.slice(questionsPart1.length, questionsPart1.length + questionsPart2.length).reduce((acc, score) => acc + score, 0);
         const part3Score = answers.slice(questionsPart1.length + questionsPart2.length, questionsPart1.length + questionsPart2.length + questionsPart3.length).reduce((acc, score) => acc + score, 0);
-        const part4Score = answers.slice(questionsPart1.length + questionsPart2.length + questionsPart3.length).reduce((acc, score) => acc + score, 0);
+        const part4Score = answers.slice(questionsPart1.length + questionsPart2.length + questionsPart3.length, questionsPart1.length + questionsPart2.length + questionsPart3.length + questionsPart4.length).reduce((acc, score) => acc + score, 0);
         return { part1Score, part2Score, part3Score, part4Score };
     };
 
@@ -194,6 +193,7 @@ const DiagnosisSclap: React.FC = () => {
                         question={q.question}
                         options={q.options}
                         onAnswer={(score) => handleAnswer(index, score)}
+                        selectedOption={answers[index]}
                     />
                 ));
             case 2:
@@ -203,6 +203,7 @@ const DiagnosisSclap: React.FC = () => {
                         question={q.question}
                         options={q.options}
                         onAnswer={(score) => handleAnswer(index + questionsPart1.length, score)}
+                        selectedOption={answers[index + questionsPart1.length]}
                     />
                 ));
             case 3:
@@ -212,6 +213,7 @@ const DiagnosisSclap: React.FC = () => {
                         question={q.question}
                         options={q.options}
                         onAnswer={(score) => handleAnswer(index + questionsPart1.length + questionsPart2.length, score)}
+                        selectedOption={answers[index + questionsPart1.length + questionsPart2.length]}
                     />
                 ));
             case 4:
@@ -221,6 +223,7 @@ const DiagnosisSclap: React.FC = () => {
                         question={q.question}
                         options={q.options}
                         onAnswer={(score) => handleAnswer(index + questionsPart1.length + questionsPart2.length + questionsPart3.length, score)}
+                        selectedOption={answers[index + questionsPart1.length + questionsPart2.length + questionsPart3.length]}
                     />
                 ));
             default:

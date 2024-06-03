@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Question from "./Question";
 import "./Diagnosis.css";
 
@@ -595,18 +595,22 @@ const questionsPart4 = [
     },
 ];
 
-
 const partTitles = [
     "Part 1: 건성(D) - 지성(O)",
-    "Part 2: Part2 민감성(S) - 저항성(R)",
-    "Part 3: 추가 질문",
-    "Part 4: Part4 주름(W) vs 탄력(T)",
+    "Part 2: 민감성(S) - 저항성(R)",
+    "Part 3: 색소성(P) - 비색소성(N)",
+    "Part 4: 주름(W) - 탄력(T)",
 ];
 
 const DiagnosisSkin: React.FC = () => {
     const totalQuestions = questionsPart1.length + questionsPart2.length + questionsPart3.length + questionsPart4.length;
     const [part, setPart] = useState(1);
-    const [answers, setAnswers] = useState<number[]>(Array(totalQuestions).fill(0));
+    const [answers, setAnswers] = useState<number[]>(Array(totalQuestions).fill(null));
+
+
+    useEffect(() => {
+        window.scrollTo(0, 0); 
+    }, [part]);
 
     const handleAnswer = (index: number, score: number) => {
         const newAnswers = [...answers];
@@ -622,21 +626,65 @@ const DiagnosisSkin: React.FC = () => {
         setPart(prev => prev - 1);
     };
 
-    
     const calculatePartScores = () => {
-        const part1Score = answers.slice(0, questionsPart1.length).reduce((acc, score) => acc + score, 0);
-        const part2Score = answers.slice(questionsPart1.length, questionsPart1.length + questionsPart2.length).reduce((acc, score) => acc + score, 0);
-        const part3Score = answers.slice(questionsPart1.length + questionsPart2.length, questionsPart1.length + questionsPart2.length + questionsPart3.length).reduce((acc, score) => acc + score, 0);
-        const part4Score = answers.slice(questionsPart1.length + questionsPart2.length + questionsPart3.length).reduce((acc, score) => acc + score, 0);
+        const part1Score = answers.slice(0, questionsPart1.length).reduce((acc, score) => acc + (score || 0), 0);
+        const part2Score = answers.slice(questionsPart1.length, questionsPart1.length + questionsPart2.length).reduce((acc, score) => acc + (score || 0), 0);
+        const part3Score = answers.slice(questionsPart1.length + questionsPart2.length, questionsPart1.length + questionsPart2.length + questionsPart3.length).reduce((acc, score) => acc + (score || 0), 0);
+        const part4Score = answers.slice(questionsPart1.length + questionsPart2.length + questionsPart3.length, questionsPart1.length + questionsPart2.length + questionsPart3.length + questionsPart4.length).reduce((acc, score) => acc + (score || 0), 0);
         return { part1Score, part2Score, part3Score, part4Score };
+    };
+    
+    const getResult = (part1Score: number, part2Score: number, part3Score: number, part4Score: number) => {
+        let result = "";
+        
+        if (part1Score >= 34) {
+            result += "약지성피부(O)";
+        } else if (part1Score >= 27) {
+            result += "약간 지성피부";
+        } else if (part1Score >= 17) {
+            result += "약간 건성피부";
+        } else {
+            result += "건성피부(D)";
+        }
+
+        result += ", ";
+
+        if (part2Score >= 34) {
+            result += "매우 민감피부(S)";
+        } else if (part2Score >= 30) {
+            result += "약간 민감 피부";
+        } else if (part2Score >= 25) {
+            result += "약간 저항성이 있는 피부";
+        } else {
+            result += "저항성이 강한 피부(R)";
+        }
+
+        result += ", ";
+
+        if (part3Score >= 31) {
+            result += "과색소침착피부(P)";
+        } else {
+            result += "비과색소침착피부(N)";
+        }
+
+        result += ", ";
+
+        if (part4Score >= 41) {
+            result += "주름에 취약한 피부(W)";
+        } else {
+            result += "탄력 있는 피부(T)";
+        }
+
+        return result;
     };
 
     const handleSubmit = () => {
         const { part1Score, part2Score, part3Score, part4Score } = calculatePartScores();
-        alert(`테스트 완료! Part 1 점수: ${part1Score}, Part 2 점수: ${part2Score}, Part 3 점수: ${part3Score}, Part 4 점수: ${part4Score}`);
-        window.location.href = `/skinresult?part1=${part1Score}&part2=${part2Score}&part3=${part3Score}&part4=${part4Score}`;
+        const result = getResult(part1Score, part2Score, part3Score, part4Score);
+        alert(`테스트 완료! 결과: ${result}`);
+        window.location.href = `/skinresult?part1=${part1Score}&part2=${part2Score}&part3=${part3Score}&part4=${part4Score}&result=${result}`;
     };
-    
+
     const renderQuestions = () => {
         switch (part) {
             case 1:
@@ -646,6 +694,7 @@ const DiagnosisSkin: React.FC = () => {
                         question={q.question}
                         options={q.options}
                         onAnswer={(score) => handleAnswer(index, score)}
+                        selectedOption={answers[index]}
                     />
                 ));
             case 2:
@@ -655,6 +704,7 @@ const DiagnosisSkin: React.FC = () => {
                         question={q.question}
                         options={q.options}
                         onAnswer={(score) => handleAnswer(index + questionsPart1.length, score)}
+                        selectedOption={answers[index + questionsPart1.length]}
                     />
                 ));
             case 3:
@@ -664,6 +714,7 @@ const DiagnosisSkin: React.FC = () => {
                         question={q.question}
                         options={q.options}
                         onAnswer={(score) => handleAnswer(index + questionsPart1.length + questionsPart2.length, score)}
+                        selectedOption={answers[index + questionsPart1.length + questionsPart2.length]}
                     />
                 ));
             case 4:
@@ -673,6 +724,7 @@ const DiagnosisSkin: React.FC = () => {
                         question={q.question}
                         options={q.options}
                         onAnswer={(score) => handleAnswer(index + questionsPart1.length + questionsPart2.length + questionsPart3.length, score)}
+                        selectedOption={answers[index + questionsPart1.length + questionsPart2.length + questionsPart3.length]}
                     />
                 ));
             default:

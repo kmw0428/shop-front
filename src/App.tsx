@@ -13,7 +13,7 @@ import DiagnosisSkin from "./assets/Diagnosis/DiagnosisSkin";
 import SkinResult from "./assets/Diagnosis/SkinResult";
 import SclapResult from "./assets/Diagnosis/SclapResult";
 import ReviewPage from './assets/Product/ReviewPage';
-import CartPage from '../src/CartPage';
+import CartPage from './assets/User/CartPage';
 import Wishlist from "./assets/Product/Wishlist";
 const App: React.FC = () => {
   const location = useLocation();

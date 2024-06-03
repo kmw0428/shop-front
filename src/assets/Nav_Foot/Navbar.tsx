@@ -59,7 +59,7 @@ const Navbar: React.FC = () => {
           </ul>
         </li>
         <li>
-          <Link to="/all">전체</Link>
+          <Link to="/product-list">전체</Link>
         </li>
         <li>
           <Link to="/custom">맞춤</Link>
