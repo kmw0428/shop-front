@@ -637,42 +637,34 @@ const DiagnosisSkin: React.FC = () => {
     const getResult = (part1Score: number, part2Score: number, part3Score: number, part4Score: number) => {
         let result = "";
         
-        if (part1Score >= 34) {
-            result += "약지성피부(O)";
-        } else if (part1Score >= 27) {
-            result += "약간 지성피부";
-        } else if (part1Score >= 17) {
-            result += "약간 건성피부";
+        if (part1Score >= 27) {
+            result += "O";
         } else {
-            result += "건성피부(D)";
+            result += "D";
         }
 
         result += ", ";
 
-        if (part2Score >= 34) {
-            result += "매우 민감피부(S)";
-        } else if (part2Score >= 30) {
-            result += "약간 민감 피부";
-        } else if (part2Score >= 25) {
-            result += "약간 저항성이 있는 피부";
+        if (part2Score >= 30) {
+            result += "S";
         } else {
-            result += "저항성이 강한 피부(R)";
+            result += "R";
         }
 
         result += ", ";
 
         if (part3Score >= 31) {
-            result += "과색소침착피부(P)";
+            result += "P";
         } else {
-            result += "비과색소침착피부(N)";
+            result += "N";
         }
 
         result += ", ";
 
         if (part4Score >= 41) {
-            result += "주름에 취약한 피부(W)";
+            result += "W";
         } else {
-            result += "탄력 있는 피부(T)";
+            result += "T";
         }
 
         return result;

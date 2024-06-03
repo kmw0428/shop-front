@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import Question from "./Question";
 import "./Diagnosis.css";
@@ -139,7 +140,7 @@ const partTitles = [
 const DiagnosisSclap: React.FC = () => {
     const totalQuestions = questionsPart1.length + questionsPart2.length + questionsPart3.length + questionsPart4.length;
     const [part, setPart] = useState(1);
-    const [answers, setAnswers] = useState<number[]>(Array(totalQuestions).fill(0));
+    const [answers, setAnswers] = useState<number[]>(Array(totalQuestions).fill(null));
 
     const handleAnswer = (index: number, score: number) => {
         const newAnswers = [...answers];
