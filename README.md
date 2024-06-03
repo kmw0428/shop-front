@@ -2,7 +2,8 @@
 진단 CSS 추가 <br />
 이미지 추가 <br />
 제품 찜하기 및 장바구니 추가 버튼 생성 <br />
-npm install react-icons
+npm install react-icons <br />
+npm install @mui/icons-material
 
 ## V 1.11
 제품 목록 페이지 추가 및 로그인 css 수정 <br />
