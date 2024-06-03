@@ -1,5 +1,7 @@
 import React from 'react';
 import './Products.css';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const Products: React.FC = () => {
   const products = [
@@ -99,9 +101,9 @@ const Products: React.FC = () => {
                 <div className="part-1">
                   {product.discount && <span className="discount">{product.discount}</span>}
                   {product.isNew && <span className="new">new</span>}
-                  <ul>
-                    <li><a href="#"><i className="fas fa-shopping-cart"></i></a></li>
-                    <li><a href="#"><i className="fas fa-heart"></i></a></li>
+                  <ul className="icon-list">
+                    <li><a href="#" className="icon"><AddShoppingCartIcon className="custom-icon" /></a></li>
+                    <li><a href="#" className="icon"><FavoriteIcon className="custom-icon" /></a></li>
                   </ul>
                 </div>
                 <div className="part-2">
