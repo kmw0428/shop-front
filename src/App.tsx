@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import Navbar from "./assets/Nav_Foot/Navbar";
 import Footer from "./assets/Nav_Foot/Footer";
+import ScrollToTop from "./assets/ScrollToTop";
 import HomePage from "./assets/HomePage";
 import Login from './assets/User/Login';
 import Products from "./assets/Product/Products";
@@ -36,6 +37,7 @@ const App: React.FC = () => {
   return (
     <div>
       <Navbar />
+      <ScrollToTop />
       <div className="maincontent">
         <Routes>
           <Route path="/" element={<HomePage />} />
