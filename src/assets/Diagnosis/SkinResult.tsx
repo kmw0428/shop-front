@@ -1,6 +1,6 @@
 import React from "react";
 
-const Result: React.FC = () => {
+const SkinResult: React.FC = () => {
     const queryParams = new URLSearchParams(window.location.search);
     const score = queryParams.get('score')
 
@@ -12,4 +12,4 @@ const Result: React.FC = () => {
     )
 }
 
-export default Result;
+export default SkinResult;
