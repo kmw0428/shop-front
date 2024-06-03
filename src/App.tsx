@@ -12,7 +12,7 @@ import DiagnosisSclap from './assets/Diagnosis/DiagonsisSclap';
 import DiagnosisSkin from "./assets/Diagnosis/DiagnosisSkin";
 import Result from './assets/Diagnosis/Result';
 import ReviewPage from './assets/Product/ReviewPage';
-import CartPage from '../CartPage';
+import CartPage from '../src/CartPage';
 import Wishlist from '../Wishlist';
 
 const App: React.FC = () => {
