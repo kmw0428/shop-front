@@ -166,8 +166,8 @@ const ReviewPage: React.FC = () => {
   );
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <FormGroup style={{ marginBottom: "20px" }}>
+    <div className="review-page">
+      <FormGroup>
         {/* 포토 리뷰 체크박스 */}
         <FormControlLabel
           control={
@@ -197,7 +197,7 @@ const ReviewPage: React.FC = () => {
       </FormGroup>
       <hr />
       {/* 평균 평점 표시 */}
-      <div style={{ marginBottom: "20px" }}>
+      <div>
         <h4>
           평균 평점 : ★{" "}
           {averageRating !== null ? averageRating.toFixed(1) : "0"}
@@ -209,7 +209,6 @@ const ReviewPage: React.FC = () => {
         variant="outlined"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        style={{ marginBottom: "20px" }}
       />
       {/* 리뷰 정렬 선택 */}
       <InputLabel id="sort-order-label">리뷰 순</InputLabel>
@@ -217,7 +216,6 @@ const ReviewPage: React.FC = () => {
         labelId="sort-order-label"
         value={sortOrder}
         onChange={(e) => setSortOrder(e.target.value as string)}
-        style={{ marginBottom: "20px" }}
       >
         <MenuItem value="latest">최신순</MenuItem>
         <MenuItem value="highest">평점 높은순</MenuItem>
@@ -229,7 +227,6 @@ const ReviewPage: React.FC = () => {
         labelId="filter-gender-label"
         value={filterGender}
         onChange={(e) => setFilterGender(e.target.value as string)}
-        style={{ marginBottom: "20px" }}
       >
         <MenuItem value="">전체</MenuItem>
         <MenuItem value="male">남자</MenuItem>
@@ -240,7 +237,6 @@ const ReviewPage: React.FC = () => {
         labelId="filter-type-label"
         value={filterType}
         onChange={(e) => setFilterType(e.target.value as string)}
-        style={{ marginBottom: "20px" }}
       >
         <MenuItem value="">전체</MenuItem>
         <MenuItem value="general">타입1</MenuItem>
@@ -269,30 +265,16 @@ const ReviewPage: React.FC = () => {
           {/* 이미지 파일 입력 */}
           <input type="file" onChange={handleImageChange} accept="image/*" />
           {/* 선택된 이미지 미리보기 */}
-          {image && (
-            <img
-              src={URL.createObjectURL(image)}
-              alt="Review"
-              style={{ maxWidth: "100px", margin: "10px 0" }}
-            />
-          )}
+          {image && <img src={URL.createObjectURL(image)} alt="Review" />}
           {/* 제출 버튼 */}
-          <Button type="submit" variant="contained" color="primary">
+          <Button type="submit" variant="contained">
             {editReviewIndex !== null ? "수정 완료" : "작성 완료"}
           </Button>
         </Stack>
       </form>
       <hr />
       {/* 이미지가 있는 리뷰들의 이미지를 가로로 나열 */}
-      <div
-        style={{
-          display: "flex",
-          overflowX: "auto",
-          marginBottom: "20px",
-          paddingBottom: "10px",
-          borderBottom: "1px solid #ddd",
-        }}
-      >
+      <div>
         {reviewsList
           .filter((item) => item.image)
           .map((item) => (
@@ -300,11 +282,6 @@ const ReviewPage: React.FC = () => {
               key={item.id}
               src={item.image}
               alt="Review"
-              style={{
-                maxWidth: "100px",
-                marginRight: "10px",
-                cursor: "pointer",
-              }}
               onClick={() => (window.location.hash = `#review-${item.id}`)}
             />
           ))}
@@ -313,7 +290,7 @@ const ReviewPage: React.FC = () => {
       <div>
         <h3>Review</h3>
         <hr />
-        <ul style={{ listStyleType: "none", padding: "0" }}>
+        <ul>
           {displayedReviews
             .filter(
               (item) =>
@@ -321,21 +298,11 @@ const ReviewPage: React.FC = () => {
                 (!showTextReviews || !item.image)
             )
             .map((item) => (
-              <li
-                key={item.id}
-                id={`review-${item.id}`}
-                style={{ borderBottom: "1px solid #ddd", padding: "10px 0" }}
-              >
+              <li key={item.id} id={`review-${item.id}`}>
                 <p>★ {item.rating}</p>
                 <p> {item.review}</p>
                 {/* 리뷰 이미지 */}
-                {item.image && (
-                  <img
-                    src={item.image}
-                    alt="Review"
-                    style={{ maxWidth: "100px", margin: "10px 0" }}
-                  />
-                )}
+                {item.image && <img src={item.image} alt="Review" />}
                 {/* 좋아요 버튼 및 개수 */}
                 <Button onClick={() => handleLikeReview(item.id)}>
                   좋아요 {item.likes}
