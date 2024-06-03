@@ -13,6 +13,7 @@ import DiagnosisSkin from "./assets/Diagnosis/DiagnosisSkin";
 import Result from './assets/Diagnosis/Result';
 import ReviewPage from './assets/Product/ReviewPage';
 import CartPage from '../CartPage';
+import Wishlist from '../Wishlist';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -55,6 +56,7 @@ const App: React.FC = () => {
           <Route path='/result' element={<Result />} />
           <Route path='/reviews' element={<ReviewPage />} />
           <Route path='/cartpage' element={<CartPage />} />
+          <Route path='/wishlist' element={<Wishlist />} />
         </Routes>
       </div>
       <Footer />
