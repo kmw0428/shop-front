@@ -6,8 +6,11 @@ const SclapResult: React.FC = () => {
 
     return(
         <div>
-            <h2>결과</h2>
             <p>총 점수: {score}</p>
+            <h2>00님의 두피 타입은 0000 입니다.</h2>
+            <p>간단한 설명 . . .</p>
+            <p>맞춤 성분</p>
+            <p>맞춤 상품</p>
         </div>
     )
 }
