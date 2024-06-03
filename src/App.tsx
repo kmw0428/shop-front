@@ -44,14 +44,13 @@ const App: React.FC = () => {
           <Route path="/diagnosisSclap" element={<DiagnosisSclap />} />
           <Route path="/diagnosisSkin" element={<DiagnosisSkin />} />
           <Route path="/product-list" element={<ProductList />} />
-          <Route path="/product" element={<Products />} />
           <Route path="/all/sub1" element={<div>All Subcategory 1</div>} />
           <Route path="/all/sub2" element={<div>All Subcategory 2</div>} />
           <Route path="/custom/sub1" element={<div>Custom Subcategory 1</div>} />
           <Route path="/custom/sub2" element={<div>Custom Subcategory 2</div>} />
           <Route path="/skincare/sub1" element={<div>Skincare Subcategory 1</div>} />
           <Route path="/skincare/sub2" element={<div>Skincare Subcategory 2</div>} />
-          <Route path="/scalp/sub1" element={<div>Scalp Subcategory 1</div>} />
+          <Route path="/scalp/sub1" element={<Products />} />
           <Route path="/scalp/sub2" element={<div>Scalp Subcategory 2</div>} />
           <Route path='/result' element={<Result />} />
           <Route path='/reviews' element={<ReviewPage />} />
