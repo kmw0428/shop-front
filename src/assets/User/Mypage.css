@@ -1,0 +1,22 @@
+@font-face {
+    font-family: "NEXON Lv1 Gothic OTF";
+    src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF.woff")
+      format("woff");
+  }
+
+.Mypage {
+    background-color: #F1EAE6;
+    padding: 20px;
+    width: 1900px;
+    height: 330px;
+    margin-top: -12px;
+  }
+  
+.Mypagebox1 {
+    background-color: #fff;
+    padding: 20px;
+    width: 220px;
+    height: 100px;
+    margin-top: 80px;
+    margin-left: 100px;
+  }

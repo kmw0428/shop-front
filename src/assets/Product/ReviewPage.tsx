@@ -166,8 +166,8 @@ const ReviewPage: React.FC = () => {
   );
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <FormGroup style={{ marginBottom: "20px" }}>
+    <div className="review-page">
+      <FormGroup className="review-options">
         {/* 포토 리뷰 체크박스 */}
         <FormControlLabel
           control={
@@ -197,7 +197,7 @@ const ReviewPage: React.FC = () => {
       </FormGroup>
       <hr />
       {/* 평균 평점 표시 */}
-      <div style={{ marginBottom: "20px" }}>
+      <div className="average-rating">
         <h4>
           평균 평점 : ★{" "}
           {averageRating !== null ? averageRating.toFixed(1) : "0"}
@@ -205,49 +205,55 @@ const ReviewPage: React.FC = () => {
       </div>
       {/* 리뷰 검색 입력 */}
       <TextField
+        className="search-reviews"
         label="Search Reviews"
         variant="outlined"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        style={{ marginBottom: "20px" }}
       />
       {/* 리뷰 정렬 선택 */}
-      <InputLabel id="sort-order-label">리뷰 순</InputLabel>
+      <InputLabel id="sort-order-label" className="sort-order-label">
+        리뷰 순
+      </InputLabel>
       <Select
+        className="sort-order-select"
         labelId="sort-order-label"
         value={sortOrder}
         onChange={(e) => setSortOrder(e.target.value as string)}
-        style={{ marginBottom: "20px" }}
       >
         <MenuItem value="latest">최신순</MenuItem>
         <MenuItem value="highest">평점 높은순</MenuItem>
         <MenuItem value="lowest">평점 낮은순</MenuItem>
       </Select>
       {/* 리뷰 필터링 입력 */}
-      <InputLabel id="filter-gender-label">성별</InputLabel>
+      <InputLabel id="filter-gender-label" className="filter-gender-label">
+        성별
+      </InputLabel>
       <Select
+        className="filter-gender-select"
         labelId="filter-gender-label"
         value={filterGender}
         onChange={(e) => setFilterGender(e.target.value as string)}
-        style={{ marginBottom: "20px" }}
       >
         <MenuItem value="">전체</MenuItem>
         <MenuItem value="male">남자</MenuItem>
         <MenuItem value="female">여자</MenuItem>
       </Select>
-      <InputLabel id="filter-type-label">타입</InputLabel>
+      <InputLabel id="filter-type-label" className="filter-type-label">
+        타입
+      </InputLabel>
       <Select
+        className="filter-type-select"
         labelId="filter-type-label"
         value={filterType}
         onChange={(e) => setFilterType(e.target.value as string)}
-        style={{ marginBottom: "20px" }}
       >
         <MenuItem value="">전체</MenuItem>
         <MenuItem value="general">타입1</MenuItem>
         <MenuItem value="premium">타입2</MenuItem>
       </Select>
       <hr />
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="review-form">
         <Stack spacing={2}>
           {/* 평점 입력 */}
           <Rating
@@ -259,6 +265,7 @@ const ReviewPage: React.FC = () => {
           />
           {/* 리뷰 텍스트 입력 */}
           <TextField
+            className="review-text"
             label="Review"
             multiline
             rows={4}
@@ -267,53 +274,46 @@ const ReviewPage: React.FC = () => {
             onChange={handleReviewChange}
           />
           {/* 이미지 파일 입력 */}
-          <input type="file" onChange={handleImageChange} accept="image/*" />
+          <input
+            type="file"
+            className="review-image-input"
+            onChange={handleImageChange}
+            accept="image/*"
+          />
           {/* 선택된 이미지 미리보기 */}
           {image && (
             <img
+              className="review-image-preview"
               src={URL.createObjectURL(image)}
               alt="Review"
-              style={{ maxWidth: "100px", margin: "10px 0" }}
             />
           )}
           {/* 제출 버튼 */}
-          <Button type="submit" variant="contained" color="primary">
+          <Button type="submit" variant="contained" className="submit-button">
             {editReviewIndex !== null ? "수정 완료" : "작성 완료"}
           </Button>
         </Stack>
       </form>
       <hr />
       {/* 이미지가 있는 리뷰들의 이미지를 가로로 나열 */}
-      <div
-        style={{
-          display: "flex",
-          overflowX: "auto",
-          marginBottom: "20px",
-          paddingBottom: "10px",
-          borderBottom: "1px solid #ddd",
-        }}
-      >
+      <div className="image-reviews">
         {reviewsList
           .filter((item) => item.image)
           .map((item) => (
             <img
               key={item.id}
+              className="review-thumbnail"
               src={item.image}
               alt="Review"
-              style={{
-                maxWidth: "100px",
-                marginRight: "10px",
-                cursor: "pointer",
-              }}
               onClick={() => (window.location.hash = `#review-${item.id}`)}
             />
           ))}
       </div>
 
-      <div>
+      <div className="review-list">
         <h3>Review</h3>
         <hr />
-        <ul style={{ listStyleType: "none", padding: "0" }}>
+        <ul className="reviews">
           {displayedReviews
             .filter(
               (item) =>
@@ -321,31 +321,38 @@ const ReviewPage: React.FC = () => {
                 (!showTextReviews || !item.image)
             )
             .map((item) => (
-              <li
-                key={item.id}
-                id={`review-${item.id}`}
-                style={{ borderBottom: "1px solid #ddd", padding: "10px 0" }}
-              >
-                <p>★ {item.rating}</p>
-                <p> {item.review}</p>
+              <li key={item.id} id={`review-${item.id}`} className="review-item">
+                <p className="review-rating">★ {item.rating}</p>
+                <p className="review-text"> {item.review}</p>
                 {/* 리뷰 이미지 */}
                 {item.image && (
                   <img
+                    className="review-image"
                     src={item.image}
                     alt="Review"
-                    style={{ maxWidth: "100px", margin: "10px 0" }}
                   />
                 )}
                 {/* 좋아요 버튼 및 개수 */}
-                <Button onClick={() => handleLikeReview(item.id)}>
+                <Button
+                  onClick={() => handleLikeReview(item.id)}
+                  className="like-button"
+                >
                   좋아요 {item.likes}
                 </Button>
                 {/* 삭제 버튼 */}
-                <Button onClick={() => handleDeleteReview(item.id)}>
+                <Button
+                  onClick={() => handleDeleteReview(item.id)}
+                  className="delete-button"
+                >
                   삭제
                 </Button>
                 {/* 수정 버튼 */}
-                <Button onClick={() => handleEditReview(item.id)}>수정</Button>
+                <Button
+                  onClick={() => handleEditReview(item.id)}
+                  className="edit-button"
+                >
+                  수정
+                </Button>
               </li>
             ))}
         </ul>
