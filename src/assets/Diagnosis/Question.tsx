@@ -21,9 +21,18 @@ const Question: React.FC<Props> = ({ question, options, onAnswer, selectedOption
     }
   };
 
+  const renderTextWithLineBreaks = (text: string) => {
+    return text.split('\n').map((line, index) => (
+      <React.Fragment key={index}>
+        {line}
+        <br />
+      </React.Fragment>
+    ));
+  };
+
   return (
     <div className="question">
-      <h3>{question}</h3>
+      <h3>{renderTextWithLineBreaks(question)}</h3>
       {options.map((option, index) => (
         <div
           key={index}
@@ -39,7 +48,7 @@ const Question: React.FC<Props> = ({ question, options, onAnswer, selectedOption
               onChange={() => handleClick(index, option.score)}
               style={{ display: "none" }}
             />
-            {option.text}
+            {renderTextWithLineBreaks(option.text)}
           </label>
         </div>
       ))}

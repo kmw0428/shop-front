@@ -43,14 +43,20 @@ nav:hover {
   gap: 40px;
 }
 
-.main-menu > li {
+.main-menu > li, a {
   position: relative;
   margin: 0 10px;
   cursor: pointer;
   color: #9c8779;
+  text-decoration: none;
 }
 
-.main-menu > li > a {
+.main-menu > li > ul > a {
+  text-decoration: none;
+  color: white;
+}
+
+.main-menu > a {
   text-decoration: none;
   color: inherit;
 }
@@ -68,7 +74,7 @@ nav:hover {
   background-color: #e1cbb7;
   color: #fff;
   list-style: none;
-  padding: 10px 0;
+  padding: 0 0;
   z-index: 1000;
   min-width: 150px;
 }
@@ -82,17 +88,12 @@ nav:hover {
   white-space: nowrap;
 }
 
-.sub-menu > li:hover {
-  background-color: #eee1d8;
+.sub-menu > a:hover {
   color: #9c8779;
 }
 
 .sub-menu > li > a {
   text-decoration: none;
-  color: inherit;
-}
-
-.sub-menu > li:hover > a {
   color: inherit;
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Question from "./Question";
 import "./Diagnosis.css";
 
@@ -606,7 +606,7 @@ const DiagnosisSkin: React.FC = () => {
     const totalQuestions = questionsPart1.length + questionsPart2.length + questionsPart3.length + questionsPart4.length;
     const [part, setPart] = useState(1);
     const [answers, setAnswers] = useState<number[]>(Array(totalQuestions).fill(null));
-
+    const questionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     useEffect(() => {
         window.scrollTo(0, 0); 
@@ -619,7 +619,40 @@ const DiagnosisSkin: React.FC = () => {
     };
 
     const nextPart = () => {
-        setPart(prev => prev + 1);
+        if (isPartComplete()) {
+            setPart(prev => prev + 1);
+        } else {
+            alertAndScrollToIncomplete();
+        }
+    };
+
+    const isPartComplete = () => {
+        switch (part) {
+            case 1:
+                return answers.slice(0, questionsPart1.length).every(answer => answer !== null);
+            case 2:
+                return answers.slice(questionsPart1.length, questionsPart1.length + questionsPart2.length).every(answer => answer !== null);
+            case 3:
+                return answers.slice(questionsPart1.length + questionsPart2.length, questionsPart1.length + questionsPart2.length + questionsPart3.length).every(answer => answer !== null);
+            case 4:
+                return answers.slice(questionsPart1.length + questionsPart2.length + questionsPart3.length, questionsPart1.length + questionsPart2.length + questionsPart3.length + questionsPart4.length).every(answer => answer !== null);
+            default:
+                return false;
+        }
+    };
+    
+    const isAllPartsComplete = () => {
+        return answers.every(answer => answer !== null);
+    };
+
+    const alertAndScrollToIncomplete = () => {
+        alert('모든 질문에 응답해 주세요.');
+        const firstIncompleteIndex = answers.findIndex(answer => answer === null);
+        const questionDiv = questionRefs.current[firstIncompleteIndex];
+        if (questionDiv) {
+            questionDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            questionDiv.focus();
+        }
     };
 
     const prevPart = () => {
@@ -637,99 +670,84 @@ const DiagnosisSkin: React.FC = () => {
     const getResult = (part1Score: number, part2Score: number, part3Score: number, part4Score: number) => {
         let result = "";
         
-        if (part1Score >= 34) {
-            result += "약지성피부(O)";
-        } else if (part1Score >= 27) {
-            result += "약간 지성피부";
-        } else if (part1Score >= 17) {
-            result += "약간 건성피부";
+        if (part1Score >= 27) {
+            result += "O";
         } else {
-            result += "건성피부(D)";
+            result += "D";
         }
 
         result += ", ";
 
-        if (part2Score >= 34) {
-            result += "매우 민감피부(S)";
-        } else if (part2Score >= 30) {
-            result += "약간 민감 피부";
-        } else if (part2Score >= 25) {
-            result += "약간 저항성이 있는 피부";
+        if (part2Score >= 30) {
+            result += "S";
         } else {
-            result += "저항성이 강한 피부(R)";
+            result += "R";
         }
 
         result += ", ";
 
         if (part3Score >= 31) {
-            result += "과색소침착피부(P)";
+            result += "P";
         } else {
-            result += "비과색소침착피부(N)";
+            result += "N";
         }
 
         result += ", ";
 
         if (part4Score >= 41) {
-            result += "주름에 취약한 피부(W)";
+            result += "W";
         } else {
-            result += "탄력 있는 피부(T)";
+            result += "T";
         }
 
         return result;
     };
 
     const handleSubmit = () => {
-        const { part1Score, part2Score, part3Score, part4Score } = calculatePartScores();
-        const result = getResult(part1Score, part2Score, part3Score, part4Score);
-        alert(`테스트 완료! 결과: ${result}`);
-        window.location.href = `/skinresult?part1=${part1Score}&part2=${part2Score}&part3=${part3Score}&part4=${part4Score}&result=${result}`;
+        if (isAllPartsComplete()) {
+            const { part1Score, part2Score, part3Score, part4Score } = calculatePartScores();
+            const result = getResult(part1Score, part2Score, part3Score, part4Score);
+            alert(`테스트 완료! 결과: ${result}`);
+            window.location.href = `/skinresult?part1=${part1Score}&part2=${part2Score}&part3=${part3Score}&part4=${part4Score}&result=${result}`;
+        } else {
+            alertAndScrollToIncomplete();
+        }
     };
 
     const renderQuestions = () => {
+        let questions;
+        let offset = 0;
+
         switch (part) {
             case 1:
-                return questionsPart1.map((q, index) => (
-                    <Question
-                        key={index}
-                        question={q.question}
-                        options={q.options}
-                        onAnswer={(score) => handleAnswer(index, score)}
-                        selectedOption={answers[index]}
-                    />
-                ));
+                questions = questionsPart1;
+                break;
             case 2:
-                return questionsPart2.map((q, index) => (
-                    <Question
-                        key={index}
-                        question={q.question}
-                        options={q.options}
-                        onAnswer={(score) => handleAnswer(index + questionsPart1.length, score)}
-                        selectedOption={answers[index + questionsPart1.length]}
-                    />
-                ));
+                questions = questionsPart2;
+                offset = questionsPart1.length;
+                break;
             case 3:
-                return questionsPart3.map((q, index) => (
-                    <Question
-                        key={index}
-                        question={q.question}
-                        options={q.options}
-                        onAnswer={(score) => handleAnswer(index + questionsPart1.length + questionsPart2.length, score)}
-                        selectedOption={answers[index + questionsPart1.length + questionsPart2.length]}
-                    />
-                ));
+                questions = questionsPart3;
+                offset = questionsPart1.length + questionsPart2.length;
+                break;
             case 4:
-                return questionsPart4.map((q, index) => (
-                    <Question
-                        key={index}
-                        question={q.question}
-                        options={q.options}
-                        onAnswer={(score) => handleAnswer(index + questionsPart1.length + questionsPart2.length + questionsPart3.length, score)}
-                        selectedOption={answers[index + questionsPart1.length + questionsPart2.length + questionsPart3.length]}
-                    />
-                ));
+                questions = questionsPart4;
+                offset = questionsPart1.length + questionsPart2.length + questionsPart3.length;
+                break;
             default:
                 return null;
         }
+
+        return questions.map((q, index) => (
+            <div ref={el => questionRefs.current[offset + index] = el} key={index}>
+                <Question
+                    question={q.question}
+                    options={q.options}
+                    onAnswer={(score) => handleAnswer(offset + index, score)}
+                    selectedOption={answers[offset + index]}
+                />
+            </div>
+        ));
     };
 
     return (

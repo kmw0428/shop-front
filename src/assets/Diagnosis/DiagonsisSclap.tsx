@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Question from "./Question";
 import "./Diagnosis.css";
 
@@ -140,6 +140,11 @@ const DiagnosisSclap: React.FC = () => {
     const totalQuestions = questionsPart1.length + questionsPart2.length + questionsPart3.length + questionsPart4.length;
     const [part, setPart] = useState(1);
     const [answers, setAnswers] = useState<number[]>(Array(totalQuestions).fill(null));
+    const questionRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [part]);
 
     const handleAnswer = (index: number, score: number) => {
         const newAnswers = [...answers];
@@ -148,13 +153,45 @@ const DiagnosisSclap: React.FC = () => {
     };
 
     const nextPart = () => {
-        setPart(prev => prev + 1);
+        if (isPartComplete()) {
+            setPart(prev => prev + 1);
+        } else {
+            alertAndScrollToIncomplete();
+        }
+    };
+
+    const isPartComplete = () => {
+        switch (part) {
+            case 1:
+                return answers.slice(0, questionsPart1.length).every(answer => answer !== null);
+            case 2:
+                return answers.slice(questionsPart1.length, questionsPart1.length + questionsPart2.length).every(answer => answer !== null);
+            case 3:
+                return answers.slice(questionsPart1.length + questionsPart2.length, questionsPart1.length + questionsPart2.length + questionsPart3.length).every(answer => answer !== null);
+            case 4:
+                return answers.slice(questionsPart1.length + questionsPart2.length + questionsPart3.length, questionsPart1.length + questionsPart2.length + questionsPart3.length + questionsPart4.length).every(answer => answer !== null);
+            default:
+                return false;
+        }
+    };
+    
+    const isAllPartsComplete = () => {
+        return answers.every(answer => answer !== null);
+    };
+
+    const alertAndScrollToIncomplete = () => {
+        alert('모든 질문에 응답해 주세요.');
+        const firstIncompleteIndex = answers.findIndex(answer => answer === null);
+        const questionDiv = questionRefs.current[firstIncompleteIndex];
+        if (questionDiv) {
+            questionDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            questionDiv.focus();
+        }
     };
 
     const prevPart = () => {
         setPart(prev => prev - 1);
     };
-
 
     const calculatePartScores = () => {
         const part1Score = answers.slice(0, questionsPart1.length).reduce((acc, score) => acc + (score || 0), 0);
@@ -207,14 +244,20 @@ const DiagnosisSclap: React.FC = () => {
     };
 
     const handleSubmit = () => {
-        const { part1Score, part2Score, part3Score, part4Score } = calculatePartScores();
-        const result = getResult(part1Score, part2Score, part3Score, part4Score);
-        alert(`테스트 완료! 결과: ${result}`);
-        window.location.href = `/skinresult?part1=${part1Score}&part2=${part2Score}&part3=${part3Score}&part4=${part4Score}&result=${result}`;
+        if (isAllPartsComplete()) {
+            const { part1Score, part2Score, part3Score, part4Score } = calculatePartScores();
+            const result = getResult(part1Score, part2Score, part3Score, part4Score);
+            alert(`테스트 완료! 결과: ${result}`);
+            window.location.href = `/skinresult?part1=${part1Score}&part2=${part2Score}&part3=${part3Score}&part4=${part4Score}&result=${result}`;
+        } else {
+            alertAndScrollToIncomplete();
+        }
     };
 
-
     const renderQuestions = () => {
+        let questions;
+        let offset = 0;
+
         switch (part) {
             case 1:
                 return questionsPart1.map((q, index) => (
@@ -259,6 +302,17 @@ const DiagnosisSclap: React.FC = () => {
             default:
                 return null;
         }
+
+        return questions.map((q, index) => (
+            <div ref={el => questionRefs.current[offset + index] = el} key={index}>
+                <Question
+                    question={q.question}
+                    options={q.options}
+                    onAnswer={(score) => handleAnswer(offset + index, score)}
+                    selectedOption={answers[offset + index]}
+                />
+            </div>
+        ));
     };
 
     return (
