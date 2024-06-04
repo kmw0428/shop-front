@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import "./ProductPage.css";
-import ReviewPage from "./ReviewPage";
-// import Accordion from "./Accordion";
+// import ReviewPage from "./ReviewPage";
+import AccordionPage from "./AccordionPage";
 
 interface Product {
   id: string;
@@ -130,6 +130,25 @@ const ProductPage: React.FC = () => {
     return price.toLocaleString("ko-KR");
   };
 
+  const accordionItems = [
+    {
+      title: "제품제형",
+      content: "",
+    },
+    {
+      title: "성분",
+      content: "",
+    },
+    {
+      title: "추천하는 타입",
+      content: "",
+    },
+    {
+      title: "사용방법",
+      content: "",
+    },
+  ];
+
   return (
     <div className="pp">
       <div className="product-page">
@@ -218,14 +237,15 @@ const ProductPage: React.FC = () => {
         </div>
       </div>
       <hr className="additional-separator" />
-      {/* <div className="details">
-        <Accordion />
-      </div> */}
-      <hr className="additional-separator" />
-      <div className="review">
-        <ReviewPage />
+      <div className="details">
+        <AccordionPage items={accordionItems} image="/PA.jpg" />
       </div>
+      <hr className="additional-separator" />
+      {/* <div className="review">
+        <ReviewPage />
+      </div> */}
     </div>
   );
 };
+
 export default ProductPage;
