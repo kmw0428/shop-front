@@ -7,14 +7,14 @@ const questionsPart1 = [
         question: "1. 고객님에게 가장 가까운 상태를 체크해주세요.",
         options: [
             { text: "하루 이상 샴푸를 하지 않으면 두피와 모발이 기름진다.", score: 2 },
-            { text: "샴푸 후 하루가 지나도 기름지지 않는다", score: 2 },
+            { text: "샴푸 후 하루가 지나도 기름지지 않는다", score: -2 },
         ],
     },
     {
         question: "2. 고객님에게 가장 가까운 상태를 체크해주세요.",
         options: [
             { text: "두피를 긁으면 피지나 비듬, 각질이 떨어져 나온다.", score: 1 },
-            { text: "건조한 두피로 인해 마른 비듬각질이 떨어진다.", score: 1 },
+            { text: "건조한 두피로 인해 마른 비듬각질이 떨어진다.", score: -1 },
             { text: "선택사항 없음", score: 0 },
         ],
     },
@@ -22,7 +22,7 @@ const questionsPart1 = [
         question: "3. 고객님에게 가장 가까운 상태를 체크해주세요.",
         options: [
             { text: "피지가 많아 두피나 모발이 기름진다.", score: 2 },
-            { text: "두피와 모발이 건조하다.", score: 2 },
+            { text: "두피와 모발이 건조하다.", score: -2 },
             { text: "선택사항 없음", score: 0 },
         ],
     },
@@ -30,7 +30,7 @@ const questionsPart1 = [
         question: "4. 고객님에게 가장 가까운 상태를 체크해주세요.",
         options: [
             { text: "과도한 피지로 인해 가려움을 느낀다.", score: 1 },
-            { text: "두피가 건조해서 가려움을 느낀다.", score: 1 },
+            { text: "두피가 건조해서 가려움을 느낀다.", score: -1 },
             { text: "선택사항 없음", score: 0 },
         ],
     },
@@ -131,15 +131,15 @@ const questionsPart4 = [
 
 const partTitles = [
     "Part 1 : 건성(D) - 지성(O)",
-    "Part 2 : 탈모 여부",
-    "Part 3 : 민감도",
-    "Part 4 : 모발 상태",
+    "Part 2 : 탈모 진행(H) - 정상(L)",
+    "Part 3 : 두피 민감(S) - 비민감(R)",
+    "Part 4 : 모발 손상(Q) - 비손상(N)",
 ];
 
 const DiagnosisSclap: React.FC = () => {
     const totalQuestions = questionsPart1.length + questionsPart2.length + questionsPart3.length + questionsPart4.length;
     const [part, setPart] = useState(1);
-    const [answers, setAnswers] = useState<number[]>(Array(totalQuestions).fill(0));
+    const [answers, setAnswers] = useState<number[]>(Array(totalQuestions).fill(null));
 
     const handleAnswer = (index: number, score: number) => {
         const newAnswers = [...answers];
@@ -163,46 +163,44 @@ const DiagnosisSclap: React.FC = () => {
         const part4Score = answers.slice(questionsPart1.length + questionsPart2.length + questionsPart3.length, questionsPart1.length + questionsPart2.length + questionsPart3.length + questionsPart4.length).reduce((acc, score) => acc + (score || 0), 0);
         return { part1Score, part2Score, part3Score, part4Score };
     };
-    
+
     const getResult = (part1Score: number, part2Score: number, part3Score: number, part4Score: number) => {
         let result = "";
-        
-        if (part1Score >= 34) {
-            result += "약지성피부(O)";
-        } else if (part1Score >= 27) {
-            result += "약간 지성피부";
-        } else if (part1Score >= 17) {
-            result += "약간 건성피부";
+
+        if (part1Score >= 3.4) {
+            result += "O";
+        } else if (part1Score >= 2.7) {
+            result += "O";
+        } else if (part1Score >= 1.7) {
+            result += "D";
         } else {
-            result += "건성피부(D)";
+            result += "D";
         }
 
         result += ", ";
 
-        if (part2Score >= 34) {
-            result += "매우 민감피부(S)";
-        } else if (part2Score >= 30) {
-            result += "약간 민감 피부";
-        } else if (part2Score >= 25) {
-            result += "약간 저항성이 있는 피부";
+        if (part2Score >= 3.4) {
+            result += "H";
+        } else if (part2Score >= 3.0) {
+            result += "L";
         } else {
-            result += "저항성이 강한 피부(R)";
+            result += "L";
         }
 
         result += ", ";
 
-        if (part3Score >= 31) {
-            result += "과색소침착피부(P)";
+        if (part3Score >= 4) {
+            result += "S";
         } else {
-            result += "비과색소침착피부(N)";
+            result += "R";
         }
 
         result += ", ";
 
-        if (part4Score >= 41) {
-            result += "주름에 취약한 피부(W)";
+        if (part4Score >= 4) {
+            result += "Q";
         } else {
-            result += "탄력 있는 피부(T)";
+            result += "N";
         }
 
         return result;
@@ -226,7 +224,7 @@ const DiagnosisSclap: React.FC = () => {
                         options={q.options}
                         onAnswer={(score) => handleAnswer(index, score)}
                         selectedOption={answers[index]}
-                        />
+                    />
                 ));
             case 2:
                 return questionsPart2.map((q, index) => (
@@ -234,9 +232,9 @@ const DiagnosisSclap: React.FC = () => {
                         key={index}
                         question={q.question}
                         options={q.options}
-                        onAnswer={(score) => handleAnswer(index + questionsPart1.length, score)} 
+                        onAnswer={(score) => handleAnswer(index + questionsPart1.length, score)}
                         selectedOption={answers[index + questionsPart1.length]}
-                        />
+                    />
                 ));
             case 3:
                 return questionsPart3.map((q, index) => (
@@ -244,9 +242,9 @@ const DiagnosisSclap: React.FC = () => {
                         key={index}
                         question={q.question}
                         options={q.options}
-                        onAnswer={(score) => handleAnswer(index + questionsPart1.length + questionsPart2.length, score)} 
+                        onAnswer={(score) => handleAnswer(index + questionsPart1.length + questionsPart2.length, score)}
                         selectedOption={answers[index + questionsPart1.length + questionsPart2.length]}
-                        />
+                    />
                 ));
             case 4:
                 return questionsPart4.map((q, index) => (
@@ -256,7 +254,7 @@ const DiagnosisSclap: React.FC = () => {
                         options={q.options}
                         onAnswer={(score) => handleAnswer(index + questionsPart1.length + questionsPart2.length + questionsPart3.length, score)}
                         selectedOption={answers[index + questionsPart1.length + questionsPart2.length + questionsPart3.length]}
-                        />
+                    />
                 ));
             default:
                 return null;
