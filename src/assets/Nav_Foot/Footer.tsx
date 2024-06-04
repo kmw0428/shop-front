@@ -40,12 +40,10 @@ const Footer: React.FC = () => {
             <li className="footer-content">
               <div>
                 <h2>셀레스트 주식회사</h2>
-                <span>대표이사 : | 사업자등록번호 : </span>
-                <span>주소 : (0000) 대전광역시 뭐시기 (흠)</span>
-                <span>호스팅사업자 : </span>
-                <span>통신판매업신고번호 : </span>
-                <span>이메일 : example@example.com</span>
-                <span>사업자 정보확인 &gt;</span>
+                <span>대표이사 : 김무원 | 사업자등록번호 : 123-456-7890 | </span>
+                <span>주소 : (34838) 대전광역시 중구 중앙로 121번길 20 방산빌딩 (5층) | </span>
+                <span>TEL : 042-123-4567 | </span>
+                <span>FAX : 02-1234-4567</span>
               </div>
             </li>
           </ul>

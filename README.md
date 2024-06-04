@@ -1,7 +1,12 @@
+## V 1.13
+피부 및 두피 진단 페이지 작성 <br />
+
 ## V 1.12
 진단 CSS 추가 <br />
 이미지 추가 <br />
-제품 찜하기 및 장바구니 추가 버튼 생성
+제품 찜하기 및 장바구니 추가 버튼 생성 <br />
+npm install react-icons <br />
+npm install @mui/icons-material
 
 ## V 1.11
 제품 목록 페이지 추가 및 로그인 css 수정 <br />
