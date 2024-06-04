@@ -13,14 +13,11 @@ import DiagnosisSkin from "./assets/Diagnosis/DiagnosisSkin";
 import SkinResult from "./assets/Diagnosis/SkinResult";
 import SclapResult from "./assets/Diagnosis/SclapResult";
 import ReviewPage from './assets/Product/ReviewPage';
-<<<<<<< HEAD
-import CartPage from '../CartPage';
+import CartPage from "./assets/User/CartPage";
 import ProductPage from "./assets/Product/ProductPage";
-
-=======
-import CartPage from './assets/User/CartPage';
 import Wishlist from "./assets/Product/Wishlist";
->>>>>>> b73200251d4e1e640069cf3974ca74dbf442905b
+import Mypage from "./assets/User/Mypage";
+
 const App: React.FC = () => {
   const location = useLocation();
 
@@ -59,15 +56,13 @@ const App: React.FC = () => {
           <Route path="/skincare/sub2" element={<div>Skincare Subcategory 2</div>} />
           <Route path="/scalp/sub1" element={<Products />} />
           <Route path="/scalp/sub2" element={<div>Scalp Subcategory 2</div>} />
-<<<<<<< HEAD
           <Route path="/product/:id" element={<ProductPage />} />
-          <Route path='/result' element={<Result />} />
-=======
           <Route path='/skinresult' element={<SkinResult />} />
           <Route path="/sclapresult" element={<SclapResult />} />
->>>>>>> b73200251d4e1e640069cf3974ca74dbf442905b
           <Route path='/reviews' element={<ReviewPage />} />
           <Route path='/cartpage' element={<CartPage />} />
+          <Route path='/wishlist' element={<Wishlist />} />
+          <Route path='/mypage' element={<Mypage />} />
         </Routes>
       </div>
       <Footer />

@@ -116,7 +116,6 @@ const Navbar: React.FC = () => {
           )}
         </ul>
       </nav>
-
       {showSearch && <SearchBar />}</>
   );
 };
