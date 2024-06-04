@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Login.css'; // CSS 파일을 import
+import { useAuth } from '../AuthProvider';
 
 interface LoginFormProps {
     // 필요한 경우 props를 정의할 수 있습니다.
@@ -10,15 +13,48 @@ const Login: React.FC<LoginFormProps> = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [username, setUsername] = useState<string>('');
+    const [nickname, setNickname] = useState<string>('');
+    const { login } = useAuth();
 
-    const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    const navigate = useNavigate();
+
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // 로그인 기능 구현
+        try {
+            const response = await axios.post('http://localhost:8080/api/auth/login', { username, password });
+            alert('로그인 성공!');
+            login(response.data.token);
+            navigate("/");
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                alert('로그인 실패: ' + error.response.data.message);
+            } else {
+                alert('로그인 중 오류가 발생했습니다.');
+                console.error('로그인 오류:', error);
+            }
+        }
     };
 
-    const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // 회원가입 기능 구현
+        try {
+            const response = await axios.post('http://localhost:8080/api/auth/register', {
+                username,
+                email,
+                password,
+                nickname
+            });
+            alert('회원가입 성공!');
+            login(response.data.token);
+            navigate("/");
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                alert('회원가입 실패: ' + error.response.data.message);
+            } else {
+                alert('회원가입 중 오류가 발생했습니다.');
+                console.error('회원가입 오류:', error);
+            }
+        }
     };
 
     return (
@@ -30,11 +66,11 @@ const Login: React.FC<LoginFormProps> = () => {
                     <h2 className='h2styled'>Login</h2>
                     <form className="wrapper-box" role="form" onSubmit={handleLogin}>
                         <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="form-control form-control-email"
-                            placeholder="Email address"
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            className="form-control form-control-username"
+                            placeholder="Username"
                             required
                         /><br></br>
                         <input
@@ -54,7 +90,7 @@ const Login: React.FC<LoginFormProps> = () => {
             <div className={`login-content login-content-signup ${showSignIn ? 'ng-hide' : ''}`}>
                 <div>
                     <img src="/logo.png" alt='logo' className='imgstyle'></img>
-                    <br></br><br></br><br></br>
+                    <br /><br /><br />
                     <h2 className='h2styled'>Sign Up</h2>
                     <form className="wrapper-box" role="form" onSubmit={handleRegister}>
                         <input
@@ -80,7 +116,15 @@ const Login: React.FC<LoginFormProps> = () => {
                             className="form-control form-control-password"
                             placeholder="Password"
                             required
-                        /><br></br><br></br>
+                        />
+                        <input 
+                            type="text"
+                            value={nickname}
+                            onChange={(e) => setNickname(e.target.value)}
+                            className='form-control form-control-username'
+                            placeholder='Nickname'
+                            required
+                        /><br /><br />
                         <button type="submit" className="btn btn-submit btn-default pull-right">Sign up</button>
                     </form>
                 </div>
