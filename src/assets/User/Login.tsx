@@ -14,6 +14,7 @@ const Login: React.FC<LoginFormProps> = () => {
     const [password, setPassword] = useState<string>('');
     const [username, setUsername] = useState<string>('');
     const [nickname, setNickname] = useState<string>('');
+    const [showPassword, setShowPassword] = useState(false);
     const { login } = useAuth();
 
     const navigate = useNavigate();
@@ -57,6 +58,10 @@ const Login: React.FC<LoginFormProps> = () => {
         }
     };
 
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
     return (
         <div className="login-page">
             <div className={`login-content login-content-signin ${showSignIn ? '' : 'ng-hide'}`}>
@@ -73,14 +78,21 @@ const Login: React.FC<LoginFormProps> = () => {
                             placeholder="Username"
                             required
                         /><br></br>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="form-control form-control-password"
-                            placeholder="Password"
-                            required
-                        />
+                        <div className='pwcontain'>
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="form-control form-control-password"
+                                placeholder="Password"
+                                required
+                            />
+                            {password && (
+                                <button type="button" className='passwordbtn' onClick={toggleShowPassword}>
+                                    {showPassword ? 'Hide' : 'Show'}
+                                </button>
+                            )}
+                        </div>
                         <a className="outer-link pull-left" href="#/forgot">Forgot Password</a>
                         <button type="submit" className="btn btn-submit btn-default pull-right" style={{ marginTop: 30 }}>Log in</button>
                     </form>
@@ -98,9 +110,24 @@ const Login: React.FC<LoginFormProps> = () => {
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             className="form-control form-control-username"
-                            placeholder="Username"
+                            placeholder="Id"
                             required
                         />
+                        <div className='pwcontain'>
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="form-control form-control-password"
+                                placeholder="Password"
+                                required
+                            />
+                            {password && (
+                                <button type="button" className='passwordbtn' onClick={toggleShowPassword}>
+                                    {showPassword ? 'Hide' : 'Show'}
+                                </button>
+                            )}
+                        </div>
                         <input
                             type="email"
                             value={email}
@@ -110,14 +137,6 @@ const Login: React.FC<LoginFormProps> = () => {
                             required
                         />
                         <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="form-control form-control-password"
-                            placeholder="Password"
-                            required
-                        />
-                        <input 
                             type="text"
                             value={nickname}
                             onChange={(e) => setNickname(e.target.value)}
