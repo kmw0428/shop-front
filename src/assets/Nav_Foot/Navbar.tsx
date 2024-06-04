@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import SearchBar from "./SearchBar";
+import { useAuth } from "../AuthProvider";
 
 const Navbar: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
-
+  const { isLoggedIn, logout } = useAuth();
+  const navigate = useNavigate();
+  
   const handleSearchClick = () => {
     setShowSearch(!showSearch);
   };
@@ -31,7 +33,9 @@ const Navbar: React.FC = () => {
   }, []);
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    logout();
+    navigate("/");
+    window.location.reload();
   };
 
   return (
