@@ -16,7 +16,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     // 초기 로드 시 로컬 스토리지에서 토큰 확인
     useEffect(() => {
         const token = localStorage.getItem('token');
-        console.log('Token from localStorage:', token);  // 디버깅용 콘솔 로그
         if (token) {
             setIsLoggedIn(true);
         }

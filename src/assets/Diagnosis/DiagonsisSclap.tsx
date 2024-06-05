@@ -7,14 +7,14 @@ const questionsPart1 = [
         question: "1. 고객님에게 가장 가까운 상태를 체크해주세요.",
         options: [
             { text: "하루 이상 샴푸를 하지 않으면 두피와 모발이 기름진다.", score: 2 },
-            { text: "샴푸 후 하루가 지나도 기름지지 않는다", score: 2 },
+            { text: "샴푸 후 하루가 지나도 기름지지 않는다", score: -2 },
         ],
     },
     {
         question: "2. 고객님에게 가장 가까운 상태를 체크해주세요.",
         options: [
             { text: "두피를 긁으면 피지나 비듬, 각질이 떨어져 나온다.", score: 1 },
-            { text: "건조한 두피로 인해 마른 비듬각질이 떨어진다.", score: 1 },
+            { text: "건조한 두피로 인해 마른 비듬각질이 떨어진다.", score: -1 },
             { text: "선택사항 없음", score: 0 },
         ],
     },
@@ -22,7 +22,7 @@ const questionsPart1 = [
         question: "3. 고객님에게 가장 가까운 상태를 체크해주세요.",
         options: [
             { text: "피지가 많아 두피나 모발이 기름진다.", score: 2 },
-            { text: "두피와 모발이 건조하다.", score: 2 },
+            { text: "두피와 모발이 건조하다.", score: -2 },
             { text: "선택사항 없음", score: 0 },
         ],
     },
@@ -30,7 +30,7 @@ const questionsPart1 = [
         question: "4. 고객님에게 가장 가까운 상태를 체크해주세요.",
         options: [
             { text: "과도한 피지로 인해 가려움을 느낀다.", score: 1 },
-            { text: "두피가 건조해서 가려움을 느낀다.", score: 1 },
+            { text: "두피가 건조해서 가려움을 느낀다.", score: -1 },
             { text: "선택사항 없음", score: 0 },
         ],
     },
@@ -147,6 +147,7 @@ const DiagnosisSclap: React.FC = () => {
     }, [part]);
 
     const handleAnswer = (index: number, score: number) => {
+        console.log(`Question index: ${index}, Selected score: ${score}`);
         const newAnswers = [...answers];
         newAnswers[index] = score;
         setAnswers(newAnswers);
@@ -277,9 +278,9 @@ const DiagnosisSclap: React.FC = () => {
                 <Question
                     question={q.question}
                     options={q.options}
-                    onAnswer={(score) => handleAnswer(offset + index, score)}
-                    selectedOption={answers[offset + index]}
-                />
+                    onAnswer={(optionIndex, score) => handleAnswer(offset + index, score)}
+                    selectedOption={answers[offset + index] !== null ? index : null} // index로 selectedOption 전달
+                    />
             </div>
         ));
     };
