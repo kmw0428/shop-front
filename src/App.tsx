@@ -17,7 +17,6 @@ import CartPage from "./assets/User/CartPage";
 import ProductPage from "./assets/Product/ProductPage";
 import Wishlist from "./assets/Product/Wishlist";
 import Mypage from "./assets/User/Mypage";
-import InputImg from "./assets/Product/InputImg";
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -64,7 +63,6 @@ const App: React.FC = () => {
           <Route path='/cartpage' element={<CartPage />} />
           <Route path='/wishlist' element={<Wishlist />} />
           <Route path='/mypage' element={<Mypage />} />
-        <Route path="/products/:id" element={<InputImg />} />
         </Routes>
       </div>
       <Footer />
