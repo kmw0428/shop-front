@@ -1,4 +1,5 @@
 import React from "react";
+import "./Result.css";
 
 const SclapResult: React.FC = () => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -68,20 +69,20 @@ const SclapResult: React.FC = () => {
     const recommendations = getProductRecommendations(letters);
 
     return (
-        <div>
+        <div className="result-container">
             <h1>두피 진단 결과</h1>
             <h2> 회원님의 두피 MBTI 는 [ {letters.join("")} ] 입니다.</h2>
-            <div>
+            <div className="result-descriptions">
                 {sclapTypeDescriptions.map((sclapType) => (
                     <div key={sclapType.letter}>
-                        <h3>{sclapType.letter}</h3>
+                        <h3>[ {sclapType.letter} ]</h3>
                         <p>▪ {sclapType.description}</p>
                     </div>
                 ))}
             </div>
-            <div>
-                <h2>✨ {letters.join("")} 추천 상품(제품) ✨</h2>
-                <div>
+            <div className="result-recommendations">
+                <h2>✨ {letters.join("")} 추천 제품 ✨</h2>
+                <div className="result-grid">
                     {recommendations.map((product, index) => (
                         <div key={index}>
                             <img src={product.image} alt={product.name}/>
