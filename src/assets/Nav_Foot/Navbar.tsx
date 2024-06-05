@@ -99,9 +99,6 @@ const Navbar: React.FC = () => {
               <Link to="/scalp/sub2">
                 <li>토닉&세럼</li>
               </Link>
-              <Link to="/scalp/sub2">
-                <li>스케일링</li>
-              </Link>
             </ul>
           </li>
         </ul>

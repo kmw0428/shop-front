@@ -98,7 +98,7 @@ const ReviewsList: React.FC = () => {
   ).toFixed(1);
 
   return (
-    <div className="container">
+    <div className="reviews-container">
       <div className="reviews-list">
         <div className="reviews-summary">
           <span>REVIEW</span>
@@ -126,7 +126,7 @@ const ReviewsList: React.FC = () => {
         )}
       </div>
 
-      <div className="content">
+      <div className="reviews-content">
         <div className="left-panel">
           <div className="filters">
             <input

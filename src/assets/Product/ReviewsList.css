@@ -1,10 +1,10 @@
-.container {
+.reviews-container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.content {
+.reviews-content {
   display: flex;
   justify-content: space-between;
   width: 100%;
