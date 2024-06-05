@@ -59,7 +59,7 @@ const questionsPart2 = [
         ],
     },
     {
-        question: "4. 샴푸(세정)을 할때 모발이 많이 빠진다.",
+        question: "4. 이마 또는 가르마가 넓어지고 두피가 보인다.",
         options: [
             { text: "YES", score: 2 },
             { text: "NO", score: 0 },
@@ -174,7 +174,7 @@ const DiagnosisSclap: React.FC = () => {
                 return false;
         }
     };
-    
+
     const isAllPartsComplete = () => {
         return answers.every(answer => answer !== null);
     };
@@ -204,29 +204,23 @@ const DiagnosisSclap: React.FC = () => {
     const getResult = (part1Score: number, part2Score: number, part3Score: number, part4Score: number) => {
         let result = "";
 
-        if (part1Score >= 3.4) {
-            result += "O";
-        } else if (part1Score >= 2.7) {
-            result += "O";
-        } else if (part1Score >= 1.7) {
+        if (part1Score >= 5) {
             result += "D";
         } else {
-            result += "D";
+            result += "O";
         }
 
         result += ", ";
 
-        if (part2Score >= 3.4) {
+        if (part2Score >= 3) {
             result += "H";
-        } else if (part2Score >= 3.0) {
-            result += "L";
         } else {
             result += "L";
         }
 
         result += ", ";
 
-        if (part3Score >= 4) {
+        if (part3Score >= 3) {
             result += "S";
         } else {
             result += "R";
@@ -234,7 +228,7 @@ const DiagnosisSclap: React.FC = () => {
 
         result += ", ";
 
-        if (part4Score >= 4) {
+        if (part4Score >= 3) {
             result += "Q";
         } else {
             result += "N";
@@ -248,7 +242,7 @@ const DiagnosisSclap: React.FC = () => {
             const { part1Score, part2Score, part3Score, part4Score } = calculatePartScores();
             const result = getResult(part1Score, part2Score, part3Score, part4Score);
             alert(`테스트 완료! 결과: ${result}`);
-            window.location.href = `/skinresult?part1=${part1Score}&part2=${part2Score}&part3=${part3Score}&part4=${part4Score}&result=${result}`;
+            window.location.href = `/sclapresult?part1=${part1Score}&part2=${part2Score}&part3=${part3Score}&part4=${part4Score}&result=${result}`;
         } else {
             alertAndScrollToIncomplete();
         }
@@ -260,45 +254,20 @@ const DiagnosisSclap: React.FC = () => {
 
         switch (part) {
             case 1:
-                return questionsPart1.map((q, index) => (
-                    <Question
-                        key={index}
-                        question={q.question}
-                        options={q.options}
-                        onAnswer={(score) => handleAnswer(index, score)}
-                        selectedOption={answers[index]}
-                    />
-                ));
+                questions = questionsPart1;
+                break;
             case 2:
-                return questionsPart2.map((q, index) => (
-                    <Question
-                        key={index}
-                        question={q.question}
-                        options={q.options}
-                        onAnswer={(score) => handleAnswer(index + questionsPart1.length, score)}
-                        selectedOption={answers[index + questionsPart1.length]}
-                    />
-                ));
+                questions = questionsPart2;
+                offset = questionsPart1.length;
+                break;
             case 3:
-                return questionsPart3.map((q, index) => (
-                    <Question
-                        key={index}
-                        question={q.question}
-                        options={q.options}
-                        onAnswer={(score) => handleAnswer(index + questionsPart1.length + questionsPart2.length, score)}
-                        selectedOption={answers[index + questionsPart1.length + questionsPart2.length]}
-                    />
-                ));
+                questions = questionsPart3;
+                offset = questionsPart1.length + questionsPart2.length;
+                break;
             case 4:
-                return questionsPart4.map((q, index) => (
-                    <Question
-                        key={index}
-                        question={q.question}
-                        options={q.options}
-                        onAnswer={(score) => handleAnswer(index + questionsPart1.length + questionsPart2.length + questionsPart3.length, score)}
-                        selectedOption={answers[index + questionsPart1.length + questionsPart2.length + questionsPart3.length]}
-                    />
-                ));
+                questions = questionsPart4;
+                offset = questionsPart1.length + questionsPart2.length + questionsPart3.length;
+                break;
             default:
                 return null;
         }
