@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import "./ProductPage.css";
-// import ReviewPage from "./ReviewPage";
 import AccordionPage from "./AccordionPage";
+import ReviewsList from "./ReviewsList";
 
 interface Product {
   id: string;
@@ -241,9 +241,9 @@ const ProductPage: React.FC = () => {
         <AccordionPage items={accordionItems} image="/PA.jpg" />
       </div>
       <hr className="additional-separator" />
-      {/* <div className="review">
-        <ReviewPage />
-      </div> */}
+      <div className="review">
+        <ReviewsList Product={product.title} />
+      </div>
     </div>
   );
 };
