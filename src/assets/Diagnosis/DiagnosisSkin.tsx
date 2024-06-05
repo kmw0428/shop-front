@@ -744,7 +744,7 @@ const DiagnosisSkin: React.FC = () => {
                 <Question
                     question={q.question}
                     options={q.options}
-                    onAnswer={(score) => handleAnswer(offset + index, score)}
+                    onAnswer={(optionIndex, score) => handleAnswer(offset + index, score)}
                     selectedOption={answers[offset + index]}
                 />
             </div>
