@@ -4,15 +4,14 @@ import "./App.css";
 import Navbar from "./assets/Nav_Foot/Navbar";
 import Footer from "./assets/Nav_Foot/Footer";
 import ScrollToTop from "./assets/ScrollToTop";
-// import HomePage from "./assets/HomePage";
+import HomePage from "./assets/HomePage";
 import Login from './assets/User/Login';
-import Products from "./assets/Product/Products";
 import ProductList from "./assets/Product/ProductList";
 import DiagnosisSclap from './assets/Diagnosis/DiagonsisSclap';
 import DiagnosisSkin from "./assets/Diagnosis/DiagnosisSkin";
 import SkinResult from "./assets/Diagnosis/SkinResult";
 import SclapResult from "./assets/Diagnosis/SclapResult";
-import ReviewPage from './assets/Product/ReviewPage';
+import ReviewsList from "./assets/Product/ReviewsList";
 import CartPage from "./assets/User/CartPage";
 import ProductPage from "./assets/Product/ProductPage";
 import Wishlist from "./assets/Product/Wishlist";
@@ -43,26 +42,19 @@ const App: React.FC = () => {
       <ScrollToTop />
       <div className="maincontent">
         <Routes>
-          {/* <Route path="/" element={<HomePage />} /> */}
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/diagnosisSclap" element={<DiagnosisSclap />} />
           <Route path="/diagnosisSkin" element={<DiagnosisSkin />} />
           <Route path="/product-list" element={<ProductList />} />
-          <Route path="/all/sub1" element={<div>All Subcategory 1</div>} />
-          <Route path="/all/sub2" element={<div>All Subcategory 2</div>} />
-          <Route path="/custom/sub1" element={<div>Custom Subcategory 1</div>} />
-          <Route path="/custom/sub2" element={<div>Custom Subcategory 2</div>} />
-          <Route path="/skincare/sub1" element={<div>Skincare Subcategory 1</div>} />
-          <Route path="/skincare/sub2" element={<div>Skincare Subcategory 2</div>} />
-          <Route path="/scalp/sub1" element={<Products />} />
-          <Route path="/scalp/sub2" element={<div>Scalp Subcategory 2</div>} />
+          <Route path="/product-list/:category" element={<ProductList />} />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path='/skinresult' element={<SkinResult />} />
           <Route path="/sclapresult" element={<SclapResult />} />
-          <Route path='/reviews' element={<ReviewPage />} />
+          <Route path='/reviews' element={<ReviewsList />} />
           <Route path='/cartpage' element={<CartPage />} />
           <Route path='/wishlist' element={<Wishlist />} />
-          <Route path='/' element={<Mypage />} />
+          <Route path='/mypage' element={<Mypage />} />
         </Routes>
       </div>
       <Footer />
