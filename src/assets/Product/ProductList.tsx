@@ -62,7 +62,7 @@ export default function ProductList() {
                             <span>{product.price} 원</span>
                             <br />
                             {/* 제품 상세 페이지로 이동할 수 있는 링크 버튼 */}
-                            <Link to={`/product/${product.id}`} className="view-details-button1">
+                            <Link to={`/products/${product.id}`} className="view-details-button1">
                                 제품 보러 가기
                             </Link>
                         </div>
