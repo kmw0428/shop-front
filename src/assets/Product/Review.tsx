@@ -7,6 +7,7 @@ interface ReviewProps {
   age: number;
   gender: string;
   type: string;
+  rating: number;
   onEdit: () => void;
   onDelete: () => void;
 }
@@ -17,23 +18,23 @@ const Review: React.FC<ReviewProps> = ({
   age,
   gender,
   type,
+  rating,
   onEdit,
   onDelete,
 }) => {
   return (
     <div className="review">
-      <div className="review-header">
-        <span className="reviewer">{reviewer}</span>
+      <div className="review-info">
+        <h3>{reviewer}</h3>
+        <p>{content}</p>
+        <p>
+          {age}세, {gender}, {type}
+        </p>
+        <p>별점: {rating}</p> {/* 별점을 표시하는 부분 */}
       </div>
-      <div className="content">{content}</div>
-      <div className="review-footer">
-        <span>{age}세</span>
-        <span>{gender}</span>
-        <span>{type}</span>
-        <div className="edit-buttons">
-          <button onClick={onEdit}>수정</button>
-          <button onClick={onDelete}>삭제</button>
-        </div>
+      <div className="review-actions">
+        <button onClick={onEdit}>수정</button>
+        <button onClick={onDelete}>삭제</button>
       </div>
     </div>
   );
