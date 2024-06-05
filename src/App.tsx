@@ -4,7 +4,7 @@ import "./App.css";
 import Navbar from "./assets/Nav_Foot/Navbar";
 import Footer from "./assets/Nav_Foot/Footer";
 import ScrollToTop from "./assets/ScrollToTop";
-import HomePage from "./assets/HomePage";
+// import HomePage from "./assets/HomePage";
 import Login from './assets/User/Login';
 import Products from "./assets/Product/Products";
 import ProductList from "./assets/Product/ProductList";
@@ -43,7 +43,7 @@ const App: React.FC = () => {
       <ScrollToTop />
       <div className="maincontent">
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          {/* <Route path="/" element={<HomePage />} /> */}
           <Route path="/login" element={<Login />} />
           <Route path="/diagnosisSclap" element={<DiagnosisSclap />} />
           <Route path="/diagnosisSkin" element={<DiagnosisSkin />} />
@@ -62,7 +62,7 @@ const App: React.FC = () => {
           <Route path='/reviews' element={<ReviewPage />} />
           <Route path='/cartpage' element={<CartPage />} />
           <Route path='/wishlist' element={<Wishlist />} />
-          <Route path='/mypage' element={<Mypage />} />
+          <Route path='/' element={<Mypage />} />
         </Routes>
       </div>
       <Footer />

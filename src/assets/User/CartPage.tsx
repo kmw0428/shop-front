@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './CartPage.css'; // CSS 파일 가져오기
 
 // Product 인터페이스 정의
 interface Product {
@@ -49,10 +50,10 @@ const CartPage: React.FC = () => {
     };
 
     return (
-        <div className='cartpage'>
-            <hr className='carthr1'></hr>
-            <div style={{ flex: 3 }}>
-                <h1>Shopping Cart</h1>
+        <div className="cartpage">
+            <hr className='carthr1' />
+            <div className="background-banner">
+                <h1>Cart</h1>
                 <table>
                     <thead>
                         <tr>
@@ -85,7 +86,7 @@ const CartPage: React.FC = () => {
                     </tbody>
                 </table>
             </div>
-            <div>
+            <div className="order-summary">
                 <h2>주문 제품</h2>
                 {cart.map(product => (
                     <div key={product.id}>
