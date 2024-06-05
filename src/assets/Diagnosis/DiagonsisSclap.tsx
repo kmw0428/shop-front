@@ -130,10 +130,10 @@ const questionsPart4 = [
 ];
 
 const partTitles = [
-    "Part 1 : 건성(D) - 지성(O)",
-    "Part 2 : 탈모 여부",
-    "Part 3 : 민감도",
-    "Part 4 : 모발 상태",
+    "Part 1 : 건성(D) - 지성 및 지루성(O)",
+    "Part 2 : 탈모 진행(H) - 정상(L)",
+    "Part 3 : 두피 민감(S) - 비민감(R)",
+    "Part 4 : 모발 손상(Q) - 비손상(N)",
 ];
 
 const DiagnosisSclap: React.FC = () => {

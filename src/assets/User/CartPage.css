@@ -1,0 +1,12 @@
+@font-face {
+    font-family: "NEXON Lv1 Gothic OTF";
+    src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF.woff")
+      format("woff");
+  }
+
+  .carthr1 {
+    width: 100%; /* 페이지 전체 너비로 설정 */
+    border: none; /* 기본 테두리 제거 */
+    height: 2px; /* 높이 설정 */
+    background-color: black; /* 색상 설정 */
+  }
