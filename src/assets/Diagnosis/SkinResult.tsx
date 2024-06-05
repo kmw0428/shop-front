@@ -48,7 +48,7 @@ const SkinResult: React.FC = () => {
         ],
         "T": [
             { name: "T 추천 : 로션8", image: "", link: "" },
-
+          
         ],
     };
 
