@@ -43,7 +43,6 @@ const SclapResult: React.FC = () => {
         "I": [
             { name: "I 추천 : 샴푸2", image: "", link: "" },
         ],
-
     };
 
 
@@ -85,7 +84,7 @@ const SclapResult: React.FC = () => {
                 <div>
                     {recommendations.map((product, index) => (
                         <div key={index}>
-                            <img src={product.image} alt={product.name} />
+                            <img src={product.image} alt={product.name}/>
                             <p>{product.name}</p>
                         </div>
                     ))}

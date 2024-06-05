@@ -63,3 +63,13 @@
   height: auto;
   margin-bottom: 10px;
 }
+
+@media (max-width: 1450px) {
+  .footer-content {
+    display: none;
+  }
+
+  .company-name {
+    display: block;
+  }
+}

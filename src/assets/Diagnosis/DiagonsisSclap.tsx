@@ -147,6 +147,7 @@ const DiagnosisSclap: React.FC = () => {
     }, [part]);
 
     const handleAnswer = (index: number, score: number) => {
+        console.log(`Question index: ${index}, Selected score: ${score}`);
         const newAnswers = [...answers];
         newAnswers[index] = score;
         setAnswers(newAnswers);
@@ -277,9 +278,9 @@ const DiagnosisSclap: React.FC = () => {
                 <Question
                     question={q.question}
                     options={q.options}
-                    onAnswer={(score) => handleAnswer(offset + index, score)}
-                    selectedOption={answers[offset + index]}
-                />
+                    onAnswer={(optionIndex, score) => handleAnswer(offset + index, score)}
+                    selectedOption={answers[offset + index] !== null ? index : null} // index로 selectedOption 전달
+                    />
             </div>
         ));
     };

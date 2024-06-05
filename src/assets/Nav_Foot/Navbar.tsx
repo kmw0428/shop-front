@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import SearchBar from "./SearchBar";
+import { useAuth } from "../AuthProvider";
 
 const Navbar: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const { isLoggedIn, logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleSearchClick = () => {
     setShowSearch(!showSearch);
@@ -14,7 +16,8 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
 
       if (scrollTop === 0) {
         setIsVisible(true);
@@ -31,7 +34,9 @@ const Navbar: React.FC = () => {
   }, []);
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    logout();
+    navigate("/");
+    window.location.reload();
   };
 
   return (
@@ -102,12 +107,18 @@ const Navbar: React.FC = () => {
         </ul>
         <ul className="login">
           <li>
-            <img src="/search-icon.png" style={{ height: "20px", paddingTop: "2px", cursor: "pointer" }} onClick={handleSearchClick} />
+            <img
+              src="/search-icon.png"
+              style={{ height: "20px", paddingTop: "2px", cursor: "pointer" }}
+              onClick={handleSearchClick}
+            />
           </li>
           {isLoggedIn ? (
             <li>
               <Link to="/mypage">마이페이지</Link> /{" "}
-              <button onClick={handleLogout}>로그아웃</button>
+              <Link to="/" onClick={handleLogout}>
+                로그아웃
+              </Link>
             </li>
           ) : (
             <li>
@@ -116,7 +127,8 @@ const Navbar: React.FC = () => {
           )}
         </ul>
       </nav>
-      {showSearch && <SearchBar />}</>
+      {showSearch && <SearchBar />}
+    </>
   );
 };
 
