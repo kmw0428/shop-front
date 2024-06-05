@@ -1,22 +1,128 @@
 @font-face {
-    font-family: "NEXON Lv1 Gothic OTF";
-    src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF.woff")
-      format("woff");
-  }
+  font-family: "NEXON Lv1 Gothic OTF";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF.woff")
+    format("woff");
+}
 
-.Mypage {
-    background-color: #F1EAE6;
-    padding: 20px;
-    width: 1900px;
-    height: 330px;
-    margin-top: -12px;
-  }
-  
+.Mypagetop {
+  background-color: #F1EAE6;
+  padding: 20px;
+  width: 1900px;
+  height: 330px;
+  margin-top: 3px;
+}
+
+.Boxcontainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  gap: 25px;
+}
+
 .Mypagebox1 {
-    background-color: #fff;
-    padding: 20px;
-    width: 220px;
-    height: 100px;
-    margin-top: 80px;
-    margin-left: 100px;
-  }
+  background-color: #fff;
+  width: 280px;
+  height: 170px;
+}
+
+.Mypageimage {
+  width: 110px;
+  margin-left: -200px;
+  margin-top: 55px;
+}
+
+.Mypagename {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 21px;
+}
+
+.Mypagebtn1 {
+  border: 1px solid #9c8779;
+  margin-top: 18px;
+  font-size: 13px;
+}
+
+.Mypagebox2 {
+  background-color: #fff;
+  width: 200px;
+  height: 170px;
+} 
+
+.Mypagebtn2 {
+  border: 1px solid #9c8779;
+  margin-top: 9px;
+  font-size: 12.5px;
+}
+
+.Skintype {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.Mypagebox3 {
+  background-color: #fff;
+  width: 200px;
+  height: 170px;
+} 
+
+.Scalptype {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.Mypagebtn3 {
+  border: 1px solid #9c8779;
+  margin-top: 9px;
+  font-size: 12.5px;
+}
+
+.Mypagebox4 {
+  background-color: #fff;
+  width: 760px;
+  height: 170px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.wishlist-container,
+.cart-container,
+.order-container,
+.review-container {
+  flex: 1;
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+  margin-left: -40px;
+}
+
+.vertical-line1,
+.vertical-line2,
+.vertical-line3 {
+  display: flex;
+  border-left: 1.5px solid #9c8779;
+  height: 140px;
+  margin-top: -1px;
+  margin-left: -30px;
+}
+
+.mypageimg {
+  width: 35px;
+  height: auto;
+  margin-left: 10px;
+  margin-top: 15px; 
+}
+
+.mypagetext1 {
+  margin-left: 10px;
+  margin-top: 7px;
+  font-size: 16px;
+}
+
+.mypagetext2 {
+  margin-left: 10px; 
+  margin-top: -8px;
+  font-size: 24px;
+}

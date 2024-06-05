@@ -11,6 +11,7 @@ const Question: React.FC<Props> = ({ question, options, onAnswer, selectedOption
   const [selected, setSelected] = useState<number | null>(selectedOption);
 
   useEffect(() => {
+    console.log(`selectedOption changed: ${selectedOption}`);
     setSelected(selectedOption);
   }, [selectedOption]);
 
@@ -18,6 +19,11 @@ const Question: React.FC<Props> = ({ question, options, onAnswer, selectedOption
     if (selected !== index) {
       setSelected(index);
       onAnswer(index, score);
+      // 클릭 이벤트를 두 번 발생시키기 위해 setTimeout을 사용합니다.
+      setTimeout(() => {
+        setSelected(index);
+        onAnswer(index, score);
+      }, 1);
     }
   };
 

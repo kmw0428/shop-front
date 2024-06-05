@@ -613,6 +613,7 @@ const DiagnosisSkin: React.FC = () => {
     }, [part]);
 
     const handleAnswer = (index: number, score: number) => {
+        console.log(`Question index: ${index}, Selected score: ${score}`);
         const newAnswers = [...answers];
         newAnswers[index] = score;
         setAnswers(newAnswers);

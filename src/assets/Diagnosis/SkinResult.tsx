@@ -23,32 +23,25 @@ const SkinResult: React.FC = () => {
             { name: "O 추천 : 로션1", image: "", link: "" },
         ],
         "D": [
-            { name: "D 추천 : 로션2", image: "", link: "" },
-           
+            { name: "D 추천 : 로션2", image: "", link: "" },           
         ],
         "S": [
-            { name: "S 추천 : 로션3", image: "", link: "" },
-            
+            { name: "S 추천 : 로션3", image: "", link: "" },            
         ],
         "R": [
-            { name: "R 추천 : 로션4", image: "", link: "" },
-            
+            { name: "R 추천 : 로션4", image: "", link: "" },            
         ],
         "P": [
-            { name: "P 추천 : 로션5", image: "", link: "" },
-            
+            { name: "P 추천 : 로션5", image: "", link: "" },            
         ],
         "N": [
-            { name: "N 추천 : 로션6", image: "", link: "" },
-           
+            { name: "N 추천 : 로션6", image: "", link: "" },           
         ],
         "W": [
-            { name: "W 추천 : 로션7", image: "", link: "" },
-           
+            { name: "W 추천 : 로션7", image: "", link: "" },           
         ],
         "T": [
-            { name: "T 추천 : 로션8", image: "", link: "" },
-            
+            { name: "T 추천 : 로션8", image: "", link: "" },            
         ],
     };
 
@@ -91,7 +84,7 @@ const SkinResult: React.FC = () => {
                 <div>
                     {recommendations.map((product, index) => (
                         <div key={index}>
-                            <img src={product.image} alt={product.name}/>
+                            <img src={product.image} alt={product.name} />
                             <p>{product.name}</p>
                         </div>
                     ))}

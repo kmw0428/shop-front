@@ -14,6 +14,7 @@ const Login: React.FC<LoginFormProps> = () => {
     const [password, setPassword] = useState<string>('');
     const [username, setUsername] = useState<string>('');
     const [nickname, setNickname] = useState<string>('');
+    const [showPassword, setShowPassword] = useState(false);
     const { login } = useAuth();
 
     const navigate = useNavigate();
@@ -22,9 +23,18 @@ const Login: React.FC<LoginFormProps> = () => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:8080/api/auth/login', { username, password });
-            alert('로그인 성공!');
-            login(response.data.token);
-            navigate("/");
+
+            console.log('Server response:', response.data);  // 서버 응답 로그
+
+            if (response.data && response.data.accessToken) {
+                alert('로그인 성공!');
+                localStorage.setItem('token', response.data.accessToken);  // JWT 액세스 토큰을 로컬 스토리지에 저장
+                console.log('Token stored:', response.data.accessToken);  // 저장된 토큰 로그
+                navigate("/");
+                window.location.reload();  // 페이지 새로고침
+            } else {
+                alert('로그인 실패: 서버에서 유효한 토큰을 받지 못했습니다.');
+            }
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
                 alert('로그인 실패: ' + error.response.data.message);
@@ -57,6 +67,10 @@ const Login: React.FC<LoginFormProps> = () => {
         }
     };
 
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
     return (
         <div className="login-page">
             <div className={`login-content login-content-signin ${showSignIn ? '' : 'ng-hide'}`}>
@@ -73,14 +87,21 @@ const Login: React.FC<LoginFormProps> = () => {
                             placeholder="Username"
                             required
                         /><br></br>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="form-control form-control-password"
-                            placeholder="Password"
-                            required
-                        />
+                        <div className='pwcontain'>
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="form-control form-control-password"
+                                placeholder="Password"
+                                required
+                            />
+                            {password && (
+                                <button type="button" className='passwordbtn' onClick={toggleShowPassword}>
+                                    {showPassword ? 'Hide' : 'Show'}
+                                </button>
+                            )}
+                        </div>
                         <a className="outer-link pull-left" href="#/forgot">Forgot Password</a>
                         <button type="submit" className="btn btn-submit btn-default pull-right" style={{ marginTop: 30 }}>Log in</button>
                     </form>
@@ -98,9 +119,24 @@ const Login: React.FC<LoginFormProps> = () => {
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             className="form-control form-control-username"
-                            placeholder="Username"
+                            placeholder="Id"
                             required
                         />
+                        <div className='pwcontain'>
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="form-control form-control-password"
+                                placeholder="Password"
+                                required
+                            />
+                            {password && (
+                                <button type="button" className='passwordbtn' onClick={toggleShowPassword}>
+                                    {showPassword ? 'Hide' : 'Show'}
+                                </button>
+                            )}
+                        </div>
                         <input
                             type="email"
                             value={email}
@@ -110,14 +146,6 @@ const Login: React.FC<LoginFormProps> = () => {
                             required
                         />
                         <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="form-control form-control-password"
-                            placeholder="Password"
-                            required
-                        />
-                        <input 
                             type="text"
                             value={nickname}
                             onChange={(e) => setNickname(e.target.value)}

@@ -1,0 +1,34 @@
+.review {
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.reviewer {
+  color: #555;
+}
+
+.title {
+  color: #000;
+}
+
+.content {
+  margin-top: 5px;
+  color: #333;
+}
+
+.review-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.edit-buttons {
+  display: flex;
+  gap: 5px;
+}

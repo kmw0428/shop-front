@@ -63,7 +63,6 @@ const App: React.FC = () => {
           <Route path='/cartpage' element={<CartPage />} />
           <Route path='/wishlist' element={<Wishlist />} />
           <Route path='/mypage' element={<Mypage />} />
-
         </Routes>
       </div>
       <Footer />

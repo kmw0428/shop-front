@@ -9,14 +9,15 @@ const Navbar: React.FC = () => {
   const [showSearch, setShowSearch] = useState(false);
   const { isLoggedIn, logout } = useAuth();
   const navigate = useNavigate();
-  
+
   const handleSearchClick = () => {
     setShowSearch(!showSearch);
   };
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
 
       if (scrollTop === 0) {
         setIsVisible(true);
@@ -106,12 +107,18 @@ const Navbar: React.FC = () => {
         </ul>
         <ul className="login">
           <li>
-            <img src="/search-icon.png" style={{ height: "20px", paddingTop: "2px", cursor: "pointer" }} onClick={handleSearchClick} />
+            <img
+              src="/search-icon.png"
+              style={{ height: "20px", paddingTop: "2px", cursor: "pointer" }}
+              onClick={handleSearchClick}
+            />
           </li>
           {isLoggedIn ? (
             <li>
               <Link to="/mypage">마이페이지</Link> /{" "}
-              <button onClick={handleLogout}>로그아웃</button>
+              <Link to="/" onClick={handleLogout}>
+                로그아웃
+              </Link>
             </li>
           ) : (
             <li>
@@ -120,7 +127,8 @@ const Navbar: React.FC = () => {
           )}
         </ul>
       </nav>
-      {showSearch && <SearchBar />}</>
+      {showSearch && <SearchBar />}
+    </>
   );
 };
 

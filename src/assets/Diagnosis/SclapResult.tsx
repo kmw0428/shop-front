@@ -20,7 +20,6 @@ const SclapResult: React.FC = () => {
         "타입1": [
             { name: "00 추천 : 샴푸2", image: "", link: "" },
         ],
-        
     };
 
 

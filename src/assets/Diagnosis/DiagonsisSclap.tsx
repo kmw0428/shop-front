@@ -7,14 +7,14 @@ const questionsPart1 = [
         question: "1. 고객님에게 가장 가까운 상태를 체크해주세요.",
         options: [
             { text: "하루 이상 샴푸를 하지 않으면 두피와 모발이 기름진다.", score: 2 },
-            { text: "샴푸 후 하루가 지나도 기름지지 않는다", score: 2 },
+            { text: "샴푸 후 하루가 지나도 기름지지 않는다", score: -2 },
         ],
     },
     {
         question: "2. 고객님에게 가장 가까운 상태를 체크해주세요.",
         options: [
             { text: "두피를 긁으면 피지나 비듬, 각질이 떨어져 나온다.", score: 1 },
-            { text: "건조한 두피로 인해 마른 비듬각질이 떨어진다.", score: 1 },
+            { text: "건조한 두피로 인해 마른 비듬각질이 떨어진다.", score: -1 },
             { text: "선택사항 없음", score: 0 },
         ],
     },
@@ -22,7 +22,7 @@ const questionsPart1 = [
         question: "3. 고객님에게 가장 가까운 상태를 체크해주세요.",
         options: [
             { text: "피지가 많아 두피나 모발이 기름진다.", score: 2 },
-            { text: "두피와 모발이 건조하다.", score: 2 },
+            { text: "두피와 모발이 건조하다.", score: -2 },
             { text: "선택사항 없음", score: 0 },
         ],
     },
@@ -30,7 +30,7 @@ const questionsPart1 = [
         question: "4. 고객님에게 가장 가까운 상태를 체크해주세요.",
         options: [
             { text: "과도한 피지로 인해 가려움을 느낀다.", score: 1 },
-            { text: "두피가 건조해서 가려움을 느낀다.", score: 1 },
+            { text: "두피가 건조해서 가려움을 느낀다.", score: -1 },
             { text: "선택사항 없음", score: 0 },
         ],
     },
@@ -59,7 +59,7 @@ const questionsPart2 = [
         ],
     },
     {
-        question: "4. 샴푸(세정)을 할때 모발이 많이 빠진다.",
+        question: "4. 이마 또는 가르마가 넓어지고 두피가 보인다.",
         options: [
             { text: "YES", score: 2 },
             { text: "NO", score: 0 },
@@ -147,6 +147,7 @@ const DiagnosisSclap: React.FC = () => {
     }, [part]);
 
     const handleAnswer = (index: number, score: number) => {
+        console.log(`Question index: ${index}, Selected score: ${score}`);
         const newAnswers = [...answers];
         newAnswers[index] = score;
         setAnswers(newAnswers);
@@ -174,7 +175,7 @@ const DiagnosisSclap: React.FC = () => {
                 return false;
         }
     };
-    
+
     const isAllPartsComplete = () => {
         return answers.every(answer => answer !== null);
     };
@@ -204,42 +205,34 @@ const DiagnosisSclap: React.FC = () => {
     const getResult = (part1Score: number, part2Score: number, part3Score: number, part4Score: number) => {
         let result = "";
 
-        if (part1Score >= 34) {
-            result += "약지성피부(O)";
-        } else if (part1Score >= 27) {
-            result += "약간 지성피부";
-        } else if (part1Score >= 17) {
-            result += "약간 건성피부";
+        if (part1Score >= 5) {
+            result += "D";
         } else {
-            result += "건성피부(D)";
+            result += "O";
         }
 
         result += ", ";
 
-        if (part2Score >= 34) {
-            result += "매우 민감피부(S)";
-        } else if (part2Score >= 30) {
-            result += "약간 민감 피부";
-        } else if (part2Score >= 25) {
-            result += "약간 저항성이 있는 피부";
+        if (part2Score >= 3) {
+            result += "H";
         } else {
-            result += "저항성이 강한 피부(R)";
+            result += "L";
         }
 
         result += ", ";
 
-        if (part3Score >= 31) {
-            result += "과색소침착피부(P)";
+        if (part3Score >= 3) {
+            result += "S";
         } else {
-            result += "비과색소침착피부(N)";
+            result += "R";
         }
 
         result += ", ";
 
-        if (part4Score >= 41) {
-            result += "주름에 취약한 피부(W)";
+        if (part4Score >= 3) {
+            result += "Q";
         } else {
-            result += "탄력 있는 피부(T)";
+            result += "N";
         }
 
         return result;
@@ -250,7 +243,7 @@ const DiagnosisSclap: React.FC = () => {
             const { part1Score, part2Score, part3Score, part4Score } = calculatePartScores();
             const result = getResult(part1Score, part2Score, part3Score, part4Score);
             alert(`테스트 완료! 결과: ${result}`);
-            window.location.href = `/skinresult?part1=${part1Score}&part2=${part2Score}&part3=${part3Score}&part4=${part4Score}&result=${result}`;
+            window.location.href = `/sclapresult?part1=${part1Score}&part2=${part2Score}&part3=${part3Score}&part4=${part4Score}&result=${result}`;
         } else {
             alertAndScrollToIncomplete();
         }
@@ -285,9 +278,9 @@ const DiagnosisSclap: React.FC = () => {
                 <Question
                     question={q.question}
                     options={q.options}
-                    onAnswer={(score) => handleAnswer(offset + index, score)}
-                    selectedOption={answers[offset + index]}
-                />
+                    onAnswer={(optionIndex, score) => handleAnswer(offset + index, score)}
+                    selectedOption={answers[offset + index] !== null ? index : null} // index로 selectedOption 전달
+                    />
             </div>
         ));
     };
