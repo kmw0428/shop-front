@@ -9,6 +9,7 @@ interface ReviewData {
   age: number;
   gender: string;
   type: string;
+  rating: number;
 }
 
 interface Product {
@@ -23,6 +24,7 @@ const initialReviews: ReviewData[] = [
     age: 30,
     gender: "여성",
     type: "지성",
+    rating: 4, // 첫 번째 리뷰의 별점
   },
   {
     reviewer: "TETIANA B",
@@ -31,6 +33,7 @@ const initialReviews: ReviewData[] = [
     age: 25,
     gender: "여성",
     type: "건성",
+    rating: 5, // 두 번째 리뷰의 별점
   },
   {
     reviewer: "KATERINA G",
@@ -39,6 +42,7 @@ const initialReviews: ReviewData[] = [
     age: 35,
     gender: "여성",
     type: "복합성",
+    rating: 3, // 세 번째 리뷰의 별점
   },
   {
     reviewer: "HANNA H",
@@ -46,6 +50,7 @@ const initialReviews: ReviewData[] = [
     age: 40,
     gender: "여성",
     type: "중성",
+    rating: 4, // 네 번째 리뷰의 별점
   },
 ];
 
@@ -57,7 +62,6 @@ const product: Product[] = [
 
 const ReviewsList: React.FC = () => {
   const [reviews, setReviews] = useState<ReviewData[]>(initialReviews);
-  const [sortCriteria, setSortCriteria] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filter, setFilter] = useState<{
     age?: number;
@@ -87,88 +91,88 @@ const ReviewsList: React.FC = () => {
     .filter((review) =>
       filter.gender ? review.gender === filter.gender : true
     )
-    .filter((review) => (filter.type ? review.type === filter.type : true))
-    .sort((a, b) => {
-      if (sortCriteria === "age") return a.age - b.age;
-      if (sortCriteria === "gender") return a.gender.localeCompare(b.gender);
-      if (sortCriteria === "type") return a.type.localeCompare(b.type);
-      return 0;
-    });
+    .filter((review) => (filter.type ? review.type === filter.type : true));
 
   const averageRating = (
-    reviews.reduce((acc, review) => acc + 4.8, 0) / reviews.length
+    reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
   ).toFixed(1);
 
   return (
-    <div className="reviews-list">
-      <div className="reviews-summary">
-        <span>리뷰</span>
-        <div className="rating">
-          <span className="rating-score">{averageRating}</span>
-          <span>★</span>
+    <div className="reviews-container">
+      <div className="reviews-list">
+        <div className="reviews-summary">
+          <span>REVIEW</span>
+          <div className="rating">
+            <span className="rating-score">{averageRating}</span>
+            <span className="rating-star">★</span>
+          </div>
+          <button
+            className="leave-feedback"
+            onClick={() => setShowForm(!showForm)}
+          >
+            {showForm ? "리뷰 작성 닫기" : "리뷰 작성"}
+          </button>
         </div>
-        <button className="leave-feedback" onClick={() => setShowForm(true)}>
-          리뷰 작성
-        </button>
+
+        {showForm && (
+          <ReviewForm
+            onSubmit={(reviewData) =>
+              handleAddReview({
+                ...reviewData,
+                productName: product[0].title, // 제품명을 리뷰 제목으로 설정합니다.
+              })
+            }
+          />
+        )}
       </div>
 
-      {showForm && (
-        <ReviewForm
-          onSubmit={(reviewData) =>
-            handleAddReview({
-              ...reviewData,
-              title: product.title, // 제품명을 리뷰 제목으로 설정합니다.
-            })
-          }
-        />
-      )}
+      <div className="reviews-content">
+        <div className="left-panel">
+          <div className="filters">
+            <input
+              type="text"
+              placeholder="검색..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <select
+              onChange={(e) => setFilter({ ...filter, gender: e.target.value })}
+            >
+              <option value="">성별</option>
+              <option value="남성">남성</option>
+              <option value="여성">여성</option>
+            </select>
+            <select
+              onChange={(e) => setFilter({ ...filter, type: e.target.value })}
+            >
+              <option value="">타입</option>
+              <option value="지성">지성</option>
+              <option value="건성">건성</option>
+              <option value="복합성">복합성</option>
+              <option value="중성">중성</option>
+            </select>
+          </div>
+        </div>
 
-      <div className="filters">
-        <input
-          type="text"
-          placeholder="검색..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <select onChange={(e) => setSortCriteria(e.target.value)}>
-          <option value="">정렬 기준</option>
-          <option value="age">나이</option>
-          <option value="gender">성별</option>
-          <option value="type">타입</option>
-        </select>
-        <select
-          onChange={(e) => setFilter({ ...filter, gender: e.target.value })}
-        >
-          <option value="">성별 필터</option>
-          <option value="남성">남성</option>
-          <option value="여성">여성</option>
-        </select>
-        <select
-          onChange={(e) => setFilter({ ...filter, type: e.target.value })}
-        >
-          <option value="">타입 필터</option>
-          <option value="지성">지성</option>
-          <option value="건성">건성</option>
-          <option value="복합성">복합성</option>
-          <option value="중성">중성</option>
-        </select>
-      </div>
-
-      {filteredReviews.map((review, index) => (
-        <Review
-          key={index}
-          reviewer={review.reviewer}
-          content={review.content}
-          age={review.age}
-          gender={review.gender}
-          type={review.type}
-          onEdit={() => handleEditReview(index)}
-          onDelete={() => handleDeleteReview(index)}
-        />
-      ))}
-      <div className="pagination">
-        <button className="prev">&laquo;</button>
-        <button className="next">&raquo;</button>
+        <div className="right-panel">
+          {filteredReviews.map((review, index) => (
+            <Review
+              key={index}
+              reviewer={review.reviewer}
+              content={review.content}
+              age={review.age}
+              gender={review.gender}
+              type={review.type}
+              rating={review.rating} // 별점 추가
+              onEdit={() => handleEditReview(index)}
+              onDelete={() => handleDeleteReview(index)}
+            />
+          ))}
+          <div className="pagination">
+            <button className="prev">&laquo;</button>
+            <button className="next">&raquo;</button>
+          </div>
+        </div>
       </div>
     </div>
   );

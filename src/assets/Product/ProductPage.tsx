@@ -1,114 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./ProductPage.css";
 import AccordionPage from "./AccordionPage";
 import ReviewsList from "./ReviewsList";
+import axios from "axios";
 
 interface Product {
-  id: string;
-  title: string;
-  oldPrice: string;
-  price: string;
-  discount: string;
-  isNew: boolean;
-  image: string;
+  id?: string;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  imageUrl: string;
 }
-
-const products: Product[] = [
-  {
-    id: "product-1",
-    title: "Céleste 시그니처 샴푸 1,000ml",
-    oldPrice: "23,000원",
-    price: "12,900원",
-    discount: "44% off",
-    isNew: false,
-    image: "/shampoo1.jpg",
-  },
-  {
-    id: "product-2",
-    title: "Céleste 샴푸 1,000ml 라벤더머스크 향",
-    oldPrice: "22,000원",
-    price: "12,900원",
-    discount: "",
-    isNew: true,
-    image: "/shampoo2.jpg",
-  },
-  {
-    id: "product-3",
-    title: "Céleste 샴푸 1,000ml 로즈우드 향",
-    oldPrice: "23,000원",
-    price: "12,900원",
-    discount: "",
-    isNew: true,
-    image: "/shampoo3.jpg",
-  },
-  {
-    id: "product-4",
-    title: "Céleste 두피 케어 샴푸 (지성 및 지루성) 500ml",
-    oldPrice: "24,900원",
-    price: "14,900원",
-    discount: "38% off",
-    isNew: false,
-    image: "/shampoo4.jpg",
-  },
-  {
-    id: "product-5",
-    title: "Céleste 두피 케어 샴푸 (건성) 500ml",
-    oldPrice: "24,900원",
-    price: "14,900원",
-    discount: "38% off",
-    isNew: false,
-    image: "/shampoo5.jpg",
-  },
-  {
-    id: "product-6",
-    title: "Céleste 두피 케어 샴푸 (민감성) 500ml",
-    oldPrice: "24,900원",
-    price: "14,900원",
-    discount: "38% off",
-    isNew: false,
-    image: "/shampoo6.jpg",
-  },
-  {
-    id: "product-7",
-    title: "Céleste 탈모 케어 샴푸 500ml",
-    oldPrice: "44,000원",
-    price: "16,900원",
-    discount: "62% off",
-    isNew: false,
-    image: "/shampoo7.jpg",
-  },
-  {
-    id: "product-8",
-    title: "Céleste 샴푸 1,000ml 티트리로즈마리 향",
-    oldPrice: "",
-    price: "12,900원",
-    discount: "",
-    isNew: false,
-    image: "/shampoo8.jpg",
-  },
-  {
-    id: "product-9",
-    title: "Céleste 샴푸 1,000ml 탠저린시트러스 향",
-    oldPrice: "",
-    price: "12,900원",
-    discount: "",
-    isNew: false,
-    image: "/shampoo9.jpg",
-  },
-  // 다른 제품들 추가
-];
 
 const ProductPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const product = products.find((product) => product.id === id);
-
+  const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [selectedOption, setSelectedOption] = useState<string>("");
 
-  const handleQuantityChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/products/${id}`);
+        setProduct(response.data);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  const handleQuantityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setQuantity(parseInt(event.target.value));
   };
 
@@ -118,12 +43,11 @@ const ProductPage: React.FC = () => {
   };
 
   if (!product) {
-    return <div>Product not found</div>;
+    return <div>Loading...</div>;
   }
 
-  const calculateTotalPrice = (price: string, quantity: number): number => {
-    const numericPrice = parseInt(price.replace(/[^\d]/g, ""));
-    return numericPrice * quantity;
+  const calculateTotalPrice = (price: number, quantity: number): number => {
+    return price * quantity;
   };
 
   const formatPrice = (price: number): string => {
@@ -154,25 +78,22 @@ const ProductPage: React.FC = () => {
       <div className="product-page">
         <div className="product-image-container">
           <img
-            src={product.image} // 제품에 맞는 이미지 경로 사용
+            src={`http://localhost:8080${product.imageUrl}`} // 제품에 맞는 이미지 경로 사용
             alt="Product"
             className="product-image"
           />
         </div>
         <div className="product-details">
-          <h2>상품명: {product.title}</h2>
+          <h2>상품명: {product.name}</h2>
           <p>
-            소비자가: <s>{product.oldPrice}</s>
+            설명: {product.description}
           </p>
           <p>
-            판매가: <strong>{product.price}</strong>
+            판매가: <strong>{formatPrice(product.price)}</strong>
           </p>
           <p>배송방법: 택배</p>
           <p>
-            배송비:{" "}
-            {parseInt(product.price.replace(/[^\d]/g, "")) >= 30000
-              ? "무료"
-              : "3,000원 (30,000원 이상 구매 시 무료)"}
+            배송비: {product.price >= 30000 ? "무료" : "3,000원 (30,000원 이상 구매 시 무료)"}
           </p>
           <p>평일 15시까지 주문시 오늘 출발!</p>
           <hr />
@@ -186,7 +107,7 @@ const ProductPage: React.FC = () => {
               onChange={handleOptionChange}
             >
               <option value="">[필수] 옵션을 선택해주세요.</option>
-              <option value={product.id}>{product.title}</option>
+              <option value={product.id}>{product.name}</option>
             </select>
           </div>
           {selectedOption && (
@@ -209,8 +130,7 @@ const ProductPage: React.FC = () => {
                 </select>
               </div>
               <h3>
-                Total:{" "}
-                {formatPrice(calculateTotalPrice(product.price, quantity))}원
+                Total: {formatPrice(calculateTotalPrice(product.price, quantity))}원
               </h3>
               <hr />
               <div className="PPbuttons">
@@ -242,7 +162,7 @@ const ProductPage: React.FC = () => {
       </div>
       <hr className="additional-separator" />
       <div className="review">
-        <ReviewsList Product={product.title} />
+        <ReviewsList />
       </div>
     </div>
   );
