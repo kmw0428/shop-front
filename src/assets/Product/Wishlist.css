@@ -1,0 +1,51 @@
+.wishlist-container {
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.wishlist-title {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.product-list,
+.wishlist {
+  margin-bottom: 20px;
+}
+
+.product-list-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.product-item,
+.wishlist-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.product-name,
+.wishlist-product-name {
+  font-size: 1.2em;
+}
+
+.wishlist-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+.heart-icon {
+  color: red;
+}
+
+.empty-wishlist {
+  text-align: center;
+  color: #888;
+  font-size: 1.2em;
+}
