@@ -25,14 +25,14 @@ const CartPage: React.FC = () => {
 
     // 제품 수량을 증가시키는 함수
     const handleIncreaseQuantity = (id: number) => {
-        setCart(cart.map(product => 
+        setCart(cart.map(product =>
             product.id === id ? { ...product, quantity: product.quantity + 1 } : product
         ));
     };
 
     // 제품 수량을 감소시키는 함수
     const handleDecreaseQuantity = (id: number) => {
-        setCart(cart.map(product => 
+        setCart(cart.map(product =>
             product.id === id && product.quantity > 1 ? { ...product, quantity: product.quantity - 1 } : product
         ));
     };
@@ -49,7 +49,8 @@ const CartPage: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className='cartpage'>
+            <hr className='carthr1'></hr>
             <div style={{ flex: 3 }}>
                 <h1>Shopping Cart</h1>
                 <table>
