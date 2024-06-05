@@ -39,6 +39,7 @@
   display: flex;
   align-items: center;
   gap: 20px; 
+  width: 100%;
 }
 
 #Footer .footer-content1 {
@@ -70,6 +71,11 @@
   }
 
   .company-name {
-    display: block;
+    text-align: center;
+    width: 100%;
+  }
+
+  #Footer .list-area {
+    justify-content: center; /* 중앙 정렬 추가 */
   }
 }

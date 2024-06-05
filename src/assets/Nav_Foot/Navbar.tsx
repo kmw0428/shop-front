@@ -70,19 +70,19 @@ const Navbar: React.FC = () => {
           <li>
             <span>스킨</span>
             <ul className="sub-menu">
-              <Link to="/skincare/sub1">
+              <Link to="/product-list/cleanser">
                 <li>클렌져</li>
               </Link>
-              <Link to="/skincare/sub2">
+              <Link to="/product-list/toner">
                 <li>토너</li>
               </Link>
-              <Link to="/skincare/sub3">
+              <Link to="/product-list/serumessence">
                 <li>세럼&에센스</li>
               </Link>
-              <Link to="/skincare/sub2">
+              <Link to="/product-list/lotioncream">
                 <li>로션&크림</li>
               </Link>
-              <Link to="/skincare/sub2">
+              <Link to="/product-list/suncare">
                 <li>선케어</li>
               </Link>
             </ul>
@@ -90,13 +90,13 @@ const Navbar: React.FC = () => {
           <li>
             <span>두피</span>
             <ul className="sub-menu">
-              <Link to="/scalp/sub1">
+              <Link to="/product-list/shampoo">
                 <li>샴푸</li>
               </Link>
-              <Link to="/scalp/sub2">
+              <Link to="/product-list/treat">
                 <li>트리트먼트</li>
               </Link>
-              <Link to="/scalp/sub2">
+              <Link to="/product-list/tonic">
                 <li>토닉&세럼</li>
               </Link>
             </ul>

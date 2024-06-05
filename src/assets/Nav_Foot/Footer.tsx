@@ -37,9 +37,9 @@ const Footer: React.FC = () => {
                 </Link>
               </span>
             </li>
-            <li className="footer-content">
-              <div>
-                <h2 className="company-name">셀레스트 주식회사</h2>
+            <li>
+              <h2 className="company-name">셀레스트 주식회사</h2>
+              <div className="footer-content">
                 <span>대표이사 : 김무원 | 사업자등록번호 : 123-456-7890 | </span>
                 <span>주소 : (34838) 대전광역시 중구 중앙로 121번길 20 방산빌딩 (5층) | </span>
                 <span>TEL : 042-123-4567 | </span>
