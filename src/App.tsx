@@ -6,7 +6,6 @@ import Footer from "./assets/Nav_Foot/Footer";
 import ScrollToTop from "./assets/ScrollToTop";
 import HomePage from "./assets/HomePage";
 import Login from './assets/User/Login';
-import Products from "./assets/Product/Products";
 import ProductList from "./assets/Product/ProductList";
 import DiagnosisSclap from './assets/Diagnosis/DiagonsisSclap';
 import DiagnosisSkin from "./assets/Diagnosis/DiagnosisSkin";
@@ -49,14 +48,6 @@ const App: React.FC = () => {
           <Route path="/diagnosisSkin" element={<DiagnosisSkin />} />
           <Route path="/product-list" element={<ProductList />} />
           <Route path="/product-list/:category" element={<ProductList />} />
-          <Route path="/all/sub1" element={<div>All Subcategory 1</div>} />
-          <Route path="/all/sub2" element={<div>All Subcategory 2</div>} />
-          <Route path="/custom/sub1" element={<div>Custom Subcategory 1</div>} />
-          <Route path="/custom/sub2" element={<div>Custom Subcategory 2</div>} />
-          <Route path="/skincare/sub1" element={<div>Skincare Subcategory 1</div>} />
-          <Route path="/skincare/sub2" element={<div>Skincare Subcategory 2</div>} />
-          <Route path="/scalp/sub1" element={<Products />} />
-          <Route path="/scalp/sub2" element={<div>Scalp Subcategory 2</div>} />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path='/skinresult' element={<SkinResult />} />
           <Route path="/sclapresult" element={<SclapResult />} />
