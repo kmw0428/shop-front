@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import "./ProductPage.css";
 import AccordionPage from "./AccordionPage";
 import ReviewsList from "./ReviewsList";
@@ -53,25 +53,6 @@ const ProductPage: React.FC = () => {
   const formatPrice = (price: number): string => {
     return price.toLocaleString("ko-KR");
   };
-
-  const accordionItems = [
-    {
-      title: "제품제형",
-      content: "",
-    },
-    {
-      title: "성분",
-      content: "",
-    },
-    {
-      title: "추천하는 타입",
-      content: "",
-    },
-    {
-      title: "사용방법",
-      content: "",
-    },
-  ];
 
   return (
     <div className="pp">
@@ -154,11 +135,15 @@ const ProductPage: React.FC = () => {
               </div>
             </>
           )}
+          <hr />
+          <Link to={`/product/edit/${product.id}`}>
+            <button className="edit-product-button">Edit Product</button>
+          </Link>
         </div>
       </div>
       <hr className="additional-separator" />
       <div className="details">
-        <AccordionPage items={accordionItems} image="/PA.jpg" />
+        <AccordionPage image="/PA.jpg" productId={product.id!} />
       </div>
       <hr className="additional-separator" />
       <div className="review">
