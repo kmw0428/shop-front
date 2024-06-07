@@ -10,18 +10,137 @@
     align-items: center;
 }
 
-.order-summary {
-    width: 80%;
-    padding: 20px;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-}
-
 .carthr1 {
     width: 1950px;
     border: none;
     height: 1px;
     background-color: #9c8779; 
     margin-top: 3px;
+}
+
+.carthr2 {
+    width: 1200px;
+    border: none;
+    height: 1px;
+    background-color: #9c8779; 
+    margin-top: 80px; 
+}
+
+.cartpdn {
+    padding-bottom: 20px;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: #fff;
+    margin-top: 30px;
+    margin-left: -200px;
+    border-spacing: 0;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.5);
+}
+
+.cart-table th, .cart-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-table th {
+    background: #f7f1ed;
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px;
+}
+
+.cart-table td {
+    text-align: center;
+}
+
+.cart-table img {
+    width: 120px;
+    height: 120px;
+    margin-left: -100px;
+}
+
+/* 체크박스 커스터마이징 */
+.custom-checkbox {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding-left: 20px;
+    margin-right: 10px;
+    margin-bottom: 13px;
+    user-select: none;
+}
+
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: #ffffff;
+    border: 1px solid #9c8779;
+    border-radius: 3px;
+}
+
+.custom-checkbox input:checked ~ .checkmark {
+    background-color: #9c8779;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.custom-checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.custom-checkbox .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 3px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.remove-selected {
+    padding: 10px 12px; /* 버튼의 내부 여백을 줄여 크기를 조정 */
+    font-size: 14px; /* 폰트 크기를 줄여 버튼 크기 조정 */
+    border: none;
+    background-color: #9c8779;
+    color: white;
+    border-radius: 0px;
+    cursor: pointer;
+    margin-top: 0px;
+    margin-left: 660px;
+}
+
+.order-summary {
+    position: fixed;
+    width: 350px;
+    height: 488px;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-right: -1250px;
+    margin-top: 230px;
 }
