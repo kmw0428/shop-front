@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css'; // CSS 파일을 import
-import { useAuth } from '../AuthProvider';
+import { useAuth } from '../Auth/AuthProvider';
 
 interface LoginFormProps {
     // 필요한 경우 props를 정의할 수 있습니다.

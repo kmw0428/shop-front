@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import SearchBar from "./SearchBar";
-import { useAuth } from "../AuthProvider";
+import { useAuth } from "../Auth/AuthProvider";
 
 const Navbar: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);

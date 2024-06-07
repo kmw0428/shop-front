@@ -1,7 +1,8 @@
 ## V 1.16
 회원 정보 수정 기능 추가 <br />
 리뷰는 회원만 쓰도록 추가 <br />
-숫자 1,000단위 쉼표 추가
+숫자 1,000단위 쉼표 추가 <br />
+npm install @tosspayments/payment-widget-sdk
 
 ## V 1.15
 상품들 백엔드를 통해서 추가 완료 <br />
