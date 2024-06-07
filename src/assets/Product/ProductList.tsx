@@ -68,6 +68,10 @@ export default function ProductList() {
         setSortCriteria(event.target.value);
     };
 
+    const formatPrice = (price: number): string => {
+        return new Intl.NumberFormat('ko-KR').format(price);
+      };
+
     const productRows = chunkArray(products, 3);
 
     return (
@@ -95,7 +99,7 @@ export default function ProductList() {
                             <h2>{product.name}</h2>
                             <span>{product.category}</span>
                             <br />
-                            <span>{product.price} 원</span>
+                            <span>{formatPrice(product.price)} 원</span>
                             <br />
                             <Link to={`/product/${product.id}`} className="view-details-button1">
                                 제품 보러 가기

@@ -44,6 +44,10 @@ const SearchResults: React.FC = () => {
     setSortCriteria(event.target.value);
   };
 
+  const formatPrice = (price: number): string => {
+    return new Intl.NumberFormat('ko-KR').format(price);
+  };
+
   return (
     <div>
       <h2>Search Results</h2>
@@ -62,7 +66,7 @@ const SearchResults: React.FC = () => {
             <li key={index}>
               <h3>{product.name}</h3>
               <p>{product.description}</p>
-              <p>Price: {product.price}</p>
+              <p>Price: {formatPrice(product.price)} 원</p>
               <p>Category: {product.category}</p>
             </li>
           ))}
