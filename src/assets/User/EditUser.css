@@ -1,0 +1,66 @@
+.edit-user {
+  width: 480px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #857367;
+  border-radius: 5px;
+  margin-top: 50px;
+  background-color: #f2f2f2;
+}
+
+.edit-user h2 {
+  margin-bottom: 20px;
+  font-size: 35px;
+}
+
+.edit-user form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.edit-user button {
+  margin-top: 10px;
+  border: 1px solid #857367;
+  cursor: pointer;
+}
+
+.eu-input {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.eu-inputl {
+  text-align: right;
+  margin-top: 10px;
+}
+
+.euInp {
+  padding: 8px;
+  border: 1px solid #9c8779;
+  border-radius: 5px;
+  width: 90%;
+  font-family: "NEXON Lv1 Gothic OTF";
+  margin-top: 10px;
+  height: auto;
+  box-shadow: none;
+  transition: all 0.1s ease-out;
+  outline: none;
+}
+
+.test-links a {
+  display: inline-block;
+  color: #9c8779;
+  text-decoration: none;
+  font-size: 15px;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.test-links a:hover {
+  border: 1px solid #9c8779;
+}
