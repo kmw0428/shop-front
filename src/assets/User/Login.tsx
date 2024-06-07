@@ -28,7 +28,7 @@ const Login: React.FC<LoginFormProps> = () => {
             if (response.data && response.data.accessToken) {
                 alert('로그인 성공!');
                 localStorage.setItem('token', response.data.accessToken);  // JWT 액세스 토큰을 로컬 스토리지에 저장
-                localStorage.setItem('userId', response.data.user.id);
+                localStorage.setItem('userId', response.data.userId);
                 console.log('Token stored:', response.data.accessToken);  // 저장된 토큰 로그
                 navigate("/mypage");
                 window.location.reload();  // 페이지 새로고침
