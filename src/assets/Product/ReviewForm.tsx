@@ -46,8 +46,8 @@ interface User {
 }
 
 interface ReviewFormProps {
-  onSubmit: (reviewData: Omit<ReviewData, "id">) => void;
-  user: User | null;
+  onSubmit: (reviewData: Omit<ReviewData, "id"> & { user: User }) => void;
+  user?: User;
   productName: string;
 }
 
@@ -104,13 +104,12 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit, user, productName }) 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const isLoggedIn = user !== null;
-    if (!isLoggedIn) {
+    if (!user) {
       alert("로그인이 필요합니다.");
       navigate("/login");
       return;
     }
-    onSubmit(reviewData);
+    onSubmit({ ...reviewData, user });
   };
 
   return (

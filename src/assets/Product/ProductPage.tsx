@@ -162,7 +162,7 @@ const ProductPage: React.FC = () => {
       </div>
       <hr className="additional-separator" />
       <div className="review">
-      <ReviewsList productName={product.name} />
+        <ReviewsList productName={product.name} productId={product.id} />
       </div>
     </div>
   );

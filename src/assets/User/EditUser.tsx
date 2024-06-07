@@ -96,6 +96,7 @@ const EditUser: React.FC = () => {
             type={showPassword ? "text" : "password"}
             name="password"
             onChange={handleChange}
+            required
           />
           {password && (
             <button type="button" onClick={toggleShowPassword}>

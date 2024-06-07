@@ -14,21 +14,20 @@ interface User {
 
 interface ReviewData {
   id?: string; // 선택적 필드로 변경
-  reviewer: string;
+  user: User;
   content: string;
-  age: number;
-  gender: string;
-  type: string;
   rating: number;
+  type: string;
 }
 
 interface ReviewsListProps {
   productName: string;
+  productId?: string;
 }
 
-const ReviewsList: React.FC<ReviewsListProps> = ({ productName }) => {
+const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => {
   const [reviews, setReviews] = useState<ReviewData[]>([]);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | undefined>(undefined);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filter, setFilter] = useState<{
     age?: number;
@@ -40,7 +39,7 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName }) => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/reviews");
+        const response = await axios.get(`http://localhost:8080/reviews/product/${productId}`);
         setReviews(response.data);
       } catch (error) {
         console.error("Error fetching reviews:", error);
@@ -62,16 +61,28 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName }) => {
 
     fetchReviews();
     fetchUser();
-  }, []);
+  }, [productId]);
 
-  const handleAddReview = async (newReview: Omit<ReviewData, "id">) => {
+  const handleAddReview = async (newReview: Omit<ReviewData, "id" | "user"> & { user: User }) => {
+    const userId = localStorage.getItem("userId"); // 로컬 스토리지에서 사용자 ID 가져오기
+    if (!userId) {
+      console.error("User not logged in");
+      return;
+    }
+
     try {
-      const response = await axios.post("http://localhost:8080/reviews", newReview);
+      const reviewPayload = {
+          ...newReview,
+          product: { id: productId },  // 실제 productId를 사용합니다.
+          user: { id: userId }  // 실제 userId를 사용합니다.
+      };
+      
+      const response = await axios.post("http://localhost:8080/reviews", reviewPayload);
       setReviews([...reviews, response.data]);
       setShowForm(false);
-    } catch (error) {
+  } catch (error) {
       console.error("Error adding review:", error);
-    }
+  }
   };
 
   const handleDeleteReview = async (id: string) => {
@@ -90,8 +101,8 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName }) => {
 
   const filteredReviews = reviews
     .filter((review) => review.content.toLowerCase().includes(searchTerm.toLowerCase()))
-    .filter((review) => (filter.age ? review.age === filter.age : true))
-    .filter((review) => (filter.gender ? review.gender === filter.gender : true))
+    .filter((review) => (filter.age ? review.user.age === filter.age : true))
+    .filter((review) => (filter.gender ? review.user.gender === filter.gender : true))
     .filter((review) => (filter.type ? review.type === filter.type : true));
 
   const averageRating = (
@@ -147,14 +158,16 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName }) => {
           {filteredReviews.map((review) => (
             <Review
               key={review.id}
-              reviewer={review.reviewer}
+              reviewer={review.user.nickname || review.user.username}
               content={review.content}
-              age={review.age}
-              gender={review.gender}
+              age={review.user.age}
+              gender={review.user.gender}
               type={review.type}
               rating={review.rating}
               onEdit={() => handleEditReview(review.id!)}
               onDelete={() => handleDeleteReview(review.id!)}
+              userId={user?.id || ""}  // 현재 로그인한 사용자 ID 전달
+              reviewerId={review.user.id}  // 리뷰 작성자 ID 전달
             />
           ))}
           <div className="pagination">
