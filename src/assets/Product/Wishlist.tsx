@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { FaHeart, FaRegHeart } from 'react-icons/fa'; // react-icons에서 하트 아이콘 가져오기
+import React, { useState } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa"; // react-icons에서 하트 아이콘 가져오기
+import "./Wishlist.css";
 
 // 제품 인터페이스 정의
 interface Product {
@@ -10,9 +11,9 @@ interface Product {
 
 // 예제 제품 데이터
 const exampleProducts: Product[] = [
-  { id: 1, name: '클렌저', price: 300 },
-  { id: 2, name: '세럼', price: 260 },
-  { id: 3, name: '선케어', price: 170 },
+  { id: 1, name: "클렌저", price: 300 },
+  { id: 2, name: "세럼", price: 260 },
+  { id: 3, name: "선케어", price: 170 },
 ];
 
 const Wishlist: React.FC = () => {
@@ -22,9 +23,9 @@ const Wishlist: React.FC = () => {
   // 위시리스트에 제품 추가/삭제 함수
   const toggleWishlist = (product: Product) => {
     // 제품이 위시리스트에 이미 있는지 확인
-    if (wishlist.some(item => item.id === product.id)) {
+    if (wishlist.some((item) => item.id === product.id)) {
       // 제품이 위시리스트에 있으면 제거
-      setWishlist(wishlist.filter(item => item.id !== product.id));
+      setWishlist(wishlist.filter((item) => item.id !== product.id));
     } else {
       // 제품이 위시리스트에 없으면 추가
       setWishlist([...wishlist, product]);
@@ -32,21 +33,26 @@ const Wishlist: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Wishlist</h1>
-      
+    <div className="wishlist-container">
+      <h1 className="wishlist-title">Wishlist</h1>
+
       {/* 제품 목록 */}
-      <div>
-        <h2>제품 목록</h2>
-        {exampleProducts.map(product => (
-          <div key={product.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-            <span style={{ flex: 1 }}>{product.name} . . . . ${product.price}</span>
+      <div className="product-list">
+        <h2 className="product-list-title">제품 목록</h2>
+        {exampleProducts.map((product) => (
+          <div key={product.id} className="product-item">
+            <span className="product-name">
+              {product.name} . . . . ${product.price}
+            </span>
             {/* 위시리스트 추가/삭제 하트 아이콘 버튼 */}
-            <button onClick={() => toggleWishlist(product)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-              {wishlist.some(item => item.id === product.id) ? (
-                <FaHeart style={{ color: 'red', fontSize: '24px' }} />
+            <button
+              onClick={() => toggleWishlist(product)}
+              className="wishlist-button"
+            >
+              {wishlist.some((item) => item.id === product.id) ? (
+                <FaHeart className="heart-icon" />
               ) : (
-                <FaRegHeart style={{ fontSize: '24px' }} />
+                <FaRegHeart className="heart-icon" />
               )}
             </button>
           </div>
@@ -54,20 +60,25 @@ const Wishlist: React.FC = () => {
       </div>
 
       {/* 위시리스트 목록 */}
-      <div>
-        <h2>My Wishlist</h2>
+      <div className="wishlist">
+        <h2 className="wishlist-title">My Wishlist</h2>
         {wishlist.length > 0 ? (
-          wishlist.map(product => (
-            <div key={product.id}>
-              <span>{product.name} - ${product.price}</span>
+          wishlist.map((product) => (
+            <div key={product.id} className="wishlist-item">
+              <span className="wishlist-product-name">
+                {product.name} - ${product.price}
+              </span>
               {/* 위시리스트에서 제거하는 하트 아이콘 버튼 */}
-              <button onClick={() => toggleWishlist(product)}>
-                <FaHeart/>
+              <button
+                onClick={() => toggleWishlist(product)}
+                className="wishlist-button"
+              >
+                <FaHeart className="heart-icon" />
               </button>
             </div>
           ))
         ) : (
-          <p>- 찜 목록에 상품이 없습니다 -</p> // 위시리스트에 제품이 없을 때 표시
+          <p className="empty-wishlist">- 찜 목록에 상품이 없습니다 -</p> // 위시리스트에 제품이 없을 때 표시
         )}
       </div>
     </div>
