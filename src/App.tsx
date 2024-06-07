@@ -11,11 +11,12 @@ import DiagnosisSclap from './assets/Diagnosis/DiagonsisSclap';
 import DiagnosisSkin from "./assets/Diagnosis/DiagnosisSkin";
 import SkinResult from "./assets/Diagnosis/SkinResult";
 import SclapResult from "./assets/Diagnosis/SclapResult";
-import ReviewsList from "./assets/Product/ReviewsList";
 import CartPage from "./assets/User/CartPage";
 import ProductPage from "./assets/Product/ProductPage";
 import Wishlist from "./assets/Product/Wishlist";
 import Mypage from "./assets/User/Mypage";
+import SearchResults from "./assets/Product/SearchResult";
+import EditUser from "./assets/User/EditUser";
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -51,10 +52,11 @@ const App: React.FC = () => {
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path='/skinresult' element={<SkinResult />} />
           <Route path="/sclapresult" element={<SclapResult />} />
-          <Route path='/reviews' element={<ReviewsList/>} />
           <Route path='/cartpage' element={<CartPage />} />
           <Route path='/wishlist' element={<Wishlist />} />
           <Route path='/mypage' element={<Mypage />} />
+          <Route path='/mypage/eidtuser' element={<EditUser />} />
+          <Route path='/search-results' element={<SearchResults />} />
         </Routes>
       </div>
       <Footer />

@@ -1,17 +1,21 @@
 import React from 'react';
 import './Mypage.css'
+import { useNavigate } from 'react-router-dom';
 
 const Mypage: React.FC = () => {
+    const navigate = useNavigate();
+
     const handleNavigation = (url: string) => {
-        window.location.href = url;
+        navigate(url);
     };
+
     return (
         <div className="Mypagetop">
             <h1 style={{ marginTop: '25px', fontSize: '40px' }}>My page</h1>
             <div className="Boxcontainer">
                 <div className='Mypagebox1'>
                     <h3 className='Mypagename'>{"ㅇㅇㅇ"}님의 회원정보</h3>
-                    <button className="Mypagebtn1">회원정보 수정</button>
+                    <button className="Mypagebtn1" onClick={() => handleNavigation('/mypage/eidtuser')}>회원정보 수정</button>
                 </div>
                 <div className='Mypagebox2'>
                     <h3 className='Skintype'>나의 피부 MBTI는 ✔</h3>
