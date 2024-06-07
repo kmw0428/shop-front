@@ -27,7 +27,7 @@ interface ReviewsListProps {
 
 const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => {
   const [reviews, setReviews] = useState<ReviewData[]>([]);
-  const [user, setUser] = useState<User | undefined>(undefined);
+  const [user, setUser] = useState<User | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filter, setFilter] = useState<{
     age?: number;
@@ -158,16 +158,16 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
           {filteredReviews.map((review) => (
             <Review
               key={review.id}
-              reviewer={review.user.nickname || review.user.username}
+              reviewer={review.user ? (review.user.nickname || review.user.username) : "Unknown User"}
               content={review.content}
-              age={review.user.age}
-              gender={review.user.gender}
+              age={review.user ? review.user.age : 0}
+              gender={review.user ? review.user.gender : "Unknown"}
               type={review.type}
               rating={review.rating}
               onEdit={() => handleEditReview(review.id!)}
               onDelete={() => handleDeleteReview(review.id!)}
               userId={user?.id || ""}  // 현재 로그인한 사용자 ID 전달
-              reviewerId={review.user.id}  // 리뷰 작성자 ID 전달
+              reviewerId={review.user ? review.user.id : "UnKnown"}  // 리뷰 작성자 ID 전달
             />
           ))}
           <div className="pagination">

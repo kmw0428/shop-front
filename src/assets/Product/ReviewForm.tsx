@@ -47,7 +47,7 @@ interface User {
 
 interface ReviewFormProps {
   onSubmit: (reviewData: Omit<ReviewData, "id"> & { user: User }) => void;
-  user?: User;
+  user?: User | null; // 여기를 수정하여 null 및 undefined를 허용
   productName: string;
 }
 
