@@ -13,7 +13,6 @@ const Login: React.FC<LoginFormProps> = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [username, setUsername] = useState<string>('');
-    const [nickname, setNickname] = useState<string>('');
     const [showPassword, setShowPassword] = useState(false);
     const { login } = useAuth();
 
@@ -29,8 +28,9 @@ const Login: React.FC<LoginFormProps> = () => {
             if (response.data && response.data.accessToken) {
                 alert('로그인 성공!');
                 localStorage.setItem('token', response.data.accessToken);  // JWT 액세스 토큰을 로컬 스토리지에 저장
+                localStorage.setItem('userId', response.data.userId);
                 console.log('Token stored:', response.data.accessToken);  // 저장된 토큰 로그
-                navigate("/");
+                navigate("/mypage");
                 window.location.reload();  // 페이지 새로고침
             } else {
                 alert('로그인 실패: 서버에서 유효한 토큰을 받지 못했습니다.');
@@ -51,8 +51,7 @@ const Login: React.FC<LoginFormProps> = () => {
             const response = await axios.post('http://localhost:8080/api/auth/register', {
                 username,
                 email,
-                password,
-                nickname
+                password,                
             });
             alert('회원가입 성공!');
             login(response.data.token);
@@ -145,14 +144,7 @@ const Login: React.FC<LoginFormProps> = () => {
                             placeholder="Email address"
                             required
                         />
-                        <input
-                            type="text"
-                            value={nickname}
-                            onChange={(e) => setNickname(e.target.value)}
-                            className='form-control form-control-username'
-                            placeholder='Nickname'
-                            required
-                        /><br /><br />
+                        <br /><br />
                         <button type="submit" className="btn btn-submit btn-default pull-right">Sign up</button>
                     </form>
                 </div>

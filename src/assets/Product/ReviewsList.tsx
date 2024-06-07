@@ -1,67 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Review from "./Review";
 import ReviewForm from "./ReviewForm";
 import "./ReviewsList.css";
+import axios from "axios";
 
-interface ReviewData {
-  reviewer: string;
-  content: string;
+interface User {
+  id: string;
+  username: string;
+  nickname: string;
   age: number;
   gender: string;
-  type: string;
+}
+
+interface ReviewData {
+  id?: string; // 선택적 필드로 변경
+  user: User;
+  content: string;
   rating: number;
+  type: string;
 }
 
-interface Product {
-  title: string;
+interface ReviewsListProps {
+  productName: string;
+  productId?: string;
 }
 
-const initialReviews: ReviewData[] = [
-  {
-    reviewer: "HANNA T",
-    content:
-      "이것은 최고의 클렌저입니다. 나는 이것을 얼굴과 때때로 면도 제품으로 씁니다...",
-    age: 30,
-    gender: "여성",
-    type: "지성",
-    rating: 4, // 첫 번째 리뷰의 별점
-  },
-  {
-    reviewer: "TETIANA B",
-    content:
-      "분말 형태로 매우 편리하고 경제적인 옵션입니다. 건조함이 느껴지지 않습니다...",
-    age: 25,
-    gender: "여성",
-    type: "건성",
-    rating: 5, // 두 번째 리뷰의 별점
-  },
-  {
-    reviewer: "KATERINA G",
-    content:
-      "이 제품을 사용한 후, 나는 완전히 액체 클렌저 젤을 잊어버렸습니다...",
-    age: 35,
-    gender: "여성",
-    type: "복합성",
-    rating: 3, // 세 번째 리뷰의 별점
-  },
-  {
-    reviewer: "HANNA H",
-    content: "피부의 긴장감 없이 완벽하게 청소합니다...",
-    age: 40,
-    gender: "여성",
-    type: "중성",
-    rating: 4, // 네 번째 리뷰의 별점
-  },
-];
-
-const product: Product[] = [
-  {
-    title: "Céleste 시그니처 샴푸 1,000ml",
-  },
-];
-
-const ReviewsList: React.FC = () => {
-  const [reviews, setReviews] = useState<ReviewData[]>(initialReviews);
+const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => {
+  const [reviews, setReviews] = useState<ReviewData[]>([]);
+  const [user, setUser] = useState<User | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filter, setFilter] = useState<{
     age?: number;
@@ -70,32 +36,82 @@ const ReviewsList: React.FC = () => {
   }>({});
   const [showForm, setShowForm] = useState<boolean>(false);
 
-  const handleAddReview = (newReview: ReviewData) => {
-    setReviews([...reviews, newReview]);
-    setShowForm(false);
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/reviews/product/${productId}`);
+        setReviews(response.data);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
+
+    const fetchUser = async () => {
+      const userId = localStorage.getItem("userId"); // 로컬 스토리지에서 사용자 ID 가져오기
+      if (!userId) {
+        return;
+      }
+      try {
+        const response = await axios.get(`http://localhost:8080/api/users/${userId}`);
+        setUser(response.data);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+
+    fetchReviews();
+    fetchUser();
+  }, [productId]);
+
+  const handleAddReview = async (newReview: Omit<ReviewData, "id" | "user"> & { user: User }) => {
+    const userId = localStorage.getItem("userId"); // 로컬 스토리지에서 사용자 ID 가져오기
+    if (!userId) {
+      console.error("User not logged in");
+      return;
+    }
+
+    try {
+      const reviewPayload = {
+          ...newReview,
+          product: { id: productId },  // 실제 productId를 사용합니다.
+          user: { id: userId }  // 실제 userId를 사용합니다.
+      };
+      
+      const response = await axios.post("http://localhost:8080/reviews", reviewPayload);
+      setReviews([...reviews, response.data]);
+      setShowForm(false);
+  } catch (error) {
+      console.error("Error adding review:", error);
+  }
   };
 
-  const handleEditReview = (index: number) => {
-    // 리뷰 수정 로직
+  const handleDeleteReview = async (id: string) => {
+    try {
+      await axios.delete(`http://localhost:8080/reviews/${id}`);
+      setReviews(reviews.filter((review) => review.id !== id));
+    } catch (error) {
+      console.error("Error deleting review:", error);
+    }
   };
 
-  const handleDeleteReview = (index: number) => {
-    setReviews(reviews.filter((_, i) => i !== index));
+  const handleEditReview = (id: string) => {
+    // 리뷰 수정 로직을 구현하세요
+    console.log(`Edit review with id: ${id}`);
   };
 
   const filteredReviews = reviews
-    .filter((review) =>
-      review.content.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter((review) => (filter.age ? review.age === filter.age : true))
-    .filter((review) =>
-      filter.gender ? review.gender === filter.gender : true
-    )
+    .filter((review) => review.content.toLowerCase().includes(searchTerm.toLowerCase()))
+    .filter((review) => (filter.age ? review.user.age === filter.age : true))
+    .filter((review) => (filter.gender ? review.user.gender === filter.gender : true))
     .filter((review) => (filter.type ? review.type === filter.type : true));
 
   const averageRating = (
     reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
   ).toFixed(1);
+
+  const handleLeaveFeedbackClick = () => {
+    setShowForm(!showForm);
+  };
 
   return (
     <div className="reviews-container">
@@ -106,24 +122,12 @@ const ReviewsList: React.FC = () => {
             <span className="rating-score">{averageRating}</span>
             <span className="rating-star">★</span>
           </div>
-          <button
-            className="leave-feedback"
-            onClick={() => setShowForm(!showForm)}
-          >
+          <button className="leave-feedback" onClick={handleLeaveFeedbackClick}>
             {showForm ? "리뷰 작성 닫기" : "리뷰 작성"}
           </button>
         </div>
 
-        {showForm && (
-          <ReviewForm
-            onSubmit={(reviewData) =>
-              handleAddReview({
-                ...reviewData,
-                productName: product[0].title, // 제품명을 리뷰 제목으로 설정합니다.
-              })
-            }
-          />
-        )}
+        {showForm && <ReviewForm onSubmit={handleAddReview} user={user} productName={productName} />}
       </div>
 
       <div className="reviews-content">
@@ -135,16 +139,12 @@ const ReviewsList: React.FC = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <select
-              onChange={(e) => setFilter({ ...filter, gender: e.target.value })}
-            >
+            <select onChange={(e) => setFilter({ ...filter, gender: e.target.value })}>
               <option value="">성별</option>
               <option value="남성">남성</option>
               <option value="여성">여성</option>
             </select>
-            <select
-              onChange={(e) => setFilter({ ...filter, type: e.target.value })}
-            >
+            <select onChange={(e) => setFilter({ ...filter, type: e.target.value })}>
               <option value="">타입</option>
               <option value="지성">지성</option>
               <option value="건성">건성</option>
@@ -155,17 +155,19 @@ const ReviewsList: React.FC = () => {
         </div>
 
         <div className="right-panel">
-          {filteredReviews.map((review, index) => (
+          {filteredReviews.map((review) => (
             <Review
-              key={index}
-              reviewer={review.reviewer}
+              key={review.id}
+              reviewer={review.user ? (review.user.nickname || review.user.username) : "Unknown User"}
               content={review.content}
-              age={review.age}
-              gender={review.gender}
+              age={review.user ? review.user.age : 0}
+              gender={review.user ? review.user.gender : "Unknown"}
               type={review.type}
-              rating={review.rating} // 별점 추가
-              onEdit={() => handleEditReview(index)}
-              onDelete={() => handleDeleteReview(index)}
+              rating={review.rating}
+              onEdit={() => handleEditReview(review.id!)}
+              onDelete={() => handleDeleteReview(review.id!)}
+              userId={user?.id || ""}  // 현재 로그인한 사용자 ID 전달
+              reviewerId={review.user ? review.user.id : "UnKnown"}  // 리뷰 작성자 ID 전달
             />
           ))}
           <div className="pagination">

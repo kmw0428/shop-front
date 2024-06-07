@@ -30,13 +30,14 @@
 
 .slick-dots {
   position: absolute;
-  bottom: 10px;
+  bottom: 30px;
   width: 100%;
   display: flex !important;
   justify-content: center;
   align-items: center;
   list-style: none;
   padding: 0;
+  z-index: 500;
 }
 
 .slick-dots li {

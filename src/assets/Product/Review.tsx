@@ -10,6 +10,8 @@ interface ReviewProps {
   rating: number;
   onEdit: () => void;
   onDelete: () => void;
+  userId: string;  // 현재 로그인한 사용자 ID
+  reviewerId: string;  // 리뷰 작성자 ID
 }
 
 const Review: React.FC<ReviewProps> = ({
@@ -21,7 +23,11 @@ const Review: React.FC<ReviewProps> = ({
   rating,
   onEdit,
   onDelete,
+  userId,
+  reviewerId,
 }) => {
+  const isReviewer = userId === reviewerId;
+
   return (
     <div className="review">
       <div className="review-info">
@@ -32,10 +38,12 @@ const Review: React.FC<ReviewProps> = ({
         </p>
         <p>별점: {rating}</p> {/* 별점을 표시하는 부분 */}
       </div>
-      <div className="review-actions">
-        <button onClick={onEdit}>수정</button>
-        <button onClick={onDelete}>삭제</button>
-      </div>
+      {isReviewer && (
+        <div className="review-actions">
+          <button onClick={onEdit}>수정</button>
+          <button onClick={onDelete}>삭제</button>
+        </div>
+      )}
     </div>
   );
 };

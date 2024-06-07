@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface StarProps {
   selected: boolean;
@@ -36,38 +37,79 @@ const Rating: React.FC<RatingProps> = ({ maxStars, onChange }) => {
   );
 };
 
+interface User {
+  id: string;
+  username: string;
+  nickname: string;
+  age: number;
+  gender: string;
+}
+
 interface ReviewFormProps {
-  onSubmit: (reviewData: ReviewData) => void;
+  onSubmit: (reviewData: Omit<ReviewData, "id"> & { user: User }) => void;
+  user?: User | null; // 여기를 수정하여 null 및 undefined를 허용
+  productName: string;
 }
 
 interface ReviewData {
-  reviewerName: string;
+  reviewer: string;
+  content: string;
   age: number;
   gender: string;
   type: string;
   productName: string;
-  content: string;
   rating: number;
 }
 
-const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit }) => {
-  const [reviewData, setReviewData] = useState<ReviewData>({
-    reviewerName: "",
-    age: 0,
-    gender: "",
+const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit, user, productName }) => {
+  const navigate = useNavigate();
+  const [reviewData, setReviewData] = useState<Omit<ReviewData, "id">>({
+    reviewer: user?.nickname || user?.username || "",
+    age: user?.age || 0,
+    gender: user?.gender || "",
     type: "",
-    productName: "",
+    productName: productName,
     content: "",
     rating: 0, // 별점 필드 추가
   });
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
+
+  useEffect(() => {
+    setReviewData({
+      reviewer: user?.nickname || user?.username || "",
+      age: user?.age || 0,
+      gender: user?.gender || "",
+      type: "",
+      productName: productName,
+      content: "",
+      rating: 0,
+    });
+  }, [user, productName]);
 
   const handleRatingChange = (newRating: number) => {
     setReviewData({ ...reviewData, rating: newRating }); // 선택된 별점 업데이트
   };
 
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setReviewData({ ...reviewData, [name]: value });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(reviewData);
+    if (!user) {
+      alert("로그인이 필요합니다.");
+      navigate("/login");
+      return;
+    }
+    onSubmit({ ...reviewData, user });
   };
 
   return (
@@ -75,54 +117,50 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit }) => {
       <div className="rform">
         <input
           type="text"
+          name="reviewer"
           placeholder="리뷰어 이름"
-          value={reviewData.reviewerName}
-          onChange={(e) =>
-            setReviewData({ ...reviewData, reviewerName: e.target.value })
-          }
+          value={reviewData.reviewer}
+          onChange={handleChange}
         />
         <input
-          type="text"
+          type="number"
+          name="age"
           placeholder="나이"
           value={reviewData.age}
-          onChange={(e) =>
-            setReviewData({ ...reviewData, age: parseInt(e.target.value) })
-          }
+          onChange={handleChange}
         />
         <input
           type="text"
+          name="gender"
           placeholder="성별"
           value={reviewData.gender}
-          onChange={(e) =>
-            setReviewData({ ...reviewData, gender: e.target.value })
-          }
+          onChange={handleChange}
         />
         <input
           type="text"
+          name="type"
           placeholder="피부 타입"
           value={reviewData.type}
-          onChange={(e) =>
-            setReviewData({ ...reviewData, type: e.target.value })
-          }
+          onChange={handleChange}
         />
         <input
           type="text"
+          name="productName"
           placeholder="제품명"
           value={reviewData.productName}
-          onChange={(e) =>
-            setReviewData({ ...reviewData, productName: e.target.value })
-          }
+          onChange={handleChange}
         />
         <div className="rating-stars">
           <span className="rating-label">별점: </span>
-          <span className="label-star"><Rating maxStars={5} onChange={handleRatingChange} /></span>
+          <span className="label-star">
+            <Rating maxStars={5} onChange={handleRatingChange} />
+          </span>
         </div>
         <textarea
+          name="content"
           placeholder="리뷰 내용"
           value={reviewData.content}
-          onChange={(e) =>
-            setReviewData({ ...reviewData, content: e.target.value })
-          }
+          onChange={handleChange}
         />
       </div>
       <button type="submit">리뷰 작성 완료</button>
