@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams} from "react-router-dom";
 import "./ProductPage.css";
 import AccordionPage from "./AccordionPage";
 import ReviewsList from "./ReviewsList";
@@ -135,10 +135,6 @@ const ProductPage: React.FC = () => {
               </div>
             </>
           )}
-          <hr />
-          <Link to={`/product/edit/${product.id}`}>
-            <button className="edit-product-button">Edit Product</button>
-          </Link>
         </div>
       </div>
       <hr className="additional-separator" />

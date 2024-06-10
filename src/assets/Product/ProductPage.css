@@ -22,9 +22,8 @@
 .product-details {
   width: calc(50% - 10px);
   margin-left: 30px;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
+  text-align: left !important;
+  display: grid;
   justify-content: space-between;
   flex-grow: 1;
 }
@@ -50,6 +49,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .buy-button,

@@ -106,3 +106,10 @@
   width: fit-content;
   padding: 0 10px;
 }
+
+.button-container{
+  z-index: 2;
+  gap: 50px;
+  display: flex;
+  margin: 10px 0;
+}

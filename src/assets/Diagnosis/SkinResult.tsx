@@ -30,14 +30,14 @@ const SkinResult: React.FC = () => {
   const productRecommendations: {
     [key: string]: { name: string; image: string; link: string }[];
   } = {
-    O: [{ name: "O 추천 : 로션1", image: "", link: "" }],
-    D: [{ name: "D 추천 : 로션2", image: "", link: "" }],
-    S: [{ name: "S 추천 : 로션3", image: "", link: "" }],
-    R: [{ name: "R 추천 : 로션4", image: "", link: "" }],
-    P: [{ name: "P 추천 : 로션5", image: "", link: "" }],
-    N: [{ name: "N 추천 : 로션6", image: "", link: "" }],
-    W: [{ name: "W 추천 : 로션7", image: "", link: "" }],
-    T: [{ name: "T 추천 : 로션8", image: "", link: "" }],
+    O: [{ name: "O 지성 : 로션1", image: "", link: "" }],
+    D: [{ name: "D 건성 : 로션2", image: "", link: "" }],
+    S: [{ name: "S 민감성 : 로션3", image: "", link: "" }],
+    R: [{ name: "R 저항성 : 로션4", image: "", link: "" }],
+    P: [{ name: "P 색소성 : 로션5", image: "", link: "" }],
+    N: [{ name: "N 비색소성 : 로션6", image: "", link: "" }],
+    W: [{ name: "W 주름성 : 로션7", image: "", link: "" }],
+    T: [{ name: "T 탄력성 : 로션8", image: "", link: "" }],
   };
 
   const handleSave = async () => {
@@ -127,10 +127,10 @@ const SkinResult: React.FC = () => {
             ))}
           </div>
         </div>
-      </div>
       <div className="button-container">
         <button onClick={handleSave} className="save-button">저장하기</button>
         <button onClick={handleRetry} className="retry-button">다시하기</button>
+      </div>
       </div>
     </div>
   );

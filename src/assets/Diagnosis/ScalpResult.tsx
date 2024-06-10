@@ -28,14 +28,14 @@ const ScalpResult: React.FC = () => {
   const productRecommendations: {
     [key: string]: { name: string; image: string; link: string }[];
   } = {
-    D: [{ name: "D 추천 : 샴푸1", image: "", link: "" }],
-    O: [{ name: "O 추천 : 샴푸2", image: "", link: "" }],
-    A: [{ name: "A 추천 : 샴푸1", image: "", link: "" }],
-    N: [{ name: "N 추천 : 샴푸2", image: "", link: "" }],
-    S: [{ name: "S 추천 : 샴푸1", image: "", link: "" }],
-    R: [{ name: "R 추천 : 샴푸2", image: "", link: "" }],
-    H: [{ name: "H 추천 : 샴푸1", image: "", link: "" }],
-    I: [{ name: "I 추천 : 샴푸2", image: "", link: "" }],
+    D: [{ name: "D 건성 : 샴푸1", image: "", link: "" }],
+    O: [{ name: "O 지성 및 지루성 : 샴푸2", image: "", link: "" }],
+    A: [{ name: "A 탈모 진행 : 샴푸1", image: "", link: "" }],
+    N: [{ name: "N 정상 : 샴푸2", image: "", link: "" }],
+    S: [{ name: "S 두피 민감 : 샴푸1", image: "", link: "" }],
+    R: [{ name: "R 비민감 : 샴푸2", image: "", link: "" }],
+    H: [{ name: "H 손상 모발 : 샴푸1", image: "", link: "" }],
+    I: [{ name: "I 비손상 : 샴푸2", image: "", link: "" }],
   };
 
   const handleSave = async () => {
