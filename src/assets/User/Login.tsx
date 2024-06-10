@@ -54,8 +54,7 @@ const Login: React.FC<LoginFormProps> = () => {
                 password,                
             });
             alert('회원가입 성공!');
-            login(response.data.token);
-            navigate("/");
+            window.location.reload();
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
                 alert('회원가입 실패: ' + error.response.data.message);

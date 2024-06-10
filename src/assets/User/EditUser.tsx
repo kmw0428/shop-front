@@ -24,9 +24,17 @@ interface DaumPostcodeData {
   zonecode: string;
 }
 
+interface DaumPostcode {
+  open: () => void;
+}
+
+interface Daum {
+  Postcode: new (options: { oncomplete: (data: DaumPostcodeData) => void }) => DaumPostcode;
+}
+
 declare global {
   interface Window {
-    daum: unknown;
+    daum: Daum;
   }
 }
 
@@ -35,11 +43,11 @@ const EditUser: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [password, setPassword] = useState<string | null>(null);
-  const [postcode, setPostcode] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
-  const [detailAddress, setDetailAddress] = useState<string>("");
-  const [extraAddress, setExtraAddress] = useState<string>("");
+  const [password, setPassword] = useState<string>('');
+  const [postcode, setPostcode] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [detailAddress, setDetailAddress] = useState<string>('');
+  const [extraAddress, setExtraAddress] = useState<string>('');
 
   const navigate = useNavigate();
 
@@ -60,17 +68,15 @@ const EditUser: React.FC = () => {
 
         // address가 존재하는지 확인 후 분리하여 상태에 저장
         if (response.data.address) {
-          const [postcodePart, addressPart, detailPart, extraPart] =
-            response.data.address.split("||");
-          setPostcode(postcodePart || "");
-          setAddress(addressPart || "");
-          setDetailAddress(detailPart || "");
-          setExtraAddress(extraPart || "");
+          const [postcodePart, addressPart, detailPart, extraPart] = response.data.address.split('||');
+          setPostcode(postcodePart || '');
+          setAddress(addressPart || '');
+          setDetailAddress(detailPart || '');
+          setExtraAddress(extraPart || '');
         }
 
         setLoading(false);
       } catch (error) {
-        console.error("Failed to fetch user data:", error);
         setError("Failed to fetch user data");
         setLoading(false);
       }
@@ -80,25 +86,21 @@ const EditUser: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src =
-      "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
-    script.async = true;
-    document.body.appendChild(script);
+    const scriptId = 'daum-postcode-script';
+    const existingScript = document.getElementById(scriptId);
 
     const handleComplete = (data: DaumPostcodeData) => {
       let fullAddress = data.address;
-      let extraAddress = "";
+      let extraAddress = '';
 
-      if (data.addressType === "R") {
-        if (data.bname !== "") {
+      if (data.addressType === 'R') {
+        if (data.bname !== '') {
           extraAddress += data.bname;
         }
-        if (data.buildingName !== "") {
-          extraAddress +=
-            extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+        if (data.buildingName !== '') {
+          extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
         }
-        fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+        fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
       }
 
       setPostcode(data.zonecode);
@@ -112,23 +114,39 @@ const EditUser: React.FC = () => {
       }).open();
     };
 
-    script.onload = () => {
-      const postcodeButton = document.getElementById("postcode-btn");
-      if (postcodeButton) {
-        postcodeButton.addEventListener("click", openPostcode);
-      }
+    const addPostcodeListener = () => {
+      setTimeout(() => {
+        const postcodeButton = document.getElementById('postcode-btn');
+        if (postcodeButton) {
+          postcodeButton.addEventListener('click', openPostcode);
+        } else {
+          console.error("Postcode button not found");
+        }
+      }, 1000); // 1초 후에 버튼을 찾고 이벤트 리스너를 추가
     };
 
+    if (!existingScript) {
+      const script = document.createElement('script');
+      script.id = scriptId;
+      script.src = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+      script.async = true;
+      script.onload = () => {
+        addPostcodeListener();
+      };
+      document.body.appendChild(script);
+    } else {
+      addPostcodeListener();
+    }
+
     return () => {
-      const postcodeButton = document.getElementById("postcode-btn");
+      const postcodeButton = document.getElementById('postcode-btn');
       if (postcodeButton) {
-        postcodeButton.removeEventListener("click", openPostcode);
+        postcodeButton.removeEventListener('click', openPostcode);
       }
-      document.body.removeChild(script);
     };
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     if (name === "password") {
       setPassword(value);
@@ -149,10 +167,13 @@ const EditUser: React.FC = () => {
     e.preventDefault();
     if (user) {
       try {
-        await axiosInstance.put(`http://localhost:8080/api/users/${user.id}`, {
-          ...user,
-          address: `${postcode}||${address}||${detailAddress}||${extraAddress}`,
-        });
+        await axiosInstance.put(
+          `http://localhost:8080/api/users/${user.id}`,
+          {
+            ...user,
+            address: `${postcode}||${address}||${detailAddress}||${extraAddress}`
+          }
+        );
         alert("Profile updated successfully");
         navigate("/mypage"); // 프로필 페이지로 이동
       } catch (error) {
@@ -212,7 +233,7 @@ const EditUser: React.FC = () => {
           />
         </div>
         <div className="eu-input">
-          <label className="eu-inputl">Nickname: </label>
+          <label className="eu-inputl">성함: </label>
           <input
             type="text"
             name="nickname"
@@ -286,23 +307,16 @@ const EditUser: React.FC = () => {
         </div>
         <div className="eu-input">
           <label className="eu-inputl">Gender: </label>
-          <input
-            type="text"
+          <select
             name="gender"
-            value={user?.gender || ""}
+            value={user?.gender || ''}
             onChange={handleChange}
             className="euInp"
-          />
-        </div>
-        <div className="eu-input">
-          <label className="eu-inputl">Birth Date: </label>
-          <input
-            type="date"
-            name="birthDate"
-            value={user?.birthDate || ""}
-            onChange={handleChange}
-            className="euInp"
-          />
+          >
+            <option value="">성별 선택</option>
+            <option value="남성">남성</option>
+            <option value="여성">여성</option>
+          </select>
         </div>
         <button type="submit">Update Profile</button>
       </form>
