@@ -34,7 +34,9 @@ const Wishlist: React.FC = () => {
 
   return (
     <div className="wishlist-container">
-      <h1 className="wishlist-title">Wishlist</h1>
+      <hr className='wishhr1' />
+      <h1 style={{ fontSize: '3rem', marginBottom: '-20px', marginTop: '55px' }}>My Wishlist</h1>
+      <hr className='wishhr2' />
 
       {/* 제품 목록 */}
       <div className="product-list">
