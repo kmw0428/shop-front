@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Products.css";
 
 interface Product {
@@ -79,9 +79,12 @@ const SearchResults: React.FC = () => {
               <p className="search-results__item-price">
                 Price: {formatPrice(product.price)} 원
               </p>
-              <p className="search-results__item-category">
-                Category: {product.category}
-              </p>
+              <Link
+                to={`/product/${product.id}`}
+                className="view-details-button1"
+              >
+                제품 보러 가기
+              </Link>
             </li>
           ))}
         </ul>
