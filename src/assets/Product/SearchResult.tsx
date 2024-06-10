@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import "./Products.css";
 
 interface Product {
   id: string;
@@ -15,7 +16,7 @@ const SearchResults: React.FC = () => {
   const results = location.state?.results || [];
   const [products, setProducts] = useState<Product[]>([]);
   const [originalProducts, setOriginalProducts] = useState<Product[]>([]);
-  const [sortCriteria, setSortCriteria] = useState<string>('default');
+  const [sortCriteria, setSortCriteria] = useState<string>("default");
 
   useEffect(() => {
     setOriginalProducts(results);
@@ -25,13 +26,13 @@ const SearchResults: React.FC = () => {
   useEffect(() => {
     let sortedProducts = [...originalProducts];
     switch (sortCriteria) {
-      case 'name':
+      case "name":
         sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
         break;
-      case 'price-high':
+      case "price-high":
         sortedProducts.sort((a, b) => b.price - a.price);
         break;
-      case 'price-low':
+      case "price-low":
         sortedProducts.sort((a, b) => a.price - b.price);
         break;
       default:
@@ -45,15 +46,22 @@ const SearchResults: React.FC = () => {
   };
 
   const formatPrice = (price: number): string => {
-    return new Intl.NumberFormat('ko-KR').format(price);
+    return new Intl.NumberFormat("ko-KR").format(price);
   };
 
   return (
-    <div>
-      <h2>Search Results</h2>
-      <div className="sort-options">
-        <label htmlFor="sort">정렬 기준: </label>
-        <select id="sort" value={sortCriteria} onChange={handleSortChange}>
+    <div className="search-results">
+      <h2 className="search-results__title">Search Results</h2>
+      <div className="search-results__sort-options">
+        <label htmlFor="sort" className="search-results__sort-label">
+          정렬 기준:{" "}
+        </label>
+        <select
+          id="sort"
+          value={sortCriteria}
+          onChange={handleSortChange}
+          className="search-results__sort-select"
+        >
           <option value="default">기본</option>
           <option value="name">이름순</option>
           <option value="price-high">높은 가격순</option>
@@ -61,19 +69,25 @@ const SearchResults: React.FC = () => {
         </select>
       </div>
       {products.length > 0 ? (
-        <ul>
+        <ul className="search-results__list">
           {products.map((product: Product, index: number) => (
-            <li key={index}>
-              <h3>{product.name}</h3>
-              <p>{product.description}</p>
-              <p>Price: {formatPrice(product.price)} 원</p>
-              <p>Category: {product.category}</p>
+            <li key={index} className="search-results__item">
+              <h3 className="search-results__item-title">{product.name}</h3>
+              <p className="search-results__item-description">
+                {product.description}
+              </p>
+              <p className="search-results__item-price">
+                Price: {formatPrice(product.price)} 원
+              </p>
+              <p className="search-results__item-category">
+                Category: {product.category}
+              </p>
             </li>
           ))}
         </ul>
       ) : (
-        <p>No results found.</p>
-      )}
+        <p className="search-results__no-results">No results found.</p>
+      )}{" "}
     </div>
   );
 };

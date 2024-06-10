@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import "./SuccessPage.css"; // CSS 파일 임포트
 
 export function SuccessPage() {
   const navigate = useNavigate();

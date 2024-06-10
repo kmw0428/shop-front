@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import Banner from "./Components/Banner";
 import ProductCard from "./Components/ProductCard";
-import ScrollToTopButton from "./Components/ScrollToTopButton";
 
 // 임시 제품 데이터 타입 정의
 interface Product {
@@ -89,7 +88,6 @@ const HomePage: React.FC = () => {
           </p>
         </div>
       </div>
-      <ScrollToTopButton />
     </div>
   );
 };

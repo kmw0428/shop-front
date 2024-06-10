@@ -1,6 +1,5 @@
 import { useSearchParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import "./FailPage.css"; // CSS 파일 임포트
 
 export function FailPage() {
   const [searchParams] = useSearchParams();

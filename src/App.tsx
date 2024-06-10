@@ -22,6 +22,7 @@ import Checkout from "./assets/User/Checkout";
 import EditProduct from "./assets/Product/EditProduct";
 import { SuccessPage } from "./assets/User/SuccessPage";
 import { FailPage } from "./assets/User/FailPage";
+import ScrollToTopButton from "./assets/Components/ScrollToTopButton";
 
 const queryClient = new QueryClient(); // 추가된 부분
 
@@ -72,6 +73,7 @@ const App: React.FC = () => {
           </Routes>
         </div>
         <Footer />
+        <ScrollToTopButton />
       </div>
     </QueryClientProvider>
   );

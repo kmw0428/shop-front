@@ -80,6 +80,7 @@ body {
 .search-bar input {
   font-family: "NEXON Lv1 Gothic OTF";
   margin-top: 30px;
+  margin-bottom: 30px;
   width: 440px;
   height: 35px;
   border: none;
