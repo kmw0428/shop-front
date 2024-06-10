@@ -278,7 +278,7 @@ const DiagnosisScalp: React.FC = () => {
                 <Question
                     question={q.question}
                     options={q.options}
-                    onAnswer={(optionIndex, score) => handleAnswer(offset + index, score)}
+                    onAnswer={(_optionIndex, score) => handleAnswer(offset + index, score)}
                     selectedOption={answers[offset + index] !== null ? index : null} // index로 selectedOption 전달
                 />
             </div>
