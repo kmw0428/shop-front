@@ -14,6 +14,23 @@ interface Product {
   imageUrl: string;
 }
 
+interface User {
+  id: string;
+  username: string;
+  nickname: string;
+  age: number;
+  gender: string;
+}
+
+interface OrderData {
+  id?: string;
+  user: { id: string };
+  products: { id: string };
+  totalAmount: number;
+  status: string;
+  orderDate: Date;
+}
+
 const categoryNames: { [key: string]: string } = {
   all: "All Products",
   cleanser: "Cleanser",
@@ -79,6 +96,38 @@ export default function ProductList() {
     return chunks;
   };
 
+  const handleAddToCart = async (product: Product) => {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+
+    if (!token || !userId) {
+      alert('로그인 후 이용해 주세요.');
+      return;
+    }
+
+    try {
+      const orderPayload = {
+        user: { id: userId },
+        products: [{ id: product.id }],
+        totalAmount: product.price,
+        status: 'PENDING',
+        orderDate: new Date(),
+      };
+      console.log(orderPayload);
+
+      await axios.post('http://localhost:8080/orders', orderPayload, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      alert('상품이 장바구니에 추가되었습니다.');
+    } catch (error) {
+      console.error('Order creation failed:', error);
+      alert('상품 추가 중 오류가 발생했습니다.');
+    }
+  };
+
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortCriteria(event.target.value);
   };
@@ -126,7 +175,11 @@ export default function ProductList() {
                 />
                 <ul className="icon-list">
                   <li>
-                    <a href="#" className="icon">
+                    <a
+                      href="#"
+                      className="icon"
+                      onClick={() => handleAddToCart(product)}
+                    >
                       <AddShoppingCartIcon className="custom-icon" />
                     </a>
                   </li>

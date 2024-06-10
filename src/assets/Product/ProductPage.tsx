@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams} from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import "./ProductPage.css";
 import AccordionPage from "./AccordionPage";
 import ReviewsList from "./ReviewsList";
 import axios from "axios";
+import { useAuth } from "../Auth/AuthProvider";
 
 interface Product {
   id?: string;
@@ -19,6 +20,7 @@ const ProductPage: React.FC = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [selectedOption, setSelectedOption] = useState<string>("");
+  const { isLoggedIn } = useAuth();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -42,10 +44,6 @@ const ProductPage: React.FC = () => {
     setQuantity(1); // 옵션이 변경되면 수량을 1로 리셋
   };
 
-  if (!product) {
-    return <div>Loading...</div>;
-  }
-
   const calculateTotalPrice = (price: number, quantity: number): number => {
     return price * quantity;
   };
@@ -53,6 +51,45 @@ const ProductPage: React.FC = () => {
   const formatPrice = (price: number): string => {
     return price.toLocaleString("ko-KR");
   };
+
+  const handleAddToCart = async () => {
+    if (!product) return;
+
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+
+    if (!token || !userId) {
+      alert('로그인 후 이용해 주세요.');
+      return;
+    }
+
+    try {
+      const orderPayload = {
+        user: { id: userId },
+        products: [{ id: product.id }],
+        totalAmount: product.price * quantity, // 필요한 경우 계산 로직 추가
+        status: 'PENDING',
+        orderDate: new Date(),
+      };
+
+      console.log(orderPayload);
+      await axios.post('http://localhost:8080/orders', orderPayload, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      alert('상품이 장바구니에 추가되었습니다.');
+    } catch (error) {
+      console.error('Order creation failed:', error);
+      alert('상품 추가 중 오류가 발생했습니다.');
+    }
+  };
+
+  if (!product) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="pp">
@@ -117,7 +154,7 @@ const ProductPage: React.FC = () => {
               <div className="PPbuttons">
                 <button className="buy-button">BUY NOW</button>
                 <div className="cart-wishlist">
-                  <button className="add-cart">ADD CART</button>
+                  <button className="add-cart" onClick={handleAddToCart}>ADD CART</button>
                   <button className="wish-list">WISH LIST</button>
                 </div>
               </div>
@@ -129,7 +166,7 @@ const ProductPage: React.FC = () => {
               <div className="PPbuttons">
                 <button className="buy-button">BUY NOW</button>
                 <div className="cart-wishlist">
-                  <button className="add-cart">ADD CART</button>
+                  <button className="add-cart" onClick={handleAddToCart}>ADD CART</button>
                   <button className="wish-list">WISH LIST</button>
                 </div>
               </div>
