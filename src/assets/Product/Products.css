@@ -35,6 +35,17 @@
   box-sizing: border-box; /* 요소의 너비와 높이에 padding과 border를 포함시킵니다. */
 }
 
+.icon-list {
+  position: absolute;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  opacity: 0;
+  transform: translateY(0);
+  transition: transform 0.5s ease, opacity 0.5s ease; /* 전환 효과 추가 */
+}
+
 .products .single-product .part-1 {
   position: relative;
   height: 290px;
@@ -52,97 +63,31 @@
   height: 100%;
 }
 
-.products #product-1 .part-1::before {
-  background: url("/shampoo1.jpg") no-repeat center;
-  background-size: cover;
-  transition: all 0.3s;
-}
-
-.products #product-2 .part-1::before {
-  background: url("/shampoo2.jpg") no-repeat center;
-  background-size: cover;
-}
-
-.products #product-3 .part-1::before {
-  background: url("/shampoo3.jpg") no-repeat center;
-  background-size: cover;
-}
-
-.products #product-4 .part-1::before {
-  background: url("/shampoo4.jpg") no-repeat center;
-  background-size: cover;
-}
-
-.products #product-5 .part-1::before {
-  background: url("/shampoo5.jpg") no-repeat center;
-  background-size: cover;
-}
-
-.products #product-6 .part-1::before {
-  background: url("/shampoo6.jpg") no-repeat center;
-  background-size: cover;
-}
-
-.products #product-7 .part-1::before {
-  background: url("/shampoo7.jpg") no-repeat center;
-  background-size: cover;
-}
-
-.products #product-8 .part-1::before {
-  background: url("/shampoo8.jpg") no-repeat center;
-  background-size: cover;
-}
-
-.products #product-9 .part-1::before {
-  background: url("/shampoo9.jpg") no-repeat center;
-  background-size: cover;
-}
-
-.products .single-product .part-1 .discount,
-.products .single-product .part-1 .new {
+.productlist .productlist-1 .part-1 ul {
   position: absolute;
-  top: 15px;
-  left: 20px;
-  color: #ffffff;
-  background-color: #fe302f;
-  padding: 2px 8px;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-}
-
-.products .single-product .part-1 .new {
-  left: 0;
-  background-color: #444444;
-}
-
-.products .single-product .part-1 ul {
-  position: absolute;
-  bottom: -20px;
-  left: 20px;
   margin: 0;
   padding: 0;
   list-style: none;
   opacity: 0;
-  transition: bottom 0.5s, opacity 0.5s;
+  margin-left: 5px;
 }
 
-.products .single-product:hover .part-1 ul {
-  bottom: 13px;
+.productlist .productlist-1:hover .part-1 ul {
+  transform: translateY(-3em);
   opacity: 1;
-  margin-left: -5px;
 }
 
 .custom-icon {
   margin-top: 5px; /* 아이콘 위치를 아래로 조정 */
 }
 
-.products .single-product .part-1 ul li {
+.productlist .productlist-1 .part-1 ul li {
   display: inline-block;
   margin-left: -5px;
   /* margin-right: 10px; 아이콘 사이 간격 */
 }
 
-.products .single-product .part-1 ul li a {
+.productlist .productlist-1 .part-1 ul li a {
   display: inline-block;
   width: 40px;
   height: 35px;
@@ -154,7 +99,7 @@
   transition: color 0.2s;
 }
 
-.products .single-product .part-1 ul li a:hover {
+.productlist .productlist-1 .part-1 ul li a:hover {
   color: #f54343;
 }
 

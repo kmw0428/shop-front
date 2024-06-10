@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Products.css";
 import { Link, useParams } from "react-router-dom";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 interface Product {
   id: string;
@@ -117,17 +119,31 @@ export default function ProductList() {
         <div className="productlist" key={rowIndex}>
           {row.map((product) => (
             <div className="productlist-1" key={product.id}>
-              {
+              <div className="part-1">
                 <img
                   src={`http://localhost:8080${product.imageUrl}`}
                   alt={product.name}
                 />
-              }
-              <h2>{product.name}</h2>
-              <span>{product.category}</span>
-              <br />
-              <span>{formatPrice(product.price)} 원</span>
-              <br />
+                <ul className="icon-list">
+                  <li>
+                    <a href="#" className="icon">
+                      <AddShoppingCartIcon className="custom-icon" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="icon">
+                      <FavoriteIcon className="custom-icon" />
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div className="part-2">
+                <h2>{product.name}</h2>
+                <span>{product.category}</span>
+                <br />
+                <span>{formatPrice(product.price)} 원</span>
+                <br />
+              </div>
               <Link
                 to={`/product/${product.id}`}
                 className="view-details-button1"
