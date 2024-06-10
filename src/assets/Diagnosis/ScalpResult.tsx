@@ -1,10 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios"; // axiosInstance 사용
 import "./Result.css";
 
-const SclapResult: React.FC = () => {
+const ScalpResult: React.FC = () => {
   const queryParams = new URLSearchParams(window.location.search);
+  const part1 = queryParams.get("part1");
+  const part2 = queryParams.get("part2");
+  const part3 = queryParams.get("part3");
+  const part4 = queryParams.get("part4");
   const result = queryParams.get("result");
-  const letters = result ? result.split(", ") : [];
+  const letters = result ? result.split(",") : [];
+  const userId = localStorage.getItem("userId"); // 로컬 스토리지에서 사용자 ID 가져오기
+  const navigate = useNavigate();
 
   const sclapTypes: { [key: string]: string } = {
     D: "건성 - Dry : 땀과 피지의 분비량은 적고 각질 형성이 빠른 타입",
@@ -30,18 +38,50 @@ const SclapResult: React.FC = () => {
     I: [{ name: "I 추천 : 샴푸2", image: "", link: "" }],
   };
 
+  const handleSave = async () => {
+    if (userId) {
+      try {
+        const scalpType = `${part1}, ${part2}, ${part3}, ${part4}, ${result}`;
+        const data = { scalpType };
+
+        console.log('Saving scalp type with data:', data); // 디버깅용 로그
+
+        await axios.put(
+          `http://localhost:8080/api/users/${userId}`,
+          JSON.stringify(data),
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+        alert("두피 타입이 성공적으로 저장되었습니다.");
+      } catch (error) {
+        console.error("Failed to save scalp type:", error);
+      }
+    } else {
+      alert("로그인이 필요합니다.");
+      navigate("/login");
+    }
+  };
+
+  const handleRetry = () => {
+    navigate("/diagnosisScalp"); // 두피 테스트 페이지로 이동
+  };
+
   const getsclapTypeDescriptions = (letters: string[]) => {
     return letters.map((letter) => ({
       letter,
-      description: sclapTypes[letter],
+      description: sclapTypes[letter.trim()],
     }));
   };
 
   const getProductRecommendations = (letters: string[]) => {
     return letters.reduce(
       (acc: { name: string; image: string; link: string }[], letter) => {
-        if (productRecommendations[letter]) {
-          acc.push(...productRecommendations[letter]);
+        const trimmedLetter = letter.trim();
+        if (productRecommendations[trimmedLetter]) {
+          acc.push(...productRecommendations[trimmedLetter]);
         }
         return acc;
       },
@@ -59,12 +99,12 @@ const SclapResult: React.FC = () => {
         <h2 className="result-name">
           {" "}
           회원님의 두피 MBTI 는{" "}
-          <span className="highlight">[ {letters.join("")} ]</span> 입니다.
+          <span className="highlight">[ {letters.join(" ")} ]</span> 입니다.
         </h2>
         <div className="result-descriptions">
           {sclapTypeDescriptions.map((sclapType) => (
             <div key={sclapType.letter}>
-              <h3 className="highlight-h3">&lt; {sclapType.letter} &gt;</h3>
+              <h3 className="highlight-h3">&lt; {sclapType.letter.trim()} &gt;</h3>
               <p>▪ {sclapType.description}</p>
             </div>
           ))}
@@ -72,7 +112,7 @@ const SclapResult: React.FC = () => {
         <div className="result-recommendations">
           <h2 className="result-name">
             {" "}
-            <span className="highlight">{letters.join("")}</span> 추천 제품{" "}
+            <span className="highlight">{letters.join(" ")}</span> 추천 제품{" "}
           </h2>
           <div className="result-grid">
             {recommendations.map((product, index) => (
@@ -84,8 +124,12 @@ const SclapResult: React.FC = () => {
           </div>
         </div>
       </div>
+        <div className="button-container">
+          <button onClick={handleSave} className="save-button">저장하기</button>
+          <button onClick={handleRetry} className="retry-button">다시하기</button>
+        </div>
     </div>
   );
 };
 
-export default SclapResult;
+export default ScalpResult;

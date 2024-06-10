@@ -56,7 +56,7 @@ const Navbar: React.FC = () => {
               <Link to="/diagnosisSkin">
                 <li>피부 진단</li>
               </Link>
-              <Link to="/diagnosisSclap">
+              <Link to="/diagnosisScalp">
                 <li>두피 진단</li>
               </Link>
             </ul>

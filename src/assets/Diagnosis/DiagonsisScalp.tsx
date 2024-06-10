@@ -136,7 +136,7 @@ const partTitles = [
     "Part 4 : 모발 손상(H) - 비손상(I)",
 ];
 
-const DiagnosisSclap: React.FC = () => {
+const DiagnosisScalp: React.FC = () => {
     const totalQuestions = questionsPart1.length + questionsPart2.length + questionsPart3.length + questionsPart4.length;
     const [part, setPart] = useState(1);
     const [answers, setAnswers] = useState<number[]>(Array(totalQuestions).fill(null));
@@ -243,7 +243,7 @@ const DiagnosisSclap: React.FC = () => {
             const { part1Score, part2Score, part3Score, part4Score } = calculatePartScores();
             const result = getResult(part1Score, part2Score, part3Score, part4Score);
             alert(`테스트 완료! 결과: ${result}`);
-            window.location.href = `/sclapresult?part1=${part1Score}&part2=${part2Score}&part3=${part3Score}&part4=${part4Score}&result=${result}`;
+            window.location.href = `/scalpresult?part1=${part1Score}&part2=${part2Score}&part3=${part3Score}&part4=${part4Score}&result=${result}`;
         } else {
             alertAndScrollToIncomplete();
         }
@@ -302,4 +302,4 @@ const DiagnosisSclap: React.FC = () => {
     );
 };
 
-export default DiagnosisSclap;
+export default DiagnosisScalp;

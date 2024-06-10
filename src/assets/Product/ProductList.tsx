@@ -12,6 +12,18 @@ interface Product {
     imageUrl: string;
 }
 
+const categoryNames: { [key: string]: string } = {
+    all: 'All Products',
+    cleanser: '클렌져',
+    toner: '토너',
+    serumessence: '세럼 & 에센스',
+    lotioncream: '로션 & 크림',
+    suncare: '선케어',
+    shampoo: '샴푸',
+    treat: '트리트먼트',
+    tonic: '토닉 & 세럼',
+};
+
 export default function ProductList() {
     const { category } = useParams<{ category: string }>();
     const [products, setProducts] = useState<Product[]>([]);
@@ -74,10 +86,12 @@ export default function ProductList() {
 
     const productRows = chunkArray(products, 3);
 
+    const categoryName = categoryNames[category?.toLowerCase() || 'all'];
+
     return (
         <div>
             <div className="header">
-                <h2 className='productstitle'>{category || 'ALL'}</h2>
+                <h2 className='productstitle'>{categoryName}</h2>
                 <div className="custom-hr">
                     <hr />
                 </div>

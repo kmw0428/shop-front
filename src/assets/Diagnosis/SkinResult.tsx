@@ -1,10 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios"; // axiosInstance 사용
 import "./Result.css";
 
 const SkinResult: React.FC = () => {
   const queryParams = new URLSearchParams(window.location.search);
+  const part1 = queryParams.get("part1");
+  const part2 = queryParams.get("part2");
+  const part3 = queryParams.get("part3");
+  const part4 = queryParams.get("part4");
   const result = queryParams.get("result");
   const letters = result ? result.split(", ") : [];
+  const userId = localStorage.getItem("userId"); // 로컬 스토리지에서 사용자 ID 가져오기
+  const navigate = useNavigate();
 
   // 각 결과값의 타입을 정의합니다.
   const skinTypes: { [key: string]: string } = {
@@ -31,6 +39,38 @@ const SkinResult: React.FC = () => {
     W: [{ name: "W 추천 : 로션7", image: "", link: "" }],
     T: [{ name: "T 추천 : 로션8", image: "", link: "" }],
   };
+
+  const handleSave = async () => {
+    if (userId) {
+      try {
+        const skinType = `${part1}, ${part2}, ${part3}, ${part4}, ${result}`;
+        const data = { skinType };
+
+        console.log('Saving skin type with data:', data); // 디버깅용 로그
+
+        await axios.put(
+          `http://localhost:8080/api/users/${userId}`,
+          JSON.stringify(data),
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+        alert("피부 타입이 성공적으로 저장되었습니다.");
+      } catch (error) {
+        console.error("Failed to save skin type:", error);
+      }
+    } else {
+      alert("로그인이 필요합니다.");
+      navigate("/login");
+    }
+  };
+
+  const handleRetry = () => {
+    navigate("/diagnosisSkin"); // 두피 테스트 페이지로 이동
+  };
+
 
   // 결과 값에 대응하는 피부 타입을 가져오는 함수
   const getSkinTypeDescriptions = (letters: string[]) => {
@@ -87,6 +127,10 @@ const SkinResult: React.FC = () => {
             ))}
           </div>
         </div>
+      </div>
+      <div className="button-container">
+        <button onClick={handleSave} className="save-button">저장하기</button>
+        <button onClick={handleRetry} className="retry-button">다시하기</button>
       </div>
     </div>
   );

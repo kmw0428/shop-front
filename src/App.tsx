@@ -8,10 +8,10 @@ import ScrollToTop from "./assets/ScrollToTop";
 import HomePage from "./assets/HomePage";
 import Login from "./assets/User/Login";
 import ProductList from "./assets/Product/ProductList";
-import DiagnosisSclap from "./assets/Diagnosis/DiagonsisSclap";
+import DiagnosisScalp from "./assets/Diagnosis/DiagonsisScalp";
 import DiagnosisSkin from "./assets/Diagnosis/DiagnosisSkin";
 import SkinResult from "./assets/Diagnosis/SkinResult";
-import SclapResult from "./assets/Diagnosis/SclapResult";
+import ScalpResult from "./assets/Diagnosis/ScalpResult";
 import CartPage from "./assets/User/CartPage";
 import ProductPage from "./assets/Product/ProductPage";
 import Wishlist from "./assets/Product/Wishlist";
@@ -53,14 +53,14 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/diagnosisSclap" element={<DiagnosisSclap />} />
+            <Route path="/diagnosisScalp" element={<DiagnosisScalp />} />
             <Route path="/diagnosisSkin" element={<DiagnosisSkin />} />
             <Route path="/product-list" element={<ProductList />} />
             <Route path="/product-list/:category" element={<ProductList />} />
             <Route path="/product/:id" element={<ProductPage />} />
             <Route path='/product/edit/:id' element={<EditProduct />} />
             <Route path="/skinresult" element={<SkinResult />} />
-            <Route path="/sclapresult" element={<SclapResult />} />
+            <Route path="/scalpresult" element={<ScalpResult />} />
             <Route path="/cartpage" element={<CartPage />} />
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/mypage" element={<Mypage />} />
