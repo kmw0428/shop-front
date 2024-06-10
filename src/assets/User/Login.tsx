@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css'; // CSS 파일을 import
-import { useAuth } from '../Auth/AuthProvider';
 
 interface LoginFormProps {
     // 필요한 경우 props를 정의할 수 있습니다.
@@ -14,7 +13,6 @@ const Login: React.FC<LoginFormProps> = () => {
     const [password, setPassword] = useState<string>('');
     const [username, setUsername] = useState<string>('');
     const [showPassword, setShowPassword] = useState(false);
-    const { login } = useAuth();
 
     const navigate = useNavigate();
 
@@ -48,10 +46,10 @@ const Login: React.FC<LoginFormProps> = () => {
     const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/register', {
+            await axios.post('http://localhost:8080/api/auth/register', {
                 username,
                 email,
-                password,                
+                password,
             });
             alert('회원가입 성공!');
             window.location.reload();
