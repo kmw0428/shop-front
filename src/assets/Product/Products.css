@@ -9,7 +9,7 @@
   font-weight: 400;
   color: #9c8779;
   display: inline-block; /* 헤더를 인라인 블록 요소로 설정하여 중앙 정렬합니다. */
-  margin: 0 auto; /* 좌우 여백을 자동으로 맞추어 가운데 정렬합니다. */
+  margin: 0px auto; /* 좌우 여백을 자동으로 맞추어 가운데 정렬합니다. */
 }
 
 .products .custom-hr {

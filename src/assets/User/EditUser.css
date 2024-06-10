@@ -27,9 +27,31 @@
 
 .eu-input {
   display: grid;
-  grid-template-columns: 100px 1fr;
+  grid-template-columns: 100px 1fr max-content;
   gap: 10px;
   align-items: center;
+}
+
+.eu-bt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.show-password-btn{
+  border: 1px solid #9c8779;
+  border-radius: 5px;
+  padding: 8px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+#postcode-btn {
+  border: 1px solid #9c8779;
+  border-radius: 5px;
+  padding: 8px;
+  cursor: pointer;
+  margin-right: 30px;
 }
 
 .eu-inputl {
@@ -49,6 +71,20 @@
   transition: all 0.1s ease-out;
   outline: none;
 }
+
+.euInp-1 {
+  padding: 8px;
+  border: 1px solid #9c8779;
+  border-radius: 5px;
+  width: 90%;
+  font-family: "NEXON Lv1 Gothic OTF";
+  margin-top: 10px;
+  height: auto;
+  box-shadow: none;
+  transition: all 0.1s ease-out;
+  outline: none;
+}
+
 
 .test-links a {
   display: inline-block;

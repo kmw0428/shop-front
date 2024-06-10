@@ -14,14 +14,14 @@ interface Product {
 
 const categoryNames: { [key: string]: string } = {
   all: "All Products",
-  cleanser: "클렌져",
-  toner: "토너",
-  serumessence: "세럼 & 에센스",
-  lotioncream: "로션 & 크림",
-  suncare: "선케어",
-  shampoo: "샴푸",
-  treat: "트리트먼트",
-  tonic: "토닉 & 세럼",
+  cleanser: "Cleanser",
+  toner: "Toner",
+  serumessence: "Serum & Essence",
+  lotioncream: "Lotion & Cream",
+  suncare: "Suncare",
+  shampoo: "Shampoo",
+  treat: "Treat",
+  tonic: "Tonic & Serum",
 };
 
 export default function ProductList() {
