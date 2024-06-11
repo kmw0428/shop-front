@@ -14,23 +14,6 @@ interface Product {
   imageUrl: string;
 }
 
-interface User {
-  id: string;
-  username: string;
-  nickname: string;
-  age: number;
-  gender: string;
-}
-
-interface OrderData {
-  id?: string;
-  user: { id: string };
-  products: { id: string };
-  totalAmount: number;
-  status: string;
-  orderDate: Date;
-}
-
 const categoryNames: { [key: string]: string } = {
   all: "All Products",
   cleanser: "Cleanser",
@@ -110,7 +93,6 @@ export default function ProductList() {
         user: { id: userId },
         products: [{ id: product.id }],
         totalAmount: product.price,
-        status: 'PENDING',
         orderDate: new Date(),
       };
       console.log(orderPayload);
