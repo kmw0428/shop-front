@@ -10,8 +10,27 @@ interface UserData {
     scalpType: string;
 }
 
+interface Order {
+    id: string;
+    user: string;
+    products: any[];
+    totalAmount: number;
+    status: string;
+    orderDate: Date;
+}
+
+interface Review {
+    id: string;
+    user: string;
+    content: string;
+    rating: number;
+    date: Date;
+}
+
 const Mypage: React.FC = () => {
     const [userData, setUserData] = useState<UserData | null>(null);
+    const [orderCount, setOrderCount] = useState(0);
+    const [reviewCount, setReviewCount] = useState(0);
     const navigate = useNavigate();
 
     const handleNavigation = (url: string) => {
@@ -29,7 +48,29 @@ const Mypage: React.FC = () => {
             }
         };
 
+        const fetchOrderCount = async () => {
+            const userId = localStorage.getItem("userId");
+            try {
+                const response = await axios.get(`http://localhost:8080/orders/user/${userId}`);
+                setOrderCount(response.data.length); // 주문 개수를 상태에 저장
+            } catch (error) {
+                console.error("Failed to fetch order count:", error);
+            }
+        };
+
+        const fetchReviewCount = async () => {
+            const userId = localStorage.getItem("userId");
+            try {
+                const response = await axios.get(`http://localhost:8080/api/reviews/user/${userId}`);
+                setReviewCount(response.data.length); // 리뷰 개수를 상태에 저장
+            } catch (error) {
+                console.error("Failed to fetch review count:", error);
+            }
+        };
+
+        fetchReviewCount();
         fetchUserData();
+        fetchOrderCount();
     }, []);
 
     const skin = (userData?.skinType)?.split(",").map(part => part.trim());
@@ -94,7 +135,7 @@ const Mypage: React.FC = () => {
                                 <img src="/move.png" alt="이동" className='move-icon' />
                             </button>
                         </div>
-                        <h3 className='mypagetext2'>{"0"} 개</h3>
+                        <h3 className='mypagetext2'>{orderCount} 개</h3>
                     </div>
                     <div className="vertical-line2"></div>
                     <div className="order-container">
@@ -116,7 +157,7 @@ const Mypage: React.FC = () => {
                                 <img src="/move.png" alt="이동" className='move-icon' />
                             </button>
                         </div>
-                        <h3 className='mypagetext2'>{"0"} 개</h3>
+                        <h3 className='mypagetext2'>{reviewCount} 개</h3>
                     </div>
                 </div>
             </div>

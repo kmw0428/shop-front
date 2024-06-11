@@ -19,7 +19,6 @@ import Mypage from "./assets/User/Mypage";
 import SearchResults from "./assets/Product/SearchResult";
 import EditUser from "./assets/User/EditUser";
 import Checkout from "./assets/User/Checkout";
-import EditProduct from "./assets/Product/EditProduct";
 import { SuccessPage } from "./assets/User/SuccessPage";
 import { FailPage } from "./assets/User/FailPage";
 import ScrollToTopButton from "./assets/Components/ScrollToTopButton";
@@ -59,8 +58,7 @@ const App: React.FC = () => {
             <Route path="/product-list" element={<ProductList />} />
             <Route path="/product-list/:category" element={<ProductList />} />
             <Route path="/product/:id" element={<ProductPage />} />
-            <Route path='/product/edit/:id' element={<EditProduct />} />
-            <Route path="/skinresult" element={<SkinResult />} />
+\            <Route path="/skinresult" element={<SkinResult />} />
             <Route path="/scalpresult" element={<ScalpResult />} />
             <Route path="/cartpage" element={<CartPage />} />
             <Route path="/wishlist" element={<Wishlist />} />

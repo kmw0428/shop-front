@@ -109,7 +109,7 @@ export default function ProductList() {
       alert('상품 추가 중 오류가 발생했습니다.');
     }
   };
-
+  
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortCriteria(event.target.value);
   };
