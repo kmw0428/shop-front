@@ -34,8 +34,8 @@ const Wishlist: React.FC = () => {
         const response = await axios.get(`http://localhost:8080/wish/user/${userId}`);
         setWishlist(response.data);
       } catch (error) {
-        console.error("위시 데이터를 가져오는 데 실패했습니다.", error);
-        alert("위시 데이터를 가져오는 데 실패했습니다.");
+        console.error("찜 데이터를 가져오는 데 실패했습니다.", error);
+        alert("찜 데이터를 가져오는 데 실패했습니다.");
       }
     };
 
@@ -43,7 +43,7 @@ const Wishlist: React.FC = () => {
   }, []);
 
   const handleDeletewish = async (id: string) => {
-    const confirmDelete = window.confirm('이 리뷰를 삭제하시겠습니까?');
+    const confirmDelete = window.confirm('이 찜을 삭제하시겠습니까?');
     if (!confirmDelete) {
       return;
     }
@@ -52,8 +52,8 @@ const Wishlist: React.FC = () => {
       await axios.delete(`http://localhost:8080/wish/${id}`);
       setWishlist(wishlist.filter((wish) => wish.id !== id));
     } catch (error) {
-      console.error("위시 삭제에 실패했습니다.", error);
-      alert("위시 삭제에 실패했습니다.");
+      console.error("찜 삭제에 실패했습니다.", error);
+      alert("찜 삭제에 실패했습니다.");
     }
   };
 
@@ -81,7 +81,7 @@ const Wishlist: React.FC = () => {
             </div>
           ))
         ) : (
-          <p className="empty-wishlist">- 찜 목록에 상품이 없습니다 -</p> // 위시리스트에 제품이 없을 때 표시
+          <p className="empty-wishlist">- 찜 목록에 상품이 없습니다 -</p> // 찜리스트에 제품이 없을 때 표시
         )}
       </div>
     </div>
