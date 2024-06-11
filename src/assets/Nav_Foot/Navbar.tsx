@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
         }
       });
     } else {
-      navigate("/mypage/myreview");
+      navigate("/wishlist");
     }
   };
 
