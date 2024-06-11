@@ -160,24 +160,80 @@ export default function ProductList() {
   };
 
   const handleAddToFavorites = async (product: Product) => {
-    Swal.fire({
-      title: "즐겨찾기에 상품이 추가되었습니다.",
-      icon: "success",
-      showCancelButton: true,
-      confirmButtonText: "즐겨찾기로 이동",
-      cancelButtonText: "계속 쇼핑하기",
-      customClass: {
-        popup: "custom-swal-popup",
-        title: "custom-swal-title",
-        confirmButton: "custom-swal-confirm-button",
-        cancelButton: "custom-swal-cancel-button",
-      },
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // If "즐겨찾기로 이동" button is clicked
-        window.location.href = "/wishlist";
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+
+    if (!token || !userId) {
+      {
+        Swal.fire({
+          title: "Warning",
+          text: "로그인 후 이용해주세요.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "로그인 하러 가기",
+          cancelButtonText: "취소",
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "/login"; // 로그인 페이지로 이동
+          }
+        });
       }
-    });
+      return;
+    }
+
+    try {
+      const wishload = {
+        user: { id: userId },
+        product: { id: product.id },
+      };
+      console.log(wishload);
+
+      await axios.post("http://localhost:8080/wish", wishload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      Swal.fire({
+        title: "즐겨찾기에 상품이 추가되었습니다.",
+        icon: "success",
+        showCancelButton: true,
+        confirmButtonText: "즐겨찾기로 이동",
+        cancelButtonText: "계속 쇼핑하기",
+        customClass: {
+          popup: "custom-swal-popup",
+          title: "custom-swal-title",
+          confirmButton: "custom-swal-confirm-button",
+          cancelButton: "custom-swal-cancel-button",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // If "즐겨찾기로 이동" button is clicked
+          window.location.href = "/wishlist";
+        }
+      });
+    } catch (error) {
+      console.error("Order creation failed:", error);
+      {
+        Swal.fire({
+          title: "Warning",
+          text: "위시리스트 추가 중 오류가 발생하였습니다.",
+          icon: "warning",
+          showCancelButton: true,
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+          },
+        });
+      }
+    }
   };
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

@@ -14,7 +14,7 @@ import SkinResult from "./assets/Diagnosis/SkinResult";
 import ScalpResult from "./assets/Diagnosis/ScalpResult";
 import CartPage from "./assets/User/CartPage";
 import ProductPage from "./assets/Product/ProductPage";
-import Wishlist from "./assets/Product/Wishlist";
+import Wishlist from "./assets/User/Wishlist";
 import Mypage from "./assets/User/Mypage";
 import SearchResults from "./assets/Product/SearchResult";
 import EditUser from "./assets/User/EditUser";
