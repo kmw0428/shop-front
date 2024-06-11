@@ -1,34 +1,59 @@
-import React, { useState } from "react";
-import { FaHeart, FaRegHeart } from "react-icons/fa"; // react-icons에서 하트 아이콘 가져오기
+import React, { useEffect, useState } from "react";
+import { FaHeart } from "react-icons/fa"; // react-icons에서 하트 아이콘 가져오기
 import "./Wishlist.css";
+import axios from "axios";
 
-// 제품 인터페이스 정의
+interface User {
+  id: string;
+}
+
 interface Product {
   id: number;
   name: string;
-  price: number;
+  imageUrl: string;
 }
 
-// 예제 제품 데이터
-const exampleProducts: Product[] = [
-  { id: 1, name: "클렌저", price: 300 },
-  { id: 2, name: "세럼", price: 260 },
-  { id: 3, name: "선케어", price: 170 },
-];
+interface Wish {
+  id: string;
+  user: User;
+  product: Product
+}
 
 const Wishlist: React.FC = () => {
-  // 위시리스트 상태 정의
-  const [wishlist, setWishlist] = useState<Product[]>([]);
+  const [wishlist, setWishlist] = useState<Wish[]>([]);
 
-  // 위시리스트에 제품 추가/삭제 함수
-  const toggleWishlist = (product: Product) => {
-    // 제품이 위시리스트에 이미 있는지 확인
-    if (wishlist.some((item) => item.id === product.id)) {
-      // 제품이 위시리스트에 있으면 제거
-      setWishlist(wishlist.filter((item) => item.id !== product.id));
-    } else {
-      // 제품이 위시리스트에 없으면 추가
-      setWishlist([...wishlist, product]);
+  useEffect(() => {
+    const fetchUserWish = async () => {
+      const userId = localStorage.getItem("userId");
+      if (!userId) {
+        alert("사용자 ID를 찾을 수 없습니다.");
+        return;
+      }
+
+      try {
+        const response = await axios.get(`http://localhost:8080/wish/user/${userId}`);
+        setWishlist(response.data);
+      } catch (error) {
+        console.error("위시 데이터를 가져오는 데 실패했습니다.", error);
+        alert("위시 데이터를 가져오는 데 실패했습니다.");
+      }
+    };
+
+    fetchUserWish();
+  }, []);
+
+  const handleDeletewish = async (id: string) => {
+    const confirmDelete = window.confirm('이 리뷰를 삭제하시겠습니까?');
+    if (!confirmDelete) {
+      return;
+    }
+
+    try {
+      await axios.delete(`http://localhost:8080/wish/${id}`);
+      setWishlist(wishlist.filter((wish) => wish.id !== id));
+    } catch (error) {
+      console.error("위시 삭제에 실패했습니다.", error);
+      alert("위시 삭제에 실패했습니다.");
     }
   };
 
@@ -37,46 +62,22 @@ const Wishlist: React.FC = () => {
       <hr className='wishhr1' />
       <h1 style={{ fontSize: '3rem', marginBottom: '-20px', marginTop: '55px' }}>My Wishlist</h1>
       <hr className='wishhr2' />
-
-      {/* 제품 목록 */}
       <div className="product-list">
         <h2 className="product-list-title">제품 목록</h2>
-        {exampleProducts.map((product) => (
-          <div key={product.id} className="product-item">
-            <span className="product-name">
-              {product.name} . . . . ${product.price}
-            </span>
-            {/* 위시리스트 추가/삭제 하트 아이콘 버튼 */}
-            <button
-              onClick={() => toggleWishlist(product)}
-              className="wishlist-button"
-            >
-              {wishlist.some((item) => item.id === product.id) ? (
-                <FaHeart className="heart-icon" />
-              ) : (
-                <FaRegHeart className="heart-icon" />
-              )}
-            </button>
-          </div>
-        ))}
-      </div>
 
-      {/* 위시리스트 목록 */}
-      <div className="wishlist">
-        <h2 className="wishlist-title">My Wishlist</h2>
         {wishlist.length > 0 ? (
-          wishlist.map((product) => (
-            <div key={product.id} className="wishlist-item">
-              <span className="wishlist-product-name">
-                {product.name} - ${product.price}
-              </span>
-              {/* 위시리스트에서 제거하는 하트 아이콘 버튼 */}
-              <button
-                onClick={() => toggleWishlist(product)}
-                className="wishlist-button"
-              >
-                <FaHeart className="heart-icon" />
-              </button>
+          wishlist.map((wish) => (
+            <div key={wish.id} className="product-item">
+              <img src={`http://localhost:8080${wish.product.imageUrl}`} alt={wish.product.name} className="wish-product-image" />
+              <div className="wish-product-info">
+                <span className="product-name">{wish.product.name}</span>
+                <button
+                  onClick={() => handleDeletewish(wish.id)}
+                  className="wishlist-button"
+                >
+                  <FaHeart className="heart-icon" />
+                </button>
+              </div>
             </div>
           ))
         ) : (
@@ -86,5 +87,6 @@ const Wishlist: React.FC = () => {
     </div>
   );
 };
+
 
 export default Wishlist;
