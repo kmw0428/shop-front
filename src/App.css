@@ -136,8 +136,8 @@ select {
 
 .swal2-confirm,
 .custom-swal-confirm-button {
-  background-color: #857367 !important;
-  color: white !important;
+  background-color: #ebe5dc !important;
+  color: #857367 !important;
 }
 
 .swal2-confirm:focus,

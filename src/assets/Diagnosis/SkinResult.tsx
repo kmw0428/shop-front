@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; // axiosInstance 사용
 import "./Result.css";
+import Swal from "sweetalert2";
 
 const SkinResult: React.FC = () => {
   const queryParams = new URLSearchParams(window.location.search);
@@ -46,31 +47,61 @@ const SkinResult: React.FC = () => {
         const skinType = `${part1}, ${part2}, ${part3}, ${part4}, ${result}`;
         const data = { skinType };
 
-        console.log('Saving skin type with data:', data); // 디버깅용 로그
+        console.log("Saving skin type with data:", data); // 디버깅용 로그
 
         await axios.put(
           `http://localhost:8080/api/users/${userId}`,
           JSON.stringify(data),
           {
             headers: {
-              'Content-Type': 'application/json'
-            }
+              "Content-Type": "application/json",
+            },
           }
         );
-        alert("피부 타입이 성공적으로 저장되었습니다.");
+        Swal.fire({
+          text: "피부 타입이 성공적으로 저장되었습니다.",
+          icon: "success",
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+          },
+        });
       } catch (error) {
-        console.error("Failed to save skin type:", error);
+        Swal.fire({
+          icon: "error",
+          text: "저장에 실패했습니다.",
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+          },
+        });
       }
     } else {
-      alert("로그인이 필요합니다.");
-      navigate("/login");
+      Swal.fire({
+        title: "Warning",
+        text: "로그인 후 이용해주세요.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "로그인 하러 가기",
+        cancelButtonText: "취소",
+        customClass: {
+          popup: "custom-swal-popup",
+          title: "custom-swal-title",
+          confirmButton: "custom-swal-confirm-button",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "/login"; // 로그인 페이지로 이동
+        }
+      });
     }
   };
 
   const handleRetry = () => {
     navigate("/diagnosisSkin"); // 두피 테스트 페이지로 이동
   };
-
 
   // 결과 값에 대응하는 피부 타입을 가져오는 함수
   const getSkinTypeDescriptions = (letters: string[]) => {
@@ -127,10 +158,14 @@ const SkinResult: React.FC = () => {
             ))}
           </div>
         </div>
-      <div className="button-container">
-        <button onClick={handleSave} className="save-button">저장하기</button>
-        <button onClick={handleRetry} className="retry-button">다시하기</button>
-      </div>
+        <div className="button-container">
+          <button onClick={handleSave} className="save-button">
+            저장하기
+          </button>
+          <button onClick={handleRetry} className="retry-button">
+            다시하기
+          </button>
+        </div>
       </div>
     </div>
   );
