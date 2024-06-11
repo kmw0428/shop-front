@@ -67,7 +67,9 @@ const Review: React.FC<ReviewProps> = ({
         <h3>{reviewer}</h3>
         <p>{content}</p>
         <p>
-          {age}세, {gender}, {skinType}, {scalpType}
+          {age}세, {gender} <br />
+          피부: {skinType} <br />
+          두피: {scalpType}
         </p>
         <p>별점: {rating}</p> {/* 별점을 표시하는 부분 */}
       </div>
