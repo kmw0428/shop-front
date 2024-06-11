@@ -63,7 +63,7 @@ const Wishlist: React.FC = () => {
       <h1 style={{ fontSize: '3rem', marginBottom: '-20px', marginTop: '55px' }}>My Wishlist</h1>
       <hr className='wishhr2' />
       <div className="product-list">
-        <h2 className="product-list-title">제품 목록</h2>
+        <h2 className="product-list-title">찜 목록</h2>
 
         {wishlist.length > 0 ? (
           wishlist.map((wish) => (
