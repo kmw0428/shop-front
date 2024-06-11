@@ -23,6 +23,8 @@ interface Review {
 
 const MyReview: React.FC = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
+  const [editingContent, setEditingContent] = useState<string>("");
 
   useEffect(() => {
     const fetchUserReviews = async () => {
@@ -44,6 +46,41 @@ const MyReview: React.FC = () => {
     fetchUserReviews();
   }, []);
 
+  const handleDeleteReview = async (id: string) => {
+    const confirmDelete = window.confirm('이 리뷰를 삭제하시겠습니까?');
+    if (!confirmDelete) {
+        return;
+    }
+
+    try {
+      await axios.delete(`http://localhost:8080/reviews/${id}`);
+      setReviews(reviews.filter((review) => review.id !== id));
+    } catch (error) {
+      console.error("리뷰 삭제에 실패했습니다.", error);
+      alert("리뷰 삭제에 실패했습니다.");
+    }
+  };
+
+  const handleEditReview = (id: string, content: string) => {
+    setEditingReviewId(id);
+    setEditingContent(content);
+  };
+
+  const handleSaveReview = async (id: string) => {
+    try {
+      await axios.put(`http://localhost:8080/reviews/${id}`, { content: editingContent });
+      setReviews(reviews.map((review) => (review.id === id ? { ...review, content: editingContent } : review)));
+      setEditingReviewId(null);
+    } catch (error) {
+      console.error("리뷰 수정에 실패했습니다.", error);
+      alert("리뷰 수정에 실패했습니다.");
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingReviewId(null);
+  };
+
   return (
     <div className="user-reviews">
       <h1>나의 리뷰</h1>
@@ -58,7 +95,23 @@ const MyReview: React.FC = () => {
               </div>
             </div>
             <div className="review-content">
-              <p>{review.content}</p>
+              {editingReviewId === review.id ? (
+                <div>
+                  <input
+                    type="text"
+                    value={editingContent}
+                    onChange={(e) => setEditingContent(e.target.value)}
+                  />
+                  <button onClick={() => handleSaveReview(review.id)}>저장</button>
+                  <button onClick={handleCancelEdit}>취소</button>
+                </div>
+              ) : (
+                <div>
+                  <p>{review.content}</p>
+                  <button onClick={() => handleEditReview(review.id, review.content)}>수정</button>
+                  <button onClick={() => handleDeleteReview(review.id)}>삭제</button>
+                </div>
+              )}
             </div>
           </div>
         ))

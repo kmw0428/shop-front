@@ -117,6 +117,80 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit, user, productName }) 
     onSubmit({ ...reviewData, user });
   };
 
+  const getSkinResult = (code: string) => {
+    switch (code) {
+      case 'DSPW':
+      case 'DSPT':
+        return '건성, 민감성';
+      case 'DSNW':
+      case 'DSNT':
+        return '건성, 주름성';
+      case 'DRPW':
+      case 'DRNW':
+        return '건성, 주름성';
+      case 'DRPT':
+      case 'DRNT':
+        return '건성';
+      case 'OSPW':
+        return '지성';
+      case 'OSPT':
+      case 'OSNW':
+      case 'OSNT':
+        return '지성, 민감성';
+      case 'ORPW':
+      case 'ORNW':
+        return '지성, 주름성';
+      case 'ORPT':
+      case 'ORNT':
+        return '지성';
+      default:
+        return '';
+    }
+  };
+  
+  const getScalpResult = (code: string) => {
+    switch (code) {
+      case 'DASH':
+      case 'DASI':
+        return '건성, 탈모, 민감성';
+      case 'DARH':
+      case 'DARI':
+        return '건성, 탈모';
+      case 'DNSH':
+      case 'DNSI':
+        return '건성, 민감성';
+      case 'DNRH':
+      case 'DNRI':
+        return '건성';
+      case 'OASH':
+      case 'OASI':
+        return '지성, 탈모, 민감성';
+      case 'OARH':
+      case 'OARI':
+        return '지성, 탈모';
+      case 'ONSH':
+      case 'ONSI':
+        return '지성, 민감성';
+      case 'ONRH':
+      case 'ONRI':
+        return '지성';
+      default:
+        return '';
+    }
+  };
+  
+  const getSkinRe = (skinType: string) => {
+    const skin = skinType?.split(",").map(part => part.trim());
+    const skRe = skin?.slice(4).join("") || "";
+    return getSkinResult(skRe);
+  };
+  
+  const getScalpRe = (scalpType: string) => {
+    const scalp = scalpType?.split(",").map(part => part.trim());
+    const scRe = scalp?.slice(4).join("") || "";
+    return getScalpResult(scRe);
+  };
+
   return (
     <form className="review-form" onSubmit={handleSubmit}>
       <div className="rform">
@@ -145,14 +219,14 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit, user, productName }) 
           type="text"
           name="skinType"
           placeholder="피부 타입"
-          value={reviewData.skinType}
+          value={getSkinRe(reviewData.skinType)}
           onChange={handleChange}
         />
         <input
           type="text"
           name="scalpType"
           placeholder="두피 타입"
-          value={reviewData.scalpType}
+          value={getScalpRe(reviewData.scalpType)}
           onChange={handleChange}
         />
         <input
