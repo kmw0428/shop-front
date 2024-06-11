@@ -72,6 +72,72 @@ const Mypage: React.FC = () => {
     const scalpResult = scalp?.slice(4).map(part => part.trim()).filter(Boolean).join(", ") || '';
     const scRe = scalp?.slice(4) || "";
 
+    const getScalpResult = (code: string) => {
+        switch (code) {
+            case 'DASH':
+            case 'DASI':
+                return '건성, 탈모, 민감성';
+            case 'DARH':
+            case 'DARI':
+                return '건성, 탈모';
+            case 'DNSH':
+            case 'DNSI':
+                return '건성, 민감성';
+            case 'DNRH':
+            case 'DNRI':
+                return '건성';
+            case 'OASH':
+            case 'OASI':
+                return '지성, 탈모, 민감성';
+            case 'OARH':
+            case 'OARI':
+                return '지성, 탈모';
+            case 'ONSH':
+            case 'ONSI':
+                return '지성, 민감성';
+            case 'ONRH':
+            case 'ONRI':
+                return '지성';
+            default:
+                return '';
+        }
+    };
+
+    const scalpResultString = Array.isArray(scRe) ? getScalpResult(scRe.join("")) : '';
+
+    const getSkinResult = (code: string) => {
+        switch (code) {
+            case 'DSPW':
+            case 'DSPT':
+                return '건성, 민감성';
+            case 'DSNW':
+            case 'DSNT':
+                return '건성, 주름성';
+            case 'DRPW':
+            case 'DRNW':
+                return '건성, 주름성';
+            case 'DRPT':
+            case 'DRNT':
+                return '건성';
+            case 'OSPW':
+                return '지성';
+            case 'OSPT':
+            case 'OSNW':
+            case 'OSNT':
+                return '지성, 민감성';
+            case 'ORPW':
+            case 'ORNW':
+                return '지성, 주름성';
+            case 'ORPT':
+            case 'ORNT':
+                return '지성';
+            default:
+                return '';
+        }
+    };
+
+    const skinResultString = Array.isArray(skRe) ? getSkinResult(skRe.join("")) : '';
+
     const GoSkinResult = () => {
         window.location.href = `/skinresult?part1=${skinPart1Score}&part2=${skinPart2Score}&part3=${skinPart3Score}&part4=${skinPart4Score}&result=${skinResult}`;
     };
@@ -90,12 +156,12 @@ const Mypage: React.FC = () => {
                 </div>
                 <div className='Mypagebox2'>
                     <h3 className='Skintype'>나의 피부 MBTI는 ✔</h3>
-                    <p>{skRe}</p>
+                    <p>{skRe}<br />{skinResultString}</p>
                     <button className="Mypagebtn2" onClick={GoSkinResult}>결과표 보기</button>
                 </div>
                 <div className='Mypagebox3'>
                     <h3 className='Scalptype'>나의 두피 MBTI는 ✔</h3>
-                    <p>{scRe}</p>
+                    <p>{scRe}<br />{scalpResultString}</p>
                     <button className="Mypagebtn3" onClick={GoScalpResult}>결과표 보기</button>
                 </div>
                 <div className='Mypagebox4'>
