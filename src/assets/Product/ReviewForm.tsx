@@ -43,6 +43,8 @@ interface User {
   nickname: string;
   age: number;
   gender: string;
+  skinType: string;
+  scalpType: string;
 }
 
 interface ReviewFormProps {
@@ -56,7 +58,8 @@ interface ReviewData {
   content: string;
   age: number;
   gender: string;
-  type: string;
+  skinType: string;
+  scalpType: string;
   productName: string;
   rating: number;
 }
@@ -67,7 +70,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit, user, productName }) 
     reviewer: user?.nickname || user?.username || "",
     age: user?.age || 0,
     gender: user?.gender || "",
-    type: "",
+    skinType: user?.skinType || "",
+    scalpType: user?.scalpType || "",
     productName: productName,
     content: "",
     rating: 0, // 별점 필드 추가
@@ -84,7 +88,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit, user, productName }) 
       reviewer: user?.nickname || user?.username || "",
       age: user?.age || 0,
       gender: user?.gender || "",
-      type: "",
+      skinType: user?.skinType || "",
+      scalpType: user?.scalpType || "",
       productName: productName,
       content: "",
       rating: 0,
@@ -138,9 +143,16 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit, user, productName }) 
         />
         <input
           type="text"
-          name="type"
+          name="skinType"
           placeholder="피부 타입"
-          value={reviewData.type}
+          value={reviewData.skinType}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="scalpType"
+          placeholder="두피 타입"
+          value={reviewData.scalpType}
           onChange={handleChange}
         />
         <input

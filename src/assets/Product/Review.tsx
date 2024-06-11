@@ -6,7 +6,8 @@ interface ReviewProps {
   content: string; // 제목 필드가 삭제되었습니다.
   age: number;
   gender: string;
-  type: string;
+  skinType: string;
+  scalpType: string;
   rating: number;
   onEdit: () => void;
   onDelete: () => void;
@@ -19,7 +20,8 @@ const Review: React.FC<ReviewProps> = ({
   content,
   age,
   gender,
-  type,
+  skinType,
+  scalpType,
   rating,
   onEdit,
   onDelete,
@@ -34,7 +36,7 @@ const Review: React.FC<ReviewProps> = ({
         <h3>{reviewer}</h3>
         <p>{content}</p>
         <p>
-          {age}세, {gender}, {type}
+          {age}세, {gender}, {skinType}, {scalpType}
         </p>
         <p>별점: {rating}</p> {/* 별점을 표시하는 부분 */}
       </div>

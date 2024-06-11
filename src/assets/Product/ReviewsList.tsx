@@ -10,14 +10,17 @@ interface User {
   nickname: string;
   age: number;
   gender: string;
+  skinType: string;
+  scalpType: string;
 }
 
 interface ReviewData {
-  id?: string; // 선택적 필드로 변경
+  id?: string;
   user: User;
   content: string;
   rating: number;
-  type: string;
+  skinType: string;
+  scalpType: string;
 }
 
 interface ReviewsListProps {
@@ -32,7 +35,8 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
   const [filter, setFilter] = useState<{
     age?: number;
     gender?: string;
-    type?: string;
+    skinType?: string;
+    scalpType?: string;
   }>({});
   const [showForm, setShowForm] = useState<boolean>(false);
 
@@ -47,7 +51,7 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
     };
 
     const fetchUser = async () => {
-      const userId = localStorage.getItem("userId"); // 로컬 스토리지에서 사용자 ID 가져오기
+      const userId = localStorage.getItem("userId");
       if (!userId) {
         return;
       }
@@ -63,8 +67,18 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
     fetchUser();
   }, [productId]);
 
+  const getSkinRe = (skinType: string) => {
+    const skin = skinType?.split(",").map(part => part.trim());
+    return skin?.slice(4).join("") || "";
+  };
+
+  const getScalpRe = (scalpType: string) => {
+    const scalp = scalpType?.split(",").map(part => part.trim());
+    return scalp?.slice(4).join("") || "";
+  };
+
   const handleAddReview = async (newReview: Omit<ReviewData, "id" | "user"> & { user: User }) => {
-    const userId = localStorage.getItem("userId"); // 로컬 스토리지에서 사용자 ID 가져오기
+    const userId = localStorage.getItem("userId");
     if (!userId) {
       console.error("User not logged in");
       return;
@@ -72,17 +86,17 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
 
     try {
       const reviewPayload = {
-          ...newReview,
-          product: { id: productId },  // 실제 productId를 사용합니다.
-          user: { id: userId }  // 실제 userId를 사용합니다.
+        ...newReview,
+        product: { id: productId },
+        user: { id: userId }
       };
       
       const response = await axios.post("http://localhost:8080/reviews", reviewPayload);
       setReviews([...reviews, response.data]);
       setShowForm(false);
-  } catch (error) {
+    } catch (error) {
       console.error("Error adding review:", error);
-  }
+    }
   };
 
   const handleDeleteReview = async (id: string) => {
@@ -95,7 +109,6 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
   };
 
   const handleEditReview = (id: string) => {
-    // 리뷰 수정 로직을 구현하세요
     console.log(`Edit review with id: ${id}`);
   };
 
@@ -103,7 +116,8 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
     .filter((review) => review.content.toLowerCase().includes(searchTerm.toLowerCase()))
     .filter((review) => (filter.age ? review.user.age === filter.age : true))
     .filter((review) => (filter.gender ? review.user.gender === filter.gender : true))
-    .filter((review) => (filter.type ? review.type === filter.type : true));
+    .filter((review) => (filter.skinType ? review.user.skinType === filter.skinType : true))
+    .filter((review) => (filter.scalpType ? review.user.scalpType === filter.scalpType : true));
 
   const averageRating = (
     reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
@@ -141,11 +155,18 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
             />
             <select onChange={(e) => setFilter({ ...filter, gender: e.target.value })}>
               <option value="">성별</option>
-              <option value="남성">남성</option>
+              <option value="남성">남성/</option>
               <option value="여성">여성</option>
             </select>
-            <select onChange={(e) => setFilter({ ...filter, type: e.target.value })}>
-              <option value="">타입</option>
+            <select onChange={(e) => setFilter({ ...filter, skinType: e.target.value })}>
+              <option value="">피부 타입</option>
+              <option value="지성">지성</option>
+              <option value="건성">건성</option>
+              <option value="복합성">복합성</option>
+              <option value="중성">중성</option>
+            </select>
+            <select onChange={(e) => setFilter({ ...filter, scalpType: e.target.value })}>
+              <option value="">두피 타입</option>
               <option value="지성">지성</option>
               <option value="건성">건성</option>
               <option value="복합성">복합성</option>
@@ -162,12 +183,13 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
               content={review.content}
               age={review.user ? review.user.age : 0}
               gender={review.user ? review.user.gender : "Unknown"}
-              type={review.type}
+              skinType={review.user ? getSkinRe(review.user.skinType) : "Unknown"}
+              scalpType={review.user ? getScalpRe(review.user.scalpType) : "Unknown"}
               rating={review.rating}
               onEdit={() => handleEditReview(review.id!)}
               onDelete={() => handleDeleteReview(review.id!)}
-              userId={user?.id || ""}  // 현재 로그인한 사용자 ID 전달
-              reviewerId={review.user ? review.user.id : "UnKnown"}  // 리뷰 작성자 ID 전달
+              userId={user?.id || ""}
+              reviewerId={review.user ? review.user.id : "UnKnown"}
             />
           ))}
           <div className="pagination">

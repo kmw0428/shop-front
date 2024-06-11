@@ -10,23 +10,6 @@ interface UserData {
     scalpType: string;
 }
 
-interface Order {
-    id: string;
-    user: string;
-    products: any[];
-    totalAmount: number;
-    status: string;
-    orderDate: Date;
-}
-
-interface Review {
-    id: string;
-    user: string;
-    content: string;
-    rating: number;
-    date: Date;
-}
-
 const Mypage: React.FC = () => {
     const [userData, setUserData] = useState<UserData | null>(null);
     const [orderCount, setOrderCount] = useState(0);
@@ -61,7 +44,7 @@ const Mypage: React.FC = () => {
         const fetchReviewCount = async () => {
             const userId = localStorage.getItem("userId");
             try {
-                const response = await axios.get(`http://localhost:8080/api/reviews/user/${userId}`);
+                const response = await axios.get(`http://localhost:8080/reviews/user/${userId}`);
                 setReviewCount(response.data.length); // 리뷰 개수를 상태에 저장
             } catch (error) {
                 console.error("Failed to fetch review count:", error);
