@@ -121,3 +121,37 @@ select {
 .accordion-content {
   font-family: "NEXON Lv1 Gothic OTF";
 }
+
+.custom-swal-popup {
+  background-color: #f0f0f0 !important;
+  border: 1px solid #857367 !important;
+  width: 700px !important;
+  height: auto !important;
+}
+
+.custom-swal-title {
+  color: #333 !important;
+  text-align: center !important;
+}
+
+.swal2-confirm,
+.custom-swal-confirm-button {
+  background-color: #857367 !important;
+  color: white !important;
+}
+
+.swal2-confirm:focus,
+.custom-swal-confirm-button:focus {
+  box-shadow: none !important;
+}
+
+.swal2-cancel,
+.custom-swal-cancel-button {
+  background-color: #484848 !important;
+  color: white !important;
+}
+
+.swal2-cancel:focus,
+.custom-swal-cancel-button:focus {
+  box-shadow: none !important;
+}

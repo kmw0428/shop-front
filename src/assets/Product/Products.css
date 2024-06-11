@@ -249,16 +249,16 @@
   width: 460px;
 }
 
-.search-results__item-title{
+.search-results__item-title {
   color: #9c8779;
 }
 
-.search-results__item-category{
+.search-results__item-category {
   font-size: 13px;
   font-style: italic;
 }
 
-.search-results__no-results{
+.search-results__no-results {
   font-size: 40px;
   color: #857367;
   font-style: italic;
