@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../Auth/axiosInstance"; // axiosInstance 사용
 import "./EditUser.css";
+import Swal from "sweetalert2";
 
 interface User {
   id: string;
@@ -29,7 +30,9 @@ interface DaumPostcode {
 }
 
 interface Daum {
-  Postcode: new (options: { oncomplete: (data: DaumPostcodeData) => void }) => DaumPostcode;
+  Postcode: new (options: {
+    oncomplete: (data: DaumPostcodeData) => void;
+  }) => DaumPostcode;
 }
 
 declare global {
@@ -43,11 +46,11 @@ const EditUser: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [password, setPassword] = useState<string>('');
-  const [postcode, setPostcode] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
-  const [detailAddress, setDetailAddress] = useState<string>('');
-  const [extraAddress, setExtraAddress] = useState<string>('');
+  const [password, setPassword] = useState<string>("");
+  const [postcode, setPostcode] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [detailAddress, setDetailAddress] = useState<string>("");
+  const [extraAddress, setExtraAddress] = useState<string>("");
 
   const navigate = useNavigate();
 
@@ -68,11 +71,12 @@ const EditUser: React.FC = () => {
 
         // address가 존재하는지 확인 후 분리하여 상태에 저장
         if (response.data.address) {
-          const [postcodePart, addressPart, detailPart, extraPart] = response.data.address.split('||');
-          setPostcode(postcodePart || '');
-          setAddress(addressPart || '');
-          setDetailAddress(detailPart || '');
-          setExtraAddress(extraPart || '');
+          const [postcodePart, addressPart, detailPart, extraPart] =
+            response.data.address.split("||");
+          setPostcode(postcodePart || "");
+          setAddress(addressPart || "");
+          setDetailAddress(detailPart || "");
+          setExtraAddress(extraPart || "");
         }
 
         setLoading(false);
@@ -86,21 +90,22 @@ const EditUser: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const scriptId = 'daum-postcode-script';
+    const scriptId = "daum-postcode-script";
     const existingScript = document.getElementById(scriptId);
 
     const handleComplete = (data: DaumPostcodeData) => {
       let fullAddress = data.address;
-      let extraAddress = '';
+      let extraAddress = "";
 
-      if (data.addressType === 'R') {
-        if (data.bname !== '') {
+      if (data.addressType === "R") {
+        if (data.bname !== "") {
           extraAddress += data.bname;
         }
-        if (data.buildingName !== '') {
-          extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
+        if (data.buildingName !== "") {
+          extraAddress +=
+            extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
         }
-        fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+        fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
       }
 
       setPostcode(data.zonecode);
@@ -116,9 +121,9 @@ const EditUser: React.FC = () => {
 
     const addPostcodeListener = () => {
       setTimeout(() => {
-        const postcodeButton = document.getElementById('postcode-btn');
+        const postcodeButton = document.getElementById("postcode-btn");
         if (postcodeButton) {
-          postcodeButton.addEventListener('click', openPostcode);
+          postcodeButton.addEventListener("click", openPostcode);
         } else {
           console.error("Postcode button not found");
         }
@@ -126,9 +131,10 @@ const EditUser: React.FC = () => {
     };
 
     if (!existingScript) {
-      const script = document.createElement('script');
+      const script = document.createElement("script");
       script.id = scriptId;
-      script.src = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+      script.src =
+        "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
       script.async = true;
       script.onload = () => {
         addPostcodeListener();
@@ -139,14 +145,16 @@ const EditUser: React.FC = () => {
     }
 
     return () => {
-      const postcodeButton = document.getElementById('postcode-btn');
+      const postcodeButton = document.getElementById("postcode-btn");
       if (postcodeButton) {
-        postcodeButton.removeEventListener('click', openPostcode);
+        postcodeButton.removeEventListener("click", openPostcode);
       }
     };
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     if (name === "password") {
       setPassword(value);
@@ -167,17 +175,47 @@ const EditUser: React.FC = () => {
     e.preventDefault();
     if (user) {
       try {
-        await axiosInstance.put(
-          `http://localhost:8080/api/users/${user.id}`,
-          {
-            ...user,
-            address: `${postcode}||${address}||${detailAddress}||${extraAddress}`
+        const result = await Swal.fire({
+          title: "변경사항을 저장하시겠습니까?",
+          showCancelButton: true,
+          confirmButtonText: "저장",
+          cancelButtonText: "취소",
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+            cancelButton: "custom-swal-cancel-button",
+          },
+        });
+
+        if (result.isConfirmed) {
+          // try 블록 내부로 이동
+          try {
+            await axiosInstance.put(
+              `http://localhost:8080/api/users/${user.id}`,
+              {
+                ...user,
+                address: `${postcode}||${address}||${detailAddress}||${extraAddress}`,
+              }
+            );
+            Swal.fire({
+              title: "Update!",
+              text: "프로필이 성공적으로 업데이트되었습니다.",
+              icon: "success",
+              customClass: {
+                popup: "custom-swal-popup",
+                title: "custom-swal-title",
+                confirmButton: "custom-swal-confirm-button",
+                cancelButton: "custom-swal-cancel-button",
+              },
+            });
+            navigate("/mypage"); // 프로필 페이지로 이동
+          } catch (error) {
+            setError("프로필 업데이트에 실패했습니다.");
           }
-        );
-        alert("Profile updated successfully");
-        navigate("/mypage"); // 프로필 페이지로 이동
+        }
       } catch (error) {
-        setError("Failed to update profile");
+        setError("Failed to open confirmation dialog");
       }
     }
   };
@@ -309,7 +347,7 @@ const EditUser: React.FC = () => {
           <label className="eu-inputl">Gender: </label>
           <select
             name="gender"
-            value={user?.gender || ''}
+            value={user?.gender || ""}
             onChange={handleChange}
             className="euInp"
           >
