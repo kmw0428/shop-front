@@ -77,6 +77,11 @@
   color: #fff;
 }
 
+.favorite {
+  background-color: #9c8779;
+  color: #fff;
+}
+
 .product-details hr {
   border: none;
   height: 1px;

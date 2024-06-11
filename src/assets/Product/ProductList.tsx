@@ -175,7 +175,7 @@ export default function ProductList() {
   const handleAddToFavorites = async (product: Product) => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
-  
+
     if (!token || !userId) {
       Swal.fire({
         title: "Warning",
@@ -196,7 +196,7 @@ export default function ProductList() {
       });
       return;
     }
-  
+
     try {
       if (favoriteProducts.includes(product.id)) {
         // 위시리스트에서 제거
@@ -261,7 +261,7 @@ export default function ProductList() {
       });
     }
   };
-  
+
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortCriteria(event.target.value);

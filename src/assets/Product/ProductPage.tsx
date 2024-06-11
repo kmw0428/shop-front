@@ -20,6 +20,7 @@ const ProductPage: React.FC = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [selectedOption, setSelectedOption] = useState<string>("");
+  const [favoriteProducts, setFavoriteProducts] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -134,24 +135,93 @@ const ProductPage: React.FC = () => {
   };
 
   const handleAddToFavorites = async (product: Product) => {
-    Swal.fire({
-      title: "즐겨찾기에 상품이 추가되었습니다.",
-      icon: "success",
-      showCancelButton: true,
-      confirmButtonText: "즐겨찾기로 이동",
-      cancelButtonText: "계속 쇼핑하기",
-      customClass: {
-        popup: "custom-swal-popup",
-        title: "custom-swal-title",
-        confirmButton: "custom-swal-confirm-button",
-        cancelButton: "custom-swal-cancel-button",
-      },
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // If "즐겨찾기로 이동" button is clicked
-        window.location.href = "/wishlist";
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+
+    if (!token || !userId) {
+      Swal.fire({
+        title: "Warning",
+        text: "로그인 후 이용해주세요.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "로그인 하러 가기",
+        cancelButtonText: "취소",
+        customClass: {
+          popup: "custom-swal-popup",
+          title: "custom-swal-title",
+          confirmButton: "custom-swal-confirm-button",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "/login";
+        }
+      });
+      return;
+    }
+
+    try {
+      if (favoriteProducts.includes(product.id!)) {
+        // 위시리스트에서 제거
+        const wish = await axios.get(`http://localhost:8080/wish/product/${product.id}/user/${userId}`);
+        await axios.delete(`http://localhost:8080/wish/${wish.data.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setFavoriteProducts(favoriteProducts.filter(id => id !== product.id));
+        Swal.fire({
+          title: "위시리스트에서 삭제되었습니다.",
+          icon: "success",
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+          },
+        });
+      } else {
+        // 위시리스트에 추가
+        const wishload = {
+          user: { id: userId },
+          product: { id: product.id },
+        };
+        await axios.post("http://localhost:8080/wish", wishload, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setFavoriteProducts([...favoriteProducts, product.id!]);
+        Swal.fire({
+          title: "즐겨찾기에 추가되었습니다.",
+          icon: "success",
+          showCancelButton: true,
+          confirmButtonText: "즐겨찾기로 이동",
+          cancelButtonText: "계속 쇼핑하기",
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+            cancelButton: "custom-swal-cancel-button",
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "/wishlist";
+          }
+        });
       }
-    });
+    } catch (error) {
+      console.error("Error updating wishlist:", error);
+      Swal.fire({
+        title: "Warning",
+        text: "위시리스트 업데이트 중 오류가 발생하였습니다.",
+        icon: "warning",
+        customClass: {
+          popup: "custom-swal-popup",
+          title: "custom-swal-title",
+          confirmButton: "custom-swal-confirm-button",
+        },
+      });
+    }
   };
 
   if (!product) {
@@ -252,7 +322,7 @@ const ProductPage: React.FC = () => {
                     ADD CART
                   </button>
                   <button
-                    className="wish-list"
+                    className={`wish-list ${favoriteProducts.includes(product.id!) ? 'favorite' : ''}`}
                     onClick={() => handleAddToFavorites(product)}
                   >
                     WISH LIST
