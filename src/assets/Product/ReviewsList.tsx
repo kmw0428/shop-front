@@ -155,7 +155,7 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
             />
             <select onChange={(e) => setFilter({ ...filter, gender: e.target.value })}>
               <option value="">성별</option>
-              <option value="남성">남성/</option>
+              <option value="남성">남성</option>
               <option value="여성">여성</option>
             </select>
             <select onChange={(e) => setFilter({ ...filter, skinType: e.target.value })}>

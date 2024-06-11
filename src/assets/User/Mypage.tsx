@@ -136,7 +136,7 @@ const Mypage: React.FC = () => {
                         <img src="/review.png" alt='review' className='mypageimg' style={{ width: '40px', marginTop: '17px' }}></img>
                         <div className='movebtn'>
                             <p className='mypagetext1'>나의 상품 후기</p>&nbsp;
-                            <button onClick={() => handleNavigation('/reviewpage')} className='nav-button' style={{ cursor: 'pointer' }}>
+                            <button onClick={() => handleNavigation('/mypage/myreview')} className='nav-button' style={{ cursor: 'pointer' }}>
                                 <img src="/move.png" alt="이동" className='move-icon' />
                             </button>
                         </div>
