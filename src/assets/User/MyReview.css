@@ -1,0 +1,110 @@
+@font-face {
+    font-family: "NEXON Lv1 Gothic OTF";
+    src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF.woff") format("woff");
+  }
+  
+  .reviewhr1 {
+    width: 1950px!important;
+    border: none!important;
+    height: 1px!important;
+    background-color: #9c8779!important;
+    margin-top: 3px!important;
+  }
+  
+  .reviewhr2 {
+    width: 1200px!important;
+    border: none!important;
+    height: 1px!important;
+    background-color: #9c8779!important;
+    margin-top: 80px!important;
+  }
+  
+  .review-item {
+    position: relative;
+    background: #f1eae6;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    margin: 40px;
+    padding: 30px;
+    width: calc(75% - 40px);
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between; /* 버튼과 내용을 오른쪽 끝에 정렬 */
+    margin-left: 250px;
+}
+  
+  .review-product {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    text-align: left;
+    
+  }
+  
+  .review-product-image {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 40px;
+  }
+  
+  .review-product-info {
+    flex-grow: 1;
+  }
+  
+  .review-product-info h3 {
+    margin-top: 5px;
+    font-size: 1.2rem;
+  }
+  
+  .review-product-info p {
+    margin: 5px 0;
+  }
+  
+  .review-content {
+    margin-top: 10px;
+  }
+  
+  .review-content p {
+    text-align: center;
+    width: 700px; /* 텍스트의 최대 너비 */
+    word-wrap: break-word; /* 긴 단어를 줄 바꿈하여 여러 줄로 나눔 */
+    margin-right: -10px;
+  }
+  
+  .review-buttons {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+.review-buttons button {
+    background: #9c8779;
+    border: none;
+    color: #fff;
+    padding: 8px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.review-buttons button:hover {
+    background: #7b695e;
+}
+  
+  .stars {
+    display: flex;
+    margin-left: 0px;
+    margin-top: -5px;
+  }
+  
+  .star {
+    font-size: 1.5rem;
+    color: #ccc;
+    margin-right: 5px;
+  }
+  
+  .star.filled {
+    color: #ffcc00;
+  }
+  

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import './MyReview.css'
 
 interface User {
   id: string;
@@ -49,7 +50,7 @@ const MyReview: React.FC = () => {
   const handleDeleteReview = async (id: string) => {
     const confirmDelete = window.confirm('이 리뷰를 삭제하시겠습니까?');
     if (!confirmDelete) {
-        return;
+      return;
     }
 
     try {
@@ -81,17 +82,31 @@ const MyReview: React.FC = () => {
     setEditingReviewId(null);
   };
 
+  const renderStars = (rating: number) => {
+    return (
+      <div className="stars">
+        {[...Array(5)].map((_, i) => (
+          <span key={i} className={i < rating ? "star filled" : "star"}>&#9733;</span>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="user-reviews">
-      <h1>나의 리뷰</h1>
+      <hr className='reviewhr1' />
+      <h1 style={{ fontSize: '3rem', marginBottom: '-20px', marginTop: '55px' }}>My Review</h1>
+      <hr className='reviewhr2' />
       {reviews.length > 0 ? (
         reviews.map((review) => (
           <div key={review.id} className="review-item">
             <div className="review-product">
-              <img src={`http://localhost:8080${review.product.imageUrl}`} alt={review.product.name} className="review-product-image" />
+              <div className="review-product-image-container">
+                <img src={`http://localhost:8080${review.product.imageUrl}`} alt={review.product.name} className="review-product-image" />
+              </div>
               <div className="review-product-info">
                 <h3>{review.product.name}</h3>
-                <p>별점: {review.rating}</p>
+                <div>{renderStars(review.rating)}</div>
               </div>
             </div>
             <div className="review-content">
@@ -102,14 +117,18 @@ const MyReview: React.FC = () => {
                     value={editingContent}
                     onChange={(e) => setEditingContent(e.target.value)}
                   />
-                  <button onClick={() => handleSaveReview(review.id)}>저장</button>
-                  <button onClick={handleCancelEdit}>취소</button>
+                  <div className="review-buttons">
+                    <button onClick={() => handleSaveReview(review.id)}>저장</button>&nbsp;&nbsp;
+                    <button onClick={handleCancelEdit}>취소</button>
+                  </div>
                 </div>
               ) : (
                 <div>
                   <p>{review.content}</p>
-                  <button onClick={() => handleEditReview(review.id, review.content)}>수정</button>
-                  <button onClick={() => handleDeleteReview(review.id)}>삭제</button>
+                  <div className="review-buttons">
+                    <button onClick={() => handleEditReview(review.id, review.content)}>수정</button>&nbsp;&nbsp;
+                    <button onClick={() => handleDeleteReview(review.id)}>삭제</button>
+                  </div>
                 </div>
               )}
             </div>
