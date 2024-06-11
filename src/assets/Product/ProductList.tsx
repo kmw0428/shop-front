@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Products.css";
 import { Link, useParams } from "react-router-dom";
@@ -32,6 +32,7 @@ export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
   const [originalProducts, setOriginalProducts] = useState<Product[]>([]);
   const [sortCriteria, setSortCriteria] = useState<string>("default");
+  const [favoriteProducts, setFavoriteProducts] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -52,10 +53,27 @@ export default function ProductList() {
   }, [category]);
 
   useEffect(() => {
+    const fetchFavorites = async () => {
+      const userId = localStorage.getItem("userId");
+      if (!userId) return;
+
+      try {
+        const response = await axios.get(`http://localhost:8080/wish/user/${userId}`);
+        const favoriteProductIds = response.data.map((wish: any) => wish.product.id);
+        setFavoriteProducts(favoriteProductIds);
+      } catch (error) {
+        console.error("Error fetching favorite products:", error);
+      }
+    };
+
+    fetchFavorites();
+  }, []);
+
+  useEffect(() => {
     let sortedProducts = [...products];
     switch (sortCriteria) {
       case "default":
-        sortedProducts = [...originalProducts]; // 처음 불러온 데이터로 돌아감
+        sortedProducts = [...originalProducts];
         break;
       case "name":
         sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
@@ -85,25 +103,23 @@ export default function ProductList() {
     const userId = localStorage.getItem("userId");
 
     if (!token || !userId) {
-      {
-        Swal.fire({
-          title: "Warning",
-          text: "로그인 후 이용해주세요.",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonText: "로그인 하러 가기",
-          cancelButtonText: "취소",
-          customClass: {
-            popup: "custom-swal-popup",
-            title: "custom-swal-title",
-            confirmButton: "custom-swal-confirm-button",
-          },
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = "/login"; // 로그인 페이지로 이동
-          }
-        });
-      }
+      Swal.fire({
+        title: "Warning",
+        text: "로그인 후 이용해주세요.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "로그인 하러 가기",
+        cancelButtonText: "취소",
+        customClass: {
+          popup: "custom-swal-popup",
+          title: "custom-swal-title",
+          confirmButton: "custom-swal-confirm-button",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "/login";
+        }
+      });
       return;
     }
 
@@ -137,104 +153,115 @@ export default function ProductList() {
         },
       }).then((result) => {
         if (result.isConfirmed) {
-          // If "장바구니 이동" button is clicked
           window.location.href = "/cartpage";
         }
       });
     } catch (error) {
       console.error("Order creation failed:", error);
-      {
-        Swal.fire({
-          title: "Warning",
-          text: "상품 추가 중 오류가 발생하였습니다.",
-          icon: "warning",
-          showCancelButton: true,
-          customClass: {
-            popup: "custom-swal-popup",
-            title: "custom-swal-title",
-            confirmButton: "custom-swal-confirm-button",
-          },
-        });
-      }
+      Swal.fire({
+        title: "Warning",
+        text: "상품 추가 중 오류가 발생하였습니다.",
+        icon: "warning",
+        showCancelButton: true,
+        customClass: {
+          popup: "custom-swal-popup",
+          title: "custom-swal-title",
+          confirmButton: "custom-swal-confirm-button",
+        },
+      });
     }
   };
 
   const handleAddToFavorites = async (product: Product) => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
-
+  
     if (!token || !userId) {
-      {
-        Swal.fire({
-          title: "Warning",
-          text: "로그인 후 이용해주세요.",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonText: "로그인 하러 가기",
-          cancelButtonText: "취소",
-          customClass: {
-            popup: "custom-swal-popup",
-            title: "custom-swal-title",
-            confirmButton: "custom-swal-confirm-button",
-          },
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = "/login"; // 로그인 페이지로 이동
-          }
-        });
-      }
-      return;
-    }
-
-    try {
-      const wishload = {
-        user: { id: userId },
-        product: { id: product.id },
-      };
-      console.log(wishload);
-
-      await axios.post("http://localhost:8080/wish", wishload, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
       Swal.fire({
-        title: "즐겨찾기에 상품이 추가되었습니다.",
-        icon: "success",
+        title: "Warning",
+        text: "로그인 후 이용해주세요.",
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonText: "즐겨찾기로 이동",
-        cancelButtonText: "계속 쇼핑하기",
+        confirmButtonText: "로그인 하러 가기",
+        cancelButtonText: "취소",
         customClass: {
           popup: "custom-swal-popup",
           title: "custom-swal-title",
           confirmButton: "custom-swal-confirm-button",
-          cancelButton: "custom-swal-cancel-button",
         },
       }).then((result) => {
         if (result.isConfirmed) {
-          // If "즐겨찾기로 이동" button is clicked
-          window.location.href = "/wishlist";
+          window.location.href = "/login";
         }
       });
-    } catch (error) {
-      console.error("Order creation failed:", error);
-      {
+      return;
+    }
+  
+    try {
+      if (favoriteProducts.includes(product.id)) {
+        // 위시리스트에서 제거
+        const wish = await axios.get(`http://localhost:8080/wish/product/${product.id}/user/${userId}`);
+        await axios.delete(`http://localhost:8080/wish/${wish.data.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setFavoriteProducts(favoriteProducts.filter(id => id !== product.id));
         Swal.fire({
-          title: "Warning",
-          text: "위시리스트 추가 중 오류가 발생하였습니다.",
-          icon: "warning",
-          showCancelButton: true,
+          title: "위시리스트에서 삭제되었습니다.",
+          icon: "success",
           customClass: {
             popup: "custom-swal-popup",
             title: "custom-swal-title",
             confirmButton: "custom-swal-confirm-button",
           },
         });
+      } else {
+        // 위시리스트에 추가
+        const wishload = {
+          user: { id: userId },
+          product: { id: product.id },
+        };
+        await axios.post("http://localhost:8080/wish", wishload, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setFavoriteProducts([...favoriteProducts, product.id]);
+        Swal.fire({
+          title: "즐겨찾기에 추가되었습니다.",
+          icon: "success",
+          showCancelButton: true,
+          confirmButtonText: "즐겨찾기로 이동",
+          cancelButtonText: "계속 쇼핑하기",
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+            cancelButton: "custom-swal-cancel-button",
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "/wishlist";
+          }
+        });
       }
+    } catch (error) {
+      console.error("Error updating wishlist:", error);
+      Swal.fire({
+        title: "Warning",
+        text: "위시리스트 업데이트 중 오류가 발생하였습니다.",
+        icon: "warning",
+        customClass: {
+          popup: "custom-swal-popup",
+          title: "custom-swal-title",
+          confirmButton: "custom-swal-confirm-button",
+        },
+      });
     }
   };
+  
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortCriteria(event.target.value);
@@ -294,7 +321,7 @@ export default function ProductList() {
                   <li>
                     <a
                       href="#"
-                      className="icon"
+                      className={`icon ${favoriteProducts.includes(product.id) ? 'favorite' : ''}`}
                       onClick={() => handleAddToFavorites(product)}
                     >
                       <FavoriteIcon className="custom-icon" />

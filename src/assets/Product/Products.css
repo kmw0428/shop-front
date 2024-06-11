@@ -111,6 +111,10 @@
   color: #f54343;
 }
 
+.productlist .productlist-1 .part-1 ul li a.favorite {
+  color: #f54343;
+}
+
 .products .single-product .part-2 .product-title {
   font-size: 1rem;
 }
