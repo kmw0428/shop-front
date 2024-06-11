@@ -14,6 +14,7 @@ const Mypage: React.FC = () => {
     const [userData, setUserData] = useState<UserData | null>(null);
     const [orderCount, setOrderCount] = useState(0);
     const [reviewCount, setReviewCount] = useState(0);
+    const [wishCount, setWishCount] = useState();
     const navigate = useNavigate();
 
     const handleNavigation = (url: string) => {
@@ -51,9 +52,20 @@ const Mypage: React.FC = () => {
             }
         };
 
-        fetchReviewCount();
+        const fetchWishCount = async () => {
+            const userId = localStorage.getItem("userId");
+            try {
+                const response = await axios.get(`http://localhost:8080/wish/user/${userId}`);
+                setWishCount(response.data.length);
+            } catch (error) {
+                console.error("Failed to fetch wish count:", error);
+            }
+        }
+
         fetchUserData();
         fetchOrderCount();
+        fetchReviewCount();
+        fetchWishCount();
     }, []);
 
     const skin = (userData?.skinType)?.split(",").map(part => part.trim());
@@ -173,7 +185,7 @@ const Mypage: React.FC = () => {
                                 <img src="/move.png" alt="이동" className='move-icon' />
                             </button>
                         </div>
-                        <h3 className='mypagetext2'>{"0"} 개</h3>
+                        <h3 className='mypagetext2'>{wishCount} 개</h3>
                     </div>
                     <div className="vertical-line1"></div>
                     <div className="cart-container">
