@@ -123,11 +123,11 @@ const ScalpResult: React.FC = () => {
             ))}
           </div>
         </div>
-      </div>
         <div className="button-container">
           <button onClick={handleSave} className="save-button">저장하기</button>
           <button onClick={handleRetry} className="retry-button">다시하기</button>
         </div>
+      </div>
     </div>
   );
 };

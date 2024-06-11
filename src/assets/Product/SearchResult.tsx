@@ -82,6 +82,7 @@ const SearchResults: React.FC = () => {
               <Link
                 to={`/product/${product.id}`}
                 className="view-details-button1"
+                style={{marginTop: "-10px", marginBottom: "5px"}}
               >
                 제품 보러 가기
               </Link>

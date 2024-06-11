@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./ProductPage.css";
 import AccordionPage from "./AccordionPage";
 import ReviewsList from "./ReviewsList";
 import axios from "axios";
-import { useAuth } from "../Auth/AuthProvider";
 
 interface Product {
   id?: string;
@@ -20,7 +19,6 @@ const ProductPage: React.FC = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [selectedOption, setSelectedOption] = useState<string>("");
-  const { isLoggedIn } = useAuth();
 
   useEffect(() => {
     const fetchProduct = async () => {

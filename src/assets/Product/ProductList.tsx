@@ -141,7 +141,7 @@ export default function ProductList() {
   const categoryName = categoryNames[category?.toLowerCase() || "all"];
 
   return (
-    <div>
+    <div className="productlists">
       <div className="header">
         <h2 className="productstitle">{categoryName}</h2>
         <div className="custom-hr">
