@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import SearchBar from "./SearchBar";
 import { useAuth } from "../Auth/AuthProvider";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import Swal from "sweetalert2";
 
 const Navbar: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -37,6 +40,56 @@ const Navbar: React.FC = () => {
     logout();
     navigate("/");
     window.location.reload();
+  };
+
+  const handleWishClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      Swal.fire({
+        title: "로그인이 필요합니다.",
+        text: "로그인 후 이용해주세요.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "로그인 하러 가기",
+        cancelButtonText: "취소",
+        customClass: {
+          popup: "custom-swal-popup",
+          title: "custom-swal-title",
+          confirmButton: "custom-swal-confirm-button",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+    } else {
+      navigate("/mypage/myreview");
+    }
+  };
+
+  const handlecartClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      Swal.fire({
+        title: "로그인이 필요합니다.",
+        text: "로그인 후 이용해주세요.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "로그인 하러 가기",
+        cancelButtonText: "취소",
+        customClass: {
+          popup: "custom-swal-popup",
+          title: "custom-swal-title",
+          confirmButton: "custom-swal-confirm-button",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+    } else {
+      navigate("/cartpage");
+    }
   };
 
   return (
@@ -103,6 +156,16 @@ const Navbar: React.FC = () => {
           </li>
         </ul>
         <ul className="login">
+          <li className="gotocart">
+            <a href="#" className="icon" onClick={handlecartClick}>
+              <AddShoppingCartIcon className="custom-icon" />
+            </a>
+          </li>
+          <li className="gotowishlist">
+            <a href="#" className="icon" style={{ color: "rgb(207, 92, 92)" }} onClick={handleWishClick}>
+              <FavoriteIcon className="custom-icon" />
+            </a>
+          </li>
           <li>
             <img
               src="/search-icon.png"

@@ -43,7 +43,8 @@ nav:hover {
   gap: 40px;
 }
 
-.main-menu > li, a {
+.main-menu>li,
+a {
   position: relative;
   margin: 0 10px;
   cursor: pointer;
@@ -51,17 +52,17 @@ nav:hover {
   text-decoration: none;
 }
 
-.main-menu > li > ul > a {
+.main-menu>li>ul>a {
   text-decoration: none;
   color: white;
 }
 
-.main-menu > a {
+.main-menu>a {
   text-decoration: none;
   color: inherit;
 }
 
-.main-menu > li > span {
+.main-menu>li>span {
   color: inherit;
 }
 
@@ -70,7 +71,8 @@ nav:hover {
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%); /* 중앙 정렬 */
+  transform: translateX(-50%);
+  /* 중앙 정렬 */
   background-color: #e1cbb7;
   color: #fff;
   list-style: none;
@@ -79,20 +81,20 @@ nav:hover {
   min-width: 150px;
 }
 
-.main-menu > li:hover .sub-menu {
+.main-menu>li:hover .sub-menu {
   display: block;
 }
 
-.sub-menu > li {
+.sub-menu>li {
   padding: 10px 10px;
   white-space: nowrap;
 }
 
-.sub-menu > a:hover {
+.sub-menu>a:hover {
   color: #9c8779;
 }
 
-.sub-menu > li > a {
+.sub-menu>li>a {
   text-decoration: none;
   color: inherit;
 }
@@ -117,4 +119,35 @@ nav:hover {
 
 .login a:hover {
   color: #e1cbb7;
+}
+
+@media (max-width: 1000px) {
+
+  .main-menu,
+  .login {
+    display: none;
+  }
+
+  .navbar__toggle {
+    display: flex;
+  }
+
+  .navbar__logo {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hamburger-menu {
+    display: flex;
+  }
+}
+
+.gotowishlist {
+  margin-top: -4px !important;
+  margin-right: 0px !important;
+}
+
+.gotocart {
+  margin-top: -3px !important;
+  margin-right: -13px !important;
 }
