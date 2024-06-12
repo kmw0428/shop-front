@@ -59,7 +59,7 @@ const Wishlist: React.FC = () => {
   };
 
   return (
-    <div className="wishlist-container">
+    <div className="wishlist-container wishcont">
       <hr className='wishhr1' />
       <h1 style={{ fontSize: '3rem', marginBottom: '-20px', marginTop: '55px' }}>My Wishlist</h1>
       <hr className='wishhr2' />

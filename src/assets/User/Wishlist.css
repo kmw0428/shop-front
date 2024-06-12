@@ -4,7 +4,7 @@
     format("woff");
 }
 
-.wishlist-container {
+.wishcont {
   margin-bottom: 40px;
 }
 
@@ -12,7 +12,7 @@
   width: 1950px;
   border: none;
   height: 1px;
-  background-color: #9c8779; 
+  background-color : #9c8779; 
   margin-top: 3px;
 }
 
