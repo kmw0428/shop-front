@@ -111,11 +111,12 @@ const MyReview: React.FC = () => {
             </div>
             <div className="review-content">
               {editingReviewId === review.id ? (
-                <div>
+                <div className="edit-review-container">
                   <input
                     type="text"
                     value={editingContent}
                     onChange={(e) => setEditingContent(e.target.value)}
+                    className="edit-review-input"
                   />
                   <div className="review-buttons">
                     <button onClick={() => handleSaveReview(review.id)}>저장</button>&nbsp;&nbsp;
