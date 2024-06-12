@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa"; // react-icons에서 하트 아이콘 가져오기
 import "./Wishlist.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 interface User {
   id: string;
@@ -62,19 +63,24 @@ const Wishlist: React.FC = () => {
       <hr className='wishhr1' />
       <h1 style={{ fontSize: '3rem', marginBottom: '-20px', marginTop: '55px' }}>My Wishlist</h1>
       <hr className='wishhr2' />
-      <div className="product-list">
+      <div className="product-wishlist">
         {wishlist.length > 0 ? (
           wishlist.map((wish) => (
             <div key={wish.id} className="product-item">
               <img src={`http://localhost:8080${wish.product.imageUrl}`} alt={wish.product.name} className="wish-product-image" />
               <div className="wish-product-info">
                 <span className="product-name">{wish.product.name}</span>
-                <button
-                  onClick={() => handleDeletewish(wish.id)}
-                  className="wishlist-button"
-                >
-                  <FaHeart className="heart-icon" />
-                </button>
+                <div className="button-link-group">
+                  <button
+                    onClick={() => handleDeletewish(wish.id)}
+                    className="wishlist-button"
+                  >
+                    <FaHeart className="heart-icon" />
+                  </button>
+                  <Link to={`/product/${wish.product.id}`} className="viewproducpage">
+                    제품 보러 가기
+                  </Link>
+                </div>
               </div>
             </div>
           ))

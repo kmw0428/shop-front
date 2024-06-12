@@ -4,6 +4,10 @@
     format("woff");
 }
 
+.wishlist-container {
+  margin-bottom: 40px;
+}
+
 .wishhr1 {
   width: 1950px;
   border: none;
@@ -18,4 +22,79 @@
   height: 1px;
   background-color: #9c8779; 
   margin-top: 80px; 
+}
+
+.product-wishlist {
+  display: flex;
+  flex-direction: column; /* 세로 방향으로 정렬 */
+  align-items: center;
+  margin-top: 20px;
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  padding: 15px;
+  border-radius: 5px;
+  background: #f8f5ef;
+  border: #9c8779 1px solid;
+  margin-bottom: 15px;
+}
+
+.wish-product-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 35px;
+}
+
+.wish-product-info {
+  display: flex;
+  justify-content: space-between; /* 공간을 균등하게 분배 */
+  align-items: center; /* 세로 방향 가운데 정렬 */
+  width: calc(100% - 120px); /* 너비를 이미지 너비 + 여백만큼 빼서 설정 */
+}
+
+.product-name {
+  font-size: 1.4rem;
+  color: #333;
+}
+
+.wishlist-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.wishlist-button:hover {
+  transform: scale(1.1);
+}
+
+.heart-icon {
+  color: rgb(252, 66, 66);
+}
+
+.viewproducpage{
+  background: none;
+  border: none;
+  font-size: 1.1;
+  cursor: pointer;
+  transition: transform 0.2s;
+  color: #756860;
+  padding: 0;
+}
+
+.viewproducpage:hover {
+  transform: scale(1.1);
+}
+
+.button-link-group {
+  display: flex; /* 요소들을 수평으로 정렬 */
+  align-items: center; /* 요소들을 수직으로 정렬 */
 }
