@@ -4,7 +4,8 @@
   padding: 20px;
   border: 1px solid #857367;
   border-radius: 5px;
-  margin-top: 50px;
+  margin-top: 40px;
+  margin-bottom: 60px;
   background-color: #f2f2f2;
 }
 
@@ -43,7 +44,7 @@
   border-radius: 5px;
   padding: 8px;
   cursor: pointer;
-  margin-right: 10px;
+  margin-right: 19px;
 }
 
 #postcode-btn {

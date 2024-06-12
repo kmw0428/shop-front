@@ -35,15 +35,12 @@ const CartPage: React.FC = () => {
             try {
                 const response = await axios.get(`http://localhost:8080/orders/user/${userId}`);
                 const orders: Order[] = response.data.map((order: Order) => ({
-                    id: order.id,
-                    user: order.user,
+                    ...order,
                     products: order.products.map((product: Product) => ({
                         ...product,
                         quantity: product.quantity || (order.totalAmount / product.price),
                         isSelected: false
                     })),
-                    totalAmount: order.totalAmount,
-                    status: order.status,
                     orderDate: new Date(order.orderDate)
                 }));
                 setOrders(orders);
@@ -203,7 +200,7 @@ const CartPage: React.FC = () => {
                                     <button onClick={() => handleIncreaseQuantity(product.id, product.quantity, product.price)}>+</button>
                                 </td>
                                 <td className="price-col">{formatCurrency(product.price)}</td>
-                                <td className="total-col">{formatCurrency(product.price * product.quantity)}</td>
+                                <td className="total-col">{formatCurrency(product.quantity * product.price)}</td>
                             </tr>
                         ))}
                     </tbody>

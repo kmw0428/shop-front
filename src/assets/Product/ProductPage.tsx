@@ -82,11 +82,42 @@ const ProductPage: React.FC = () => {
       return;
     }
 
+    if (!selectedOption) {
+      Swal.fire({
+        title: "Warning",
+        text: "옵션을 선택해주세요.",
+        icon: "warning",
+        confirmButtonText: "확인",
+        customClass: {
+          popup: "custom-swal-popup",
+          title: "custom-swal-title",
+          confirmButton: "custom-swal-confirm-button",
+        },
+      });
+      return;
+    }
+
+    if (quantity <= 0) {
+      Swal.fire({
+        title: "Warning",
+        text: "수량을 선택해주세요.",
+        icon: "warning",
+        confirmButtonText: "확인",
+        customClass: {
+          popup: "custom-swal-popup",
+          title: "custom-swal-title",
+          confirmButton: "custom-swal-confirm-button",
+        },
+      });
+      return;
+    }
+
     try {
+      const totalAmount = calculateTotalPrice(product.price, quantity);
       const orderPayload = {
         user: { id: userId },
         products: [{ id: product.id }],
-        totalAmount: product.price,
+        totalAmount, // 총 금액 계산
         orderDate: new Date(),
       };
       console.log(orderPayload);
@@ -300,7 +331,7 @@ const ProductPage: React.FC = () => {
                     ADD CART
                   </button>
                   <button
-                    className="wish-list"
+                    className={`wish-list ${favoriteProducts.includes(product.id!) ? 'favorite' : ''}`}
                     onClick={() => handleAddToFavorites(product)}
                   >
                     WISH LIST

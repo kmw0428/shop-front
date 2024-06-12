@@ -350,6 +350,7 @@ const EditUser: React.FC = () => {
             value={user?.gender || ""}
             onChange={handleChange}
             className="euInp"
+            style={{width : "95%"}}
           >
             <option value="">성별 선택</option>
             <option value="남성">남성</option>
