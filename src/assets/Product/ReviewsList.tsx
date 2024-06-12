@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
+import Modal from "react-modal";
 import Review from "./Review";
 import ReviewForm from "./ReviewForm";
+import ReviewEditForm from "./ReviewEditForm";
 import "./ReviewsList.css";
 import axios from "axios";
+
+Modal.setAppElement("#root");
 
 interface User {
   id: string;
@@ -113,6 +117,8 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
     scalpType?: string;
   }>({});
   const [showForm, setShowForm] = useState<boolean>(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [editReview, setEditReview] = useState<ReviewData | null>(null);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -173,7 +179,22 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
   };
 
   const handleEditReview = (id: string) => {
-    console.log(`Edit review with id: ${id}`);
+    const reviewToEdit = reviews.find((review) => review.id === id);
+    if (reviewToEdit) {
+      setEditReview(reviewToEdit);
+      setIsEditModalOpen(true);
+    }
+  };
+
+  const handleSaveReview = async (id: string, content: string, rating: number) => {
+    try {
+      const response = await axios.put(`http://localhost:8080/reviews/${id}`, { content, rating });
+      setReviews(reviews.map((review) => (review.id === id ? response.data : review)));
+      setIsEditModalOpen(false);
+      setEditReview(null);
+    } catch (error) {
+      console.error("Error saving review:", error);
+    }
   };
 
   const filteredReviews = reviews
@@ -262,6 +283,21 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
           </div>
         </div>
       </div>
+
+      <Modal isOpen={isEditModalOpen} onRequestClose={() => setIsEditModalOpen(false)} className="modal">
+        {editReview && (
+          <ReviewEditForm
+            reviewId={editReview.id!}
+            initialContent={editReview.content}
+            initialRating={editReview.rating}
+            onSave={handleSaveReview}
+            onCancel={() => {
+              setIsEditModalOpen(false);
+              setEditReview(null);
+            }}
+          />
+        )}
+      </Modal>
     </div>
   );
 };
