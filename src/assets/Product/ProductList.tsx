@@ -262,7 +262,6 @@ export default function ProductList() {
     }
   };
 
-
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortCriteria(event.target.value);
   };

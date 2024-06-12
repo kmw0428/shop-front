@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // axiosInstance 사용
+import axios from "axios";
 import "./Result.css";
 import Swal from "sweetalert2";
 
@@ -11,8 +11,8 @@ const ScalpResult: React.FC = () => {
   const part3 = queryParams.get("part3");
   const part4 = queryParams.get("part4");
   const result = queryParams.get("result");
-  const letters = result ? result.split(",") : [];
-  const userId = localStorage.getItem("userId"); // 로컬 스토리지에서 사용자 ID 가져오기
+  const letters = result ? result.split(", ") : [];
+  const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
 
   const sclapTypes: { [key: string]: string } = {
@@ -26,17 +26,15 @@ const ScalpResult: React.FC = () => {
     I: "비손상 - Intact : 모발이 굵고 강한 탄력이 있으며 큐티클이 촘촘하여 보이기에 윤기가 흐르는 상태",
   };
 
-  const productRecommendations: {
-    [key: string]: { name: string; image: string; link: string }[];
-  } = {
-    D: [{ name: "D 건성 : 샴푸1", image: "", link: "" }],
-    O: [{ name: "O 지성 및 지루성 : 샴푸2", image: "", link: "" }],
-    A: [{ name: "A 탈모 진행 : 샴푸1", image: "", link: "" }],
-    N: [{ name: "N 정상 : 샴푸2", image: "", link: "" }],
-    S: [{ name: "S 두피 민감 : 샴푸1", image: "", link: "" }],
-    R: [{ name: "R 비민감 : 샴푸2", image: "", link: "" }],
-    H: [{ name: "H 손상 모발 : 샴푸1", image: "", link: "" }],
-    I: [{ name: "I 비손상 : 샴푸2", image: "", link: "" }],
+  const productRecommendations: { [key: string]: { id: string }[] } = {
+    D: [{ id: "665ebf862ad1bef1fa84d4cf" }, { id: "665ebf862ad1bef1fa84d50e" }, { id: "665ebf862ad1bef1fa84d506" }, { id: "665ebf862ad1bef1fa84d509" }],
+    O: [{ id: "665ebf862ad1bef1fa84d4cc" }, { id: "665ebf862ad1bef1fa84d4ce" }, { id: "665ebf862ad1bef1fa84d50b" }, { id: "665ebf862ad1bef1fa84d50f" }, { id: "665ebf862ad1bef1fa84d501" }],
+    A: [{ id: "665ebf862ad1bef1fa84d4d1" }, { id: "665ebf862ad1bef1fa84d512" }, { id: "665ebf862ad1bef1fa84d502" }, { id: "665ebf862ad1bef1fa84d503" }],
+    N: [{ id: "665ebf862ad1bef1fa84d4cc" }, { id: "665ebf862ad1bef1fa84d4cd" }, { id: "665ebf862ad1bef1fa84d4d2" }, { id: "665ebf862ad1bef1fa84d50b" }, { id: "665ebf862ad1bef1fa84d50c" }],
+    S: [{ id: "665ebf862ad1bef1fa84d4d0" }, { id: "665ebf862ad1bef1fa84d4d3" }, { id: "665ebf862ad1bef1fa84d510" }, { id: "665ebf862ad1bef1fa84d511" }, { id: "665ebf862ad1bef1fa84d504" }, { id: "665ebf862ad1bef1fa84d509" }],
+    R: [{ id: "665ebf862ad1bef1fa84d4cd" }, { id: "665ebf862ad1bef1fa84d4d2" }, { id: "665ebf862ad1bef1fa84d50c" }],
+    H: [{ id: "665ebf862ad1bef1fa84d4cd" }, { id: "665ebf862ad1bef1fa84d4d3" }, { id: "665ebf862ad1bef1fa84d50c" }, { id: "665ebf862ad1bef1fa84d50d" }, { id: "665ebf862ad1bef1fa84d50e" }, { id: "665ebf862ad1bef1fa84d50f" }, { id: "665ebf862ad1bef1fa84d510" }, { id: "665ebf862ad1bef1fa84d511" }, { id: "665ebf862ad1bef1fa84d512" }, { id: "665ebf862ad1bef1fa84d504" }, { id: "665ebf862ad1bef1fa84d505" }, { id: "665ebf862ad1bef1fa84d506" }, { id: "665ebf862ad1bef1fa84d509" }],
+    I: [{ id: "665ebf862ad1bef1fa84d4cc" }, { id: "665ebf862ad1bef1fa84d50b" }],
   };
 
   const handleSave = async () => {
@@ -45,7 +43,7 @@ const ScalpResult: React.FC = () => {
         const scalpType = `${part1}, ${part2}, ${part3}, ${part4}, ${result}`;
         const data = { scalpType };
 
-        console.log("Saving scalp type with data:", data); // 디버깅용 로그
+        console.log("Saving scalp type with data:", data);
 
         await axios.put(
           `http://localhost:8080/api/users/${userId}`,
@@ -91,7 +89,7 @@ const ScalpResult: React.FC = () => {
         },
       }).then((result) => {
         if (result.isConfirmed) {
-          window.location.href = "/login"; // 로그인 페이지로 이동
+          window.location.href = "/login";
         }
       });
     }
@@ -101,28 +99,51 @@ const ScalpResult: React.FC = () => {
     navigate("/diagnosisScalp"); // 두피 테스트 페이지로 이동
   };
 
-  const getsclapTypeDescriptions = (letters: string[]) => {
+  const getScalpTypeDescriptions = (letters: string[]) => {
     return letters.map((letter) => ({
       letter,
       description: sclapTypes[letter.trim()],
     }));
   };
 
-  const getProductRecommendations = (letters: string[]) => {
-    return letters.reduce(
-      (acc: { name: string; image: string; link: string }[], letter) => {
-        const trimmedLetter = letter.trim();
-        if (productRecommendations[trimmedLetter]) {
-          acc.push(...productRecommendations[trimmedLetter]);
+  const getProductRecommendations = async (letters: string[]) => {
+    const recommendations = [];
+    const uniqueProductIds = new Set();
+
+    for (const letter of letters) {
+      const products = productRecommendations[letter] || [];
+      const selectedProducts = products.sort(() => 0.5 - Math.random()).slice(0, 1); // 각 타입에서 1개의 제품을 무작위로 선택
+
+      for (const product of selectedProducts) {
+        if (!uniqueProductIds.has(product.id)) {
+          uniqueProductIds.add(product.id);
+          try {
+            const response = await axios.get(`http://localhost:8080/products/${product.id}`);
+            recommendations.push({ ...product, ...response.data });
+          } catch (error) {
+            console.error(`Failed to fetch product with ID ${product.id}`, error);
+          }
         }
-        return acc;
-      },
-      []
-    );
+      }
+    }
+
+    // 최대 4개의 제품을 무작위로 선택
+    return recommendations.sort(() => 0.5 - Math.random()).slice(0, 4);
   };
 
-  const sclapTypeDescriptions = getsclapTypeDescriptions(letters);
-  const recommendations = getProductRecommendations(letters);
+  const [recommendations, setRecommendations] = useState<
+    { id: string; name: string; imageUrl: string; link: string }[]
+  >([]);
+
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      const recs = await getProductRecommendations(letters);
+      setRecommendations(recs);
+    };
+    fetchRecommendations();
+  }, []);
+
+  const scalpTypeDescriptions = getScalpTypeDescriptions(letters);
 
   return (
     <div className="result-container">
@@ -134,12 +155,10 @@ const ScalpResult: React.FC = () => {
           <span className="highlight">[ {letters.join(" ")} ]</span> 입니다.
         </h2>
         <div className="result-descriptions">
-          {sclapTypeDescriptions.map((sclapType) => (
-            <div key={sclapType.letter}>
-              <h3 className="highlight-h3">
-                &lt; {sclapType.letter.trim()} &gt;
-              </h3>
-              <p>▪ {sclapType.description}</p>
+          {scalpTypeDescriptions.map((scalpType) => (
+            <div key={scalpType.letter}>
+              <h3 className="highlight-h3">&lt; {scalpType.letter} &gt;</h3>
+              <p>▪ {scalpType.description}</p>
             </div>
           ))}
         </div>
@@ -149,10 +168,11 @@ const ScalpResult: React.FC = () => {
             <span className="highlight">{letters.join(" ")}</span> 추천 제품{" "}
           </h2>
           <div className="result-grid">
-            {recommendations.map((product, index) => (
-              <div key={index}>
-                <img src={product.image} alt={product.name} />
+            {recommendations.map((product) => (
+              <div key={product.id}>
+                <img src={`http://localhost:8080${product.imageUrl}`} alt={product.name} style={{ width: "100px" }} />
                 <p>{product.name}</p>
+                <a href={`/product/${product.id}`}>제품 보러 가기</a>
               </div>
             ))}
           </div>

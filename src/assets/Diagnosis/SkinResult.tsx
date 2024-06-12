@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; // axiosInstance 사용
 import "./Result.css";
@@ -12,7 +12,7 @@ const SkinResult: React.FC = () => {
   const part4 = queryParams.get("part4");
   const result = queryParams.get("result");
   const letters = result ? result.split(", ") : [];
-  const userId = localStorage.getItem("userId"); // 로컬 스토리지에서 사용자 ID 가져오기
+  const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
 
   // 각 결과값의 타입을 정의합니다.
@@ -27,18 +27,16 @@ const SkinResult: React.FC = () => {
     T: "탄력성 - Tight : 피부 결이 고르고 주름이 적어 탄력이 있는 타입",
   };
 
-  // 각 타입별 추천 제품을 정의합니다. 같은 방법으로 추가 가능
-  const productRecommendations: {
-    [key: string]: { name: string; image: string; link: string }[];
-  } = {
-    O: [{ name: "O 지성 : 로션1", image: "", link: "" }],
-    D: [{ name: "D 건성 : 로션2", image: "", link: "" }],
-    S: [{ name: "S 민감성 : 로션3", image: "", link: "" }],
-    R: [{ name: "R 저항성 : 로션4", image: "", link: "" }],
-    P: [{ name: "P 색소성 : 로션5", image: "", link: "" }],
-    N: [{ name: "N 비색소성 : 로션6", image: "", link: "" }],
-    W: [{ name: "W 주름성 : 로션7", image: "", link: "" }],
-    T: [{ name: "T 탄력성 : 로션8", image: "", link: "" }],
+  // 각 타입별 추천 제품의 ID를 정의합니다.
+  const productRecommendations: { [key: string]: { id: string }[] } = {
+    O: [{ id: "665ebf862ad1bef1fa84d4f0" }, { id: "665ebf862ad1bef1fa84d4f2" }, { id: "665ebf862ad1bef1fa84d4f3" }, { id: "665ebf862ad1bef1fa84d4f6" }, { id: "665ebf862ad1bef1fa84d4f9" }, { id: "665ebf862ad1bef1fa84d4fc" }, { id: "665ebf862ad1bef1fa84d500" }, { id: "665ebf862ad1bef1fa84d4dc" }],
+    D: [{ id: "665ebf862ad1bef1fa84d4f1" }, { id: "665ebf862ad1bef1fa84d4f4" }, { id: "665ebf862ad1bef1fa84d4f5" }, { id: "665ebf862ad1bef1fa84d4f7" }, { id: "665ebf862ad1bef1fa84d4f8" }, { id: "665ebf862ad1bef1fa84d4fa" }, { id: "665ebf862ad1bef1fa84d4fb" }, { id: "665ebf862ad1bef1fa84d4fd" }, { id: "665ebf862ad1bef1fa84d4ff" }, { id: "665ebf862ad1bef1fa84d4d5" }, { id: "665ebf862ad1bef1fa84d4d6" }, { id: "665ebf862ad1bef1fa84d4d8" }, { id: "665ebf862ad1bef1fa84d4db" }, { id: "665ebf862ad1bef1fa84d4e7" }, { id: "665ebf862ad1bef1fa84d4e9" }, { id: "665ebf862ad1bef1fa84d4ea" }, { id: "665ebf862ad1bef1fa84d4ed" }, { id: "665ebf862ad1bef1fa84d4ee" }, { id: "665ebf862ad1bef1fa84d4e3" }],
+    S: [{ id: "665ebf862ad1bef1fa84d4f0" }, { id: "665ebf862ad1bef1fa84d4f2" }, { id: "665ebf862ad1bef1fa84d4f4" }, { id: "665ebf862ad1bef1fa84d4f5" }, { id: "665ebf862ad1bef1fa84d4f6" }, { id: "665ebf862ad1bef1fa84d4f9" }, { id: "665ebf862ad1bef1fa84d4fd" }, { id: "665ebf862ad1bef1fa84d500" }, { id: "665ebf862ad1bef1fa84d4d5" }, { id: "665ebf862ad1bef1fa84d4d9" }, { id: "665ebf862ad1bef1fa84d4db" }, { id: "665ebf862ad1bef1fa84d4dc" }, { id: "665ebf862ad1bef1fa84d4e6" }, { id: "665ebf862ad1bef1fa84d4ea" }, { id: "665ebf862ad1bef1fa84d4ec" }, { id: "665ebf862ad1bef1fa84d4ed" }, { id: "665ebf862ad1bef1fa84d4ee" }, { id: "665ebf862ad1bef1fa84d4e1" }, { id: "665ebf862ad1bef1fa84d4e4" }],
+    R: [{ id: "665ebf862ad1bef1fa84d4f3" }, { id: "665ebf862ad1bef1fa84d4f7" }, { id: "665ebf862ad1bef1fa84d4fe" }, { id: "665ebf862ad1bef1fa84d4ff" }],
+    P: [{ id: "665ebf862ad1bef1fa84d4ef" }, { id: "665ebf862ad1bef1fa84d4f8" }, { id: "665ebf862ad1bef1fa84d500" }, { id: "665ebf862ad1bef1fa84d4d4" }, { id: "665ebf862ad1bef1fa84d4d8" }, { id: "665ebf862ad1bef1fa84d4e8" }, { id: "665ebf862ad1bef1fa84d4e9" }],
+    N: [{ id: "665ebf862ad1bef1fa84d4fe" }, { id: "665ebf862ad1bef1fa84d4ff" }],
+    W: [{ id: "665ebf862ad1bef1fa84d4ef" }, { id: "665ebf862ad1bef1fa84d4f3" }, { id: "665ebf862ad1bef1fa84d4f4" }, { id: "665ebf862ad1bef1fa84d4f5" }, { id: "665ebf862ad1bef1fa84d4fa" }, { id: "665ebf862ad1bef1fa84d4fb" }, { id: "665ebf862ad1bef1fa84d4fc" }, { id: "665ebf862ad1bef1fa84d4d4" }, { id: "665ebf862ad1bef1fa84d4d6" }, { id: "665ebf862ad1bef1fa84d4d7" }, { id: "665ebf862ad1bef1fa84d4da" }, { id: "665ebf862ad1bef1fa84d4e7" }, { id: "665ebf862ad1bef1fa84d4e8" }, { id: "665ebf862ad1bef1fa84d4eb" }, { id: "665ebf862ad1bef1fa84d4ed" }, { id: "665ebf862ad1bef1fa84d4e4" }],
+    T: [{ id: "665ebf862ad1bef1fa84d4f2" }, { id: "665ebf862ad1bef1fa84d4f9" }, { id: "665ebf862ad1bef1fa84d4fd" }, { id: "665ebf862ad1bef1fa84d4dc" }],
   };
 
   const handleSave = async () => {
@@ -47,7 +45,7 @@ const SkinResult: React.FC = () => {
         const skinType = `${part1}, ${part2}, ${part3}, ${part4}, ${result}`;
         const data = { skinType };
 
-        console.log("Saving skin type with data:", data); // 디버깅용 로그
+        console.log("Saving skin type with data:", data);
 
         await axios.put(
           `http://localhost:8080/api/users/${userId}`,
@@ -93,14 +91,14 @@ const SkinResult: React.FC = () => {
         },
       }).then((result) => {
         if (result.isConfirmed) {
-          window.location.href = "/login"; // 로그인 페이지로 이동
+          window.location.href = "/login";
         }
       });
     }
   };
 
   const handleRetry = () => {
-    navigate("/diagnosisSkin"); // 두피 테스트 페이지로 이동
+    navigate("/diagnosisSkin");
   };
 
   // 결과 값에 대응하는 피부 타입을 가져오는 함수
@@ -111,21 +109,45 @@ const SkinResult: React.FC = () => {
     }));
   };
 
-  /// 추천 상품을 가져오는 함수
-  const getProductRecommendations = (letters: string[]) => {
-    return letters.reduce(
-      (acc: { name: string; image: string; link: string }[], letter) => {
-        if (productRecommendations[letter]) {
-          acc.push(...productRecommendations[letter]);
+  // 추천 제품을 무작위로 선택하여 가져오는 함수
+  const getProductRecommendations = async (letters: string[]) => {
+    const recommendations = [];
+    const uniqueProductIds = new Set();
+
+    for (const letter of letters) {
+      const products = productRecommendations[letter] || [];
+      const selectedProducts = products.sort(() => 0.5 - Math.random()).slice(0, 1); // 각 타입에서 1개의 제품을 무작위로 선택
+
+      for (const product of selectedProducts) {
+        if (!uniqueProductIds.has(product.id)) {
+          uniqueProductIds.add(product.id);
+          try {
+            const response = await axios.get(`http://localhost:8080/products/${product.id}`);
+            recommendations.push({ ...product, ...response.data });
+          } catch (error) {
+            console.error(`Failed to fetch product with ID ${product.id}`, error);
+          }
         }
-        return acc;
-      },
-      []
-    );
+      }
+    }
+
+    // 최대 4개의 제품을 무작위로 선택
+    return recommendations.sort(() => 0.5 - Math.random()).slice(0, 4);
   };
 
+  const [recommendations, setRecommendations] = useState<
+    { id: string; name: string; imageUrl: string; link: string }[]
+  >([]);
+
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      const recs = await getProductRecommendations(letters);
+      setRecommendations(recs);
+    };
+    fetchRecommendations();
+  }, []);
+
   const skinTypeDescriptions = getSkinTypeDescriptions(letters);
-  const recommendations = getProductRecommendations(letters);
 
   return (
     <div className="result-container">
@@ -150,10 +172,11 @@ const SkinResult: React.FC = () => {
             <span className="highlight">{letters.join("")}</span> 추천 제품{" "}
           </h2>
           <div className="result-grid">
-            {recommendations.map((product, index) => (
-              <div key={index}>
-                <img src={product.image} alt={product.name} />
+            {recommendations.map((product) => (
+              <div key={product.id}>
+                <img src={`http://localhost:8080${product.imageUrl}`} alt={product.name} style={{ width: "100px" }} />
                 <p>{product.name}</p>
+                <a href={`/product/${product.id}`}>제품 보러 가기</a>
               </div>
             ))}
           </div>
