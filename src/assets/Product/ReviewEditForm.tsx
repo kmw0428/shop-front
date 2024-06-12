@@ -11,19 +11,20 @@ const Star: React.FC<StarProps> = ({ selected, onClick }) => {
 };
 
 interface RatingProps {
+  className?: string; // className 속성 추가
   maxStars: number;
   rating: number;
   onChange: (rating: number) => void;
 }
 
-const Rating: React.FC<RatingProps> = ({ maxStars, rating, onChange }) => {
+const Rating: React.FC<RatingProps> = ({ className, maxStars, rating, onChange }) => {
   const handleStarClick = (starIndex: number) => {
     const newRating = starIndex + 1;
     onChange(newRating); // 변경된 별점을 부모 컴포넌트로 전달
   };
 
   return (
-    <div>
+    <div className={className}>
       {[...Array(maxStars)].map((_, index) => (
         <Star
           key={index}
@@ -59,9 +60,9 @@ const ReviewEditForm: React.FC<ReviewEditFormProps> = ({
 
   return (
     <div className="review-edit-form">
-      <h2>Edit Review</h2>
+      <h1>Edit Review</h1>
       <textarea value={content} onChange={(e) => setContent(e.target.value)} />
-      <Rating maxStars={5} rating={rating} onChange={setRating} />
+      <Rating className="rating" maxStars={5} rating={rating} onChange={setRating} />
       <button onClick={handleSave}>Save</button>
       <button onClick={onCancel}>Cancel</button>
     </div>
