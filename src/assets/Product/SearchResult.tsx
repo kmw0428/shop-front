@@ -24,7 +24,7 @@ const SearchResults: React.FC = () => {
   }, [results]);
 
   useEffect(() => {
-    let sortedProducts = [...originalProducts];
+    const sortedProducts = [...originalProducts];
     switch (sortCriteria) {
       case "name":
         sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
@@ -82,7 +82,7 @@ const SearchResults: React.FC = () => {
               <Link
                 to={`/product/${product.id}`}
                 className="view-details-button1"
-                style={{marginTop: "-10px", marginBottom: "5px"}}
+                style={{ marginTop: "-10px", marginBottom: "5px" }}
               >
                 제품 보러 가기
               </Link>

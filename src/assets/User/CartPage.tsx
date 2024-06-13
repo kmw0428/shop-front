@@ -50,11 +50,31 @@ const CartPage: React.FC = () => {
         const allProducts = orders.flatMap((order) => order.products);
         setProducts(allProducts);
       } catch (error) {
-        alert("주문 데이터를 가져오는 데 실패했습니다.");
         console.log(error);
+        Swal.fire({
+          title: "Warning",
+          text: "주문 데이터를 가져오는 데 실패했습니다.",
+          icon: "warning",
+          confirmButtonText: "확인",
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+          },
+        });
       }
     } else {
-      alert("사용자 ID를 찾을 수 없습니다.");
+      Swal.fire({
+        title: "사용자 ID를 찾을 수 없습니다.",
+        text: "Warning",
+        icon: "warning",
+        confirmButtonText: "확인",
+        customClass: {
+          popup: "custom-swal-popup",
+          title: "custom-swal-title",
+          confirmButton: "custom-swal-confirm-button",
+        },
+      });
     }
   };
 
@@ -85,7 +105,17 @@ const CartPage: React.FC = () => {
     try {
       const userId = getUserId();
       if (!userId) {
-        alert("사용자 ID를 찾을 수 없습니다.");
+        Swal.fire({
+          title: "사용자 ID를 찾을 수 없습니다.",
+          text: "Warning",
+          icon: "warning",
+          confirmButtonText: "확인",
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+          },
+        });
         return;
       }
 
@@ -105,7 +135,17 @@ const CartPage: React.FC = () => {
         )
       );
     } catch (error) {
-      alert("총 금액 업데이트에 실패했습니다.");
+      Swal.fire({
+        title: "Warning",
+        text: "총 금액 업데이트에 실패했습니다.",
+        icon: "warning",
+        confirmButtonText: "확인",
+        customClass: {
+          popup: "custom-swal-popup",
+          title: "custom-swal-title",
+          confirmButton: "custom-swal-confirm-button",
+        },
+      });
       console.log(error);
     }
   };

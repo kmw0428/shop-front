@@ -609,7 +609,7 @@ const DiagnosisSkin: React.FC = () => {
     const questionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     useEffect(() => {
-        window.scrollTo(0, 0); 
+        window.scrollTo(0, 0);
     }, [part]);
 
     const handleAnswer = (index: number, score: number) => {
@@ -641,7 +641,7 @@ const DiagnosisSkin: React.FC = () => {
                 return false;
         }
     };
-    
+
     const isAllPartsComplete = () => {
         return answers.every(answer => answer !== null);
     };
@@ -667,10 +667,10 @@ const DiagnosisSkin: React.FC = () => {
         const part4Score = answers.slice(questionsPart1.length + questionsPart2.length + questionsPart3.length, questionsPart1.length + questionsPart2.length + questionsPart3.length + questionsPart4.length).reduce((acc, score) => acc + (score || 0), 0);
         return { part1Score, part2Score, part3Score, part4Score };
     };
-    
+
     const getResult = (part1Score: number, part2Score: number, part3Score: number, part4Score: number) => {
         let result = "";
-        
+
         if (part1Score >= 27) {
             result += "O";
         } else {
