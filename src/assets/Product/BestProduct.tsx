@@ -295,6 +295,7 @@ export default function BestProduct() {
                   src={`http://localhost:8080${product.imageUrl}`}
                   alt={product.name}
                 />
+                <span className="best">best</span>
                 <ul className="icon-list">
                   <li>
                     <a

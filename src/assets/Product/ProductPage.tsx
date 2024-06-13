@@ -13,6 +13,7 @@ interface Product {
   price: number;
   category: string;
   imageUrl: string;
+  status: string;
 }
 
 const ProductPage: React.FC = () => {
@@ -266,6 +267,8 @@ const ProductPage: React.FC = () => {
             alt="Product"
             className="product-image"
           />
+          {product.status === "new" && <span className="new">new</span>}
+          {product.status === "best" && <span className="best">best</span>}
         </div>
         <div className="product-details">
           <h2>상품명: {product.name}</h2>

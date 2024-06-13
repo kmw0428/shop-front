@@ -295,6 +295,7 @@ export default function NewProduct() {
                   src={`http://localhost:8080${product.imageUrl}`}
                   alt={product.name}
                 />
+                <span className="new">new</span>
                 <ul className="icon-list">
                   <li>
                     <a

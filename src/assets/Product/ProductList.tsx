@@ -13,6 +13,7 @@ interface Product {
   price: number;
   category: string;
   imageUrl: string;
+  status: string;
 }
 
 const categoryNames: { [key: string]: string } = {
@@ -313,6 +314,8 @@ export default function ProductList() {
                   src={`http://localhost:8080${product.imageUrl}`}
                   alt={product.name}
                 />
+                {product.status === "new" && <span className="new">new</span>}
+                {product.status === "best" && <span className="best">best</span>}
                 <ul className="icon-list">
                   <li>
                     <a

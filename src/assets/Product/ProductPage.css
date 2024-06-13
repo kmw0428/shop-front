@@ -13,6 +13,8 @@
 .product-image-container {
   width: 50%;
   max-width: 500px;
+  display: flex;
+  height: fit-content;
 }
 
 .product-image {
@@ -172,4 +174,24 @@
 .accordion-content {
   padding: 10px;
   background-color: #fff;
+}
+
+.product-page .product-image-container .new {
+  position: fixed;
+  color: #ffffff;
+  background-color: rgb(207, 92, 92);
+  padding: 4px 8px 0px 8px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  margin: 10px;
+}
+
+.product-page .product-image-container .best {
+  position: fixed;
+  color: #ffffff;
+  background-color: rgb(0, 0, 0);
+  padding: 4px 8px 0px 8px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  margin: 10px;
 }
