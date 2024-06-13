@@ -24,6 +24,8 @@ interface Order {
 
 interface User {
   id: string;
+  nickname: string;
+  email: string;
   phoneNumber: string;
 }
 
@@ -315,10 +317,10 @@ const CartPage: React.FC = () => {
       },
     });
     if (result.isConfirmed) {
-      if (!user?.phoneNumber) {
+      if (!user?.phoneNumber || !user?.email || !user?.nickname) {
         Swal.fire({
-          title: "전화번호가 필요합니다.",
-          text: "전화번호를 입력해주세요.",
+          title: "회원 정보가 더 필요합니다.",
+          text: "회원 정보를 수정해주세요.",
           icon: "warning",
           confirmButtonText: "확인",
           customClass: {
@@ -327,7 +329,7 @@ const CartPage: React.FC = () => {
             confirmButton: "custom-swal-confirm-button",
           },
         }).then(() => {
-          navigate("/mypage/edituser");
+          navigate("/mypage");
         });
         return;
       }
