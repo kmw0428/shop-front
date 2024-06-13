@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./CartPage.css";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 interface Product {
   id: string;
@@ -25,6 +26,7 @@ const CartPage: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [selectAll, setSelectAll] = useState(false);
+  const navigate = useNavigate();
 
   const getUserId = () => {
     return localStorage.getItem("userId");
@@ -43,6 +45,7 @@ const CartPage: React.FC = () => {
             ...product,
             quantity: product.quantity || order.totalAmount / product.price,
             isSelected: false,
+            totalAmount: order.totalAmount / order.products.length, // 각 제품의 totalAmount 설정
           })),
           orderDate: new Date(order.orderDate),
         }));
@@ -279,115 +282,135 @@ const CartPage: React.FC = () => {
       console.log(error);
     }
   };
-  return (
-    <div className="cartpage">
-      <hr className="carthr1" />
-      <div className="background-banner">
-        <h1
-          style={{ fontSize: "3rem", marginBottom: "-20px", marginTop: "55px" }}
-        >
-          Shopping Cart
-        </h1>
-        <hr className="carthr2" />
-        <table className="cart-table">
-          <thead>
-            <tr>
-              <th className="select-col">
-                <label className="custom-checkbox">
-                  <input
-                    type="checkbox"
-                    checked={selectAll}
-                    onChange={handleSelectAll}
-                  />
-                  <span className="checkmark"></span>
-                </label>
-              </th>
-              <th className="product-col">상품명 / 옵션</th>
-              <th className="quantity-col">수량</th>
-              <th className="price-col">상품금액</th>
-              <th className="total-col">합계금액</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product) => (
-              <tr key={product.id}>
-                <td className="select-col">
+
+  const handleCheckout = async () => {
+    const result = await Swal.fire({
+      title: "선택된 항목을 구매하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonText: "구매",
+      cancelButtonText: "취소",
+      customClass: {
+        popup: "custom-swal-popup",
+        title: "custom-swal-title",
+        confirmButton: "custom-swal-confirm-button",
+        cancelButton: "custom-swal-cancel-button",
+      },
+    });
+    if (result.isConfirmed) {
+      const totalPrice = getOverallTotal();
+      navigate("/checkout", { state: { totalPrice, orders } });
+    };
+  }
+
+    return (
+      <div className="cartpage">
+        <hr className="carthr1" />
+        <div className="background-banner">
+          <h1
+            style={{ fontSize: "3rem", marginBottom: "-20px", marginTop: "55px" }}
+          >
+            Shopping Cart
+          </h1>
+          <hr className="carthr2" />
+          <table className="cart-table">
+            <thead>
+              <tr>
+                <th className="select-col">
                   <label className="custom-checkbox">
                     <input
                       type="checkbox"
-                      checked={product.isSelected || false}
-                      onChange={() => toggleProductSelection(product.id)}
+                      checked={selectAll}
+                      onChange={handleSelectAll}
                     />
                     <span className="checkmark"></span>
                   </label>
-                </td>
-                <td className="product-col">
-                  <div className="product-flex-container">
-                    <img
-                      src={`http://localhost:8080${product.imageUrl}`}
-                      alt={product.name}
-                      className="product-image"
-                    />
-                    <span className="cartpdn">{product.name}</span>
-                  </div>
-                </td>
-                <td className="quantity-col">
-                  <button
-                    onClick={() =>
-                      handleDecreaseQuantity(
-                        product.id,
-                        product.quantity,
-                        product.price
-                      )
-                    }
-                  >
-                    -
-                  </button>
-                  {product.quantity}
-                  <button
-                    onClick={() =>
-                      handleIncreaseQuantity(
-                        product.id,
-                        product.quantity,
-                        product.price
-                      )
-                    }
-                  >
-                    +
-                  </button>
-                </td>
-                <td className="price-col">{formatCurrency(product.price)}</td>
-                <td className="total-col">
-                  {formatCurrency(product.quantity * product.price)}
-                </td>
+                </th>
+                <th className="product-col">상품명 / 옵션</th>
+                <th className="quantity-col">수량</th>
+                <th className="price-col">상품금액</th>
+                <th className="total-col">합계금액</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <button className="remove-selected" onClick={removeSelectedProducts}>
-          선택 상품 삭제
-        </button>
+            </thead>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product.id}>
+                  <td className="select-col">
+                    <label className="custom-checkbox">
+                      <input
+                        type="checkbox"
+                        checked={product.isSelected || false}
+                        onChange={() => toggleProductSelection(product.id)}
+                      />
+                      <span className="checkmark"></span>
+                    </label>
+                  </td>
+                  <td className="product-col">
+                    <div className="product-flex-container">
+                      <img
+                        src={`http://localhost:8080${product.imageUrl}`}
+                        alt={product.name}
+                        className="product-image"
+                      />
+                      <span className="cartpdn">{product.name}</span>
+                    </div>
+                  </td>
+                  <td className="quantity-col">
+                    <button
+                      onClick={() =>
+                        handleDecreaseQuantity(
+                          product.id,
+                          product.quantity,
+                          product.price
+                        )
+                      }
+                    >
+                      -
+                    </button>
+                    {product.quantity}
+                    <button
+                      onClick={() =>
+                        handleIncreaseQuantity(
+                          product.id,
+                          product.quantity,
+                          product.price
+                        )
+                      }
+                    >
+                      +
+                    </button>
+                  </td>
+                  <td className="price-col">{formatCurrency(product.price)}</td>
+                  <td className="total-col">
+                    {formatCurrency(product.quantity * product.price)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button className="remove-selected" onClick={removeSelectedProducts}>
+            선택 상품 삭제
+          </button>
+        </div>
+        <div className="order-summary">
+          <h2>주문 제품</h2>
+          {products.map((product) => (
+            <div className="product-item" key={product.id}>
+              <img
+                src={`http://localhost:8080${product.imageUrl}`}
+                alt={product.name}
+              />
+              <span className="product-imgtext">
+                <strong>{product.name}</strong> <br></br> {product.quantity}개
+              </span>
+            </div>
+          ))}
+          <h2 className="total">
+            전체 합계 : {formatCurrency(getOverallTotal())}원
+          </h2>
+          <button onClick={handleCheckout}>주문 하기</button>
+        </div>
       </div>
-      <div className="order-summary">
-        <h2>주문 제품</h2>
-        {products.map((product) => (
-          <div className="product-item" key={product.id}>
-            <img
-              src={`http://localhost:8080${product.imageUrl}`}
-              alt={product.name}
-            />
-            <span className="product-imgtext">
-              <strong>{product.name}</strong> <br></br> {product.quantity}개
-            </span>
-          </div>
-        ))}
-        <h2 className="total">
-          전체 합계 : {formatCurrency(getOverallTotal())}원
-        </h2>
-        <button>주문 하기</button>
-      </div>
-    </div>
-  );
-};
+    );
+  };
 
-export default CartPage;
+  export default CartPage;

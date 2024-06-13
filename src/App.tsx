@@ -71,7 +71,7 @@ const App: React.FC = () => {
             <Route path="/mypage/eidtuser" element={<EditUser />} />
             <Route path="/mypage/myreview" element={<MyReview />} />
             <Route path="/search-results" element={<SearchResults />} />
-            <Route path="/payment" element={<Checkout />} />
+            <Route path="/checkout" element={<Checkout />} />
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/fail" element={<FailPage />} />
           </Routes>
