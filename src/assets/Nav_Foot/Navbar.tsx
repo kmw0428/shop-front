@@ -117,9 +117,6 @@ const Navbar: React.FC = () => {
           <Link to="/product-list">
             <li>전체</li>
           </Link>
-          <Link to="/custom">
-            <li>맞춤</li>
-          </Link>
           <li>
             <span>스킨</span>
             <ul className="sub-menu">
@@ -154,6 +151,9 @@ const Navbar: React.FC = () => {
               </Link>
             </ul>
           </li>
+          <Link to="/event">
+            <li>이벤트</li>
+          </Link>
         </ul>
         <ul className="login">
           <li className="gotocart">

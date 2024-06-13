@@ -34,6 +34,7 @@ const Star: React.FC<StarProps> = ({ selected, onClick, editable }) => {
     <span
       onClick={onClick}
       style={{ cursor: editable ? "pointer" : "default" }}
+      className={`star ${selected ? "filled" : ""}`}
     >
       {selected ? "★" : "☆"}
     </span>
