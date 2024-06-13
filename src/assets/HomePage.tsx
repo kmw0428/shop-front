@@ -64,7 +64,7 @@ const HomePage: React.FC = () => {
       </div>
       <div className="recommend1">
         <div className="header">
-          <p>Products</p>
+          <p style={{marginLeft: "20px"}}>Best Products</p>
           <button className="view-all-button" onClick={handleViewAllClick}>BEST 제품 보기</button>
         </div>
         <div className="product-list">
