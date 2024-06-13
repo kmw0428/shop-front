@@ -151,7 +151,7 @@ const Navbar: React.FC = () => {
               </Link>
             </ul>
           </li>
-          <Link to="/event">
+          <Link to="/eventpage">
             <li>이벤트</li>
           </Link>
         </ul>

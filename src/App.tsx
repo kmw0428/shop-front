@@ -25,6 +25,7 @@ import MyReview from "./assets/User/MyReview";
 import { SuccessPage } from "./assets/User/SuccessPage";
 import { FailPage } from "./assets/User/FailPage";
 import ScrollToTopButton from "./assets/Components/ScrollToTopButton";
+import EventPage from "./assets/Product/EventPage";
 
 const queryClient = new QueryClient(); // 추가된 부분
 
@@ -74,6 +75,7 @@ const App: React.FC = () => {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/fail" element={<FailPage />} />
+            <Route path="/eventpage" element={<EventPage />} />
           </Routes>
         </div>
         <Footer />
