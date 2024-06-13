@@ -299,8 +299,8 @@ const CartPage: React.FC = () => {
     if (result.isConfirmed) {
       const totalPrice = getOverallTotal();
       navigate("/checkout", { state: { totalPrice, orders } });
-    };
-  }
+    }
+  };
 
     return (
       <div className="cartpage">
