@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 interface StarProps {
   selected: boolean;
@@ -64,7 +65,11 @@ interface ReviewData {
   rating: number;
 }
 
-const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit, user, productName }) => {
+const ReviewForm: React.FC<ReviewFormProps> = ({
+  onSubmit,
+  user,
+  productName,
+}) => {
   const navigate = useNavigate();
   const [reviewData, setReviewData] = useState<Omit<ReviewData, "id">>({
     reviewer: user?.nickname || user?.username || "",
@@ -110,8 +115,23 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit, user, productName }) 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) {
-      alert("로그인이 필요합니다.");
-      navigate("/login");
+      Swal.fire({
+        title: "Warning",
+        text: "로그인 후 이용해주세요.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "로그인 하러 가기",
+        cancelButtonText: "취소",
+        customClass: {
+          popup: "custom-swal-popup",
+          title: "custom-swal-title",
+          confirmButton: "custom-swal-confirm-button",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "/login";
+        }
+      });
       return;
     }
     onSubmit({ ...reviewData, user });
@@ -119,74 +139,74 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit, user, productName }) 
 
   const getSkinResult = (code: string) => {
     switch (code) {
-      case 'DSPW':
-      case 'DSPT':
-        return '건성, 민감성';
-      case 'DSNW':
-      case 'DSNT':
-        return '건성, 주름성';
-      case 'DRPW':
-      case 'DRNW':
-        return '건성, 주름성';
-      case 'DRPT':
-      case 'DRNT':
-        return '건성';
-      case 'OSPW':
-        return '지성';
-      case 'OSPT':
-      case 'OSNW':
-      case 'OSNT':
-        return '지성, 민감성';
-      case 'ORPW':
-      case 'ORNW':
-        return '지성, 주름성';
-      case 'ORPT':
-      case 'ORNT':
-        return '지성';
+      case "DSPW":
+      case "DSPT":
+        return "건성, 민감성";
+      case "DSNW":
+      case "DSNT":
+        return "건성, 주름성";
+      case "DRPW":
+      case "DRNW":
+        return "건성, 주름성";
+      case "DRPT":
+      case "DRNT":
+        return "건성";
+      case "OSPW":
+        return "지성";
+      case "OSPT":
+      case "OSNW":
+      case "OSNT":
+        return "지성, 민감성";
+      case "ORPW":
+      case "ORNW":
+        return "지성, 주름성";
+      case "ORPT":
+      case "ORNT":
+        return "지성";
       default:
-        return '';
+        return "";
     }
   };
-  
+
   const getScalpResult = (code: string) => {
     switch (code) {
-      case 'DASH':
-      case 'DASI':
-        return '건성, 탈모, 민감성';
-      case 'DARH':
-      case 'DARI':
-        return '건성, 탈모';
-      case 'DNSH':
-      case 'DNSI':
-        return '건성, 민감성';
-      case 'DNRH':
-      case 'DNRI':
-        return '건성';
-      case 'OASH':
-      case 'OASI':
-        return '지성, 탈모, 민감성';
-      case 'OARH':
-      case 'OARI':
-        return '지성, 탈모';
-      case 'ONSH':
-      case 'ONSI':
-        return '지성, 민감성';
-      case 'ONRH':
-      case 'ONRI':
-        return '지성';
+      case "DASH":
+      case "DASI":
+        return "건성, 탈모, 민감성";
+      case "DARH":
+      case "DARI":
+        return "건성, 탈모";
+      case "DNSH":
+      case "DNSI":
+        return "건성, 민감성";
+      case "DNRH":
+      case "DNRI":
+        return "건성";
+      case "OASH":
+      case "OASI":
+        return "지성, 탈모, 민감성";
+      case "OARH":
+      case "OARI":
+        return "지성, 탈모";
+      case "ONSH":
+      case "ONSI":
+        return "지성, 민감성";
+      case "ONRH":
+      case "ONRI":
+        return "지성";
       default:
-        return '';
+        return "";
     }
   };
-  
+
   const getSkinRe = (skinType: string) => {
-    const skin = skinType?.split(",").map(part => part.trim());
+    const skin = skinType?.split(",").map((part) => part.trim());
     const skRe = skin?.slice(4).join("") || "";
     return getSkinResult(skRe);
   };
-  
+
   const getScalpRe = (scalpType: string) => {
-    const scalp = scalpType?.split(",").map(part => part.trim());
+    const scalp = scalpType?.split(",").map((part) => part.trim());
     const scRe = scalp?.slice(4).join("") || "";
     return getScalpResult(scRe);
   };

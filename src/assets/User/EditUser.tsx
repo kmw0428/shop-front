@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../Auth/axiosInstance"; // axiosInstance 사용
+import axiosInstance from "../Auth/axiosInstance";
 import "./EditUser.css";
 import Swal from "sweetalert2";
 
@@ -56,7 +56,7 @@ const EditUser: React.FC = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const userId = localStorage.getItem("userId"); // 로컬 스토리지에서 사용자 ID 가져오기
+      const userId = localStorage.getItem("userId");
       if (!userId) {
         setError("User ID not found");
         setLoading(false);
@@ -65,11 +65,10 @@ const EditUser: React.FC = () => {
       try {
         const response = await axiosInstance.get(
           `http://localhost:8080/api/users/${userId}`
-        ); // 현재 사용자 정보 엔드포인트
+        );
         console.log("User data fetched successfully:", response.data);
         setUser(response.data);
 
-        // address가 존재하는지 확인 후 분리하여 상태에 저장
         if (response.data.address) {
           const [postcodePart, addressPart, detailPart, extraPart] =
             response.data.address.split("||");
@@ -98,14 +97,12 @@ const EditUser: React.FC = () => {
       let extraAddress = "";
 
       if (data.addressType === "R") {
-        if (data.bname !== "") {
-          extraAddress += data.bname;
-        }
-        if (data.buildingName !== "") {
-          extraAddress +=
-            extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
-        }
-        fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+        if (data.bname) extraAddress += data.bname;
+        if (data.buildingName)
+          extraAddress += extraAddress
+            ? `, ${data.buildingName}`
+            : data.buildingName;
+        fullAddress += extraAddress ? ` (${extraAddress})` : "";
       }
 
       setPostcode(data.zonecode);
@@ -114,9 +111,7 @@ const EditUser: React.FC = () => {
     };
 
     const openPostcode = () => {
-      new window.daum.Postcode({
-        oncomplete: handleComplete,
-      }).open();
+      new window.daum.Postcode({ oncomplete: handleComplete }).open();
     };
 
     const addPostcodeListener = () => {
@@ -127,7 +122,7 @@ const EditUser: React.FC = () => {
         } else {
           console.error("Postcode button not found");
         }
-      }, 1000); // 1초 후에 버튼을 찾고 이벤트 리스너를 추가
+      }, 1000);
     };
 
     if (!existingScript) {
@@ -136,9 +131,7 @@ const EditUser: React.FC = () => {
       script.src =
         "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
       script.async = true;
-      script.onload = () => {
-        addPostcodeListener();
-      };
+      script.onload = addPostcodeListener;
       document.body.appendChild(script);
     } else {
       addPostcodeListener();
@@ -189,7 +182,6 @@ const EditUser: React.FC = () => {
         });
 
         if (result.isConfirmed) {
-          // try 블록 내부로 이동
           try {
             await axiosInstance.put(
               `http://localhost:8080/api/users/${user.id}`,
@@ -209,13 +201,29 @@ const EditUser: React.FC = () => {
                 cancelButton: "custom-swal-cancel-button",
               },
             });
-            navigate("/mypage"); // 프로필 페이지로 이동
+            navigate("/mypage");
           } catch (error) {
-            setError("프로필 업데이트에 실패했습니다.");
+            Swal.fire({
+              text: "프로필 업데이트에 실패했습니다",
+              icon: "error",
+              customClass: {
+                popup: "custom-swal-popup",
+                title: "custom-swal-title",
+                confirmButton: "custom-swal-confirm-button",
+              },
+            });
           }
         }
       } catch (error) {
-        setError("Failed to open confirmation dialog");
+        Swal.fire({
+          text: "프로필 업데이트에 실패했습니다",
+          icon: "error",
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+          },
+        });
       }
     }
   };
@@ -350,7 +358,7 @@ const EditUser: React.FC = () => {
             value={user?.gender || ""}
             onChange={handleChange}
             className="euInp"
-            style={{width : "95%"}}
+            style={{ width: "95%" }}
           >
             <option value="">성별 선택</option>
             <option value="남성">남성</option>
