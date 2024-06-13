@@ -25,7 +25,7 @@ const Banner: React.FC = () => {
         </Link>
       </div>
       <div className="slide-container">
-        <Link to="/diagnosisSclap">
+        <Link to="/diagnosisScalp">
           <img src="/banner-02.png" />
         </Link>
       </div>
