@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export function SuccessPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [responseData, setResponseData] = useState(null);
+  const [, setResponseData] = useState(null);
 
   useEffect(() => {
     const requestData = {

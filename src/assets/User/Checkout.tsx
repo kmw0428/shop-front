@@ -35,7 +35,7 @@ function CheckoutPage() {
   const { totalPrice, orders } = location.state as { totalPrice: number; orders: Order[] };
   const { data: paymentWidget } = usePaymentWidget(clientKey, customerKey);
   const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance["renderPaymentMethods"]> | null>(null);
-  const [price, setPrice] = useState(totalPrice);
+  const [price] = useState(totalPrice);
   const [paymentMethodsWidgetReady, isPaymentMethodsWidgetReady] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
