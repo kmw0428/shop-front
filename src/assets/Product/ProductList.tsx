@@ -58,8 +58,12 @@ export default function ProductList() {
       if (!userId) return;
 
       try {
-        const response = await axios.get(`http://localhost:8080/wish/user/${userId}`);
-        const favoriteProductIds = response.data.map((wish: any) => wish.product.id);
+        const response = await axios.get(
+          `http://localhost:8080/wish/user/${userId}`
+        );
+        const favoriteProductIds = response.data.map(
+          (wish: any) => wish.product.id
+        );
         setFavoriteProducts(favoriteProductIds);
       } catch (error) {
         console.error("Error fetching favorite products:", error);
@@ -200,15 +204,17 @@ export default function ProductList() {
     try {
       if (favoriteProducts.includes(product.id)) {
         // 위시리스트에서 제거
-        const wish = await axios.get(`http://localhost:8080/wish/product/${product.id}/user/${userId}`);
+        const wish = await axios.get(
+          `http://localhost:8080/wish/product/${product.id}/user/${userId}`
+        );
         await axios.delete(`http://localhost:8080/wish/${wish.data.id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setFavoriteProducts(favoriteProducts.filter(id => id !== product.id));
+        setFavoriteProducts(favoriteProducts.filter((id) => id !== product.id));
         Swal.fire({
-          title: "위시리스트에서 삭제되었습니다.",
+          title: "즐겨찾기에서 삭제되었습니다.",
           icon: "success",
           customClass: {
             popup: "custom-swal-popup",
@@ -251,7 +257,7 @@ export default function ProductList() {
       console.error("Error updating wishlist:", error);
       Swal.fire({
         title: "Warning",
-        text: "위시리스트 업데이트 중 오류가 발생하였습니다.",
+        text: "즐겨찾기 업데이트 중 오류가 발생하였습니다.",
         icon: "warning",
         customClass: {
           popup: "custom-swal-popup",
@@ -320,7 +326,9 @@ export default function ProductList() {
                   <li>
                     <a
                       href="#"
-                      className={`icon ${favoriteProducts.includes(product.id) ? 'favorite' : ''}`}
+                      className={`icon ${
+                        favoriteProducts.includes(product.id) ? "favorite" : ""
+                      }`}
                       onClick={() => handleAddToFavorites(product)}
                     >
                       <FavoriteIcon className="custom-icon" />

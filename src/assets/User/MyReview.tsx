@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./MyReview.css";
+import Swal from "sweetalert2";
 
 interface User {
   id: string;
@@ -30,7 +31,10 @@ interface StarProps {
 
 const Star: React.FC<StarProps> = ({ selected, onClick, editable }) => {
   return (
-    <span onClick={onClick} style={{ cursor: editable ? "pointer" : "default" }}>
+    <span
+      onClick={onClick}
+      style={{ cursor: editable ? "pointer" : "default" }}
+    >
       {selected ? "★" : "☆"}
     </span>
   );
@@ -45,7 +49,7 @@ interface RatingProps {
 const Rating: React.FC<RatingProps> = ({ rating, editable, onChange }) => {
   const handleStarClick = (starIndex: number) => {
     if (editable) {
-      onChange(starIndex + 1); // 새로운 별점 값을 부모 컴포넌트로 전달
+      onChange(starIndex + 1);
     }
   };
 
@@ -73,16 +77,35 @@ const MyReview: React.FC = () => {
     const fetchUserReviews = async () => {
       const userId = localStorage.getItem("userId");
       if (!userId) {
-        alert("사용자 ID를 찾을 수 없습니다.");
+        Swal.fire({
+          title: "Warning",
+          text: "사용자 ID를 찾을 수 없습니다.",
+          icon: "warning",
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+          },
+        });
         return;
       }
 
       try {
-        const response = await axios.get(`http://localhost:8080/reviews/user/${userId}`);
+        const response = await axios.get(
+          `http://localhost:8080/reviews/user/${userId}`
+        );
         setReviews(response.data);
       } catch (error) {
         console.error("리뷰 데이터를 가져오는 데 실패했습니다.", error);
-        alert("리뷰 데이터를 가져오는 데 실패했습니다.");
+        Swal.fire({
+          text: "리뷰 데이터를 가져오는 데 실패했습니다.",
+          icon: "error",
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+          },
+        });
       }
     };
 
@@ -90,17 +113,45 @@ const MyReview: React.FC = () => {
   }, []);
 
   const handleDeleteReview = async (id: string) => {
-    const confirmDelete = window.confirm("이 리뷰를 삭제하시겠습니까?");
-    if (!confirmDelete) {
-      return;
-    }
+    const result = await Swal.fire({
+      title: "이 리뷰를 삭제하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+      customClass: {
+        popup: "custom-swal-popup",
+        title: "custom-swal-title",
+        confirmButton: "custom-swal-confirm-button",
+        cancelButton: "custom-swal-cancel-button",
+      },
+    });
 
-    try {
-      await axios.delete(`http://localhost:8080/reviews/${id}`);
-      setReviews(reviews.filter((review) => review.id !== id));
-    } catch (error) {
-      console.error("리뷰 삭제에 실패했습니다.", error);
-      alert("리뷰 삭제에 실패했습니다.");
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`http://localhost:8080/reviews/${id}`);
+        setReviews(reviews.filter((review) => review.id !== id));
+        Swal.fire({
+          title: "삭제 완료!",
+          text: "리뷰가 성공적으로 삭제되었습니다.",
+          icon: "success",
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+          },
+        });
+      } catch (error) {
+        console.error("리뷰 삭제에 실패했습니다.", error);
+        Swal.fire({
+          text: "리뷰 삭제에 실패했습니다.",
+          icon: "error",
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+          },
+        });
+      }
     }
   };
 
@@ -111,22 +162,55 @@ const MyReview: React.FC = () => {
   };
 
   const handleSaveReview = async (id: string) => {
-    try {
-      await axios.put(`http://localhost:8080/reviews/${id}`, {
-        content: editingContent,
-        rating: editingRating,
-      });
-      setReviews(
-        reviews.map((review) =>
-          review.id === id
-            ? { ...review, content: editingContent, rating: editingRating }
-            : review
-        )
-      );
-      setEditingReviewId(null);
-    } catch (error) {
-      console.error("리뷰 수정에 실패했습니다.", error);
-      alert("리뷰 수정에 실패했습니다.");
+    const result = await Swal.fire({
+      title: "리뷰를 수정하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonText: "수정",
+      cancelButtonText: "취소",
+      customClass: {
+        popup: "custom-swal-popup",
+        title: "custom-swal-title",
+        confirmButton: "custom-swal-confirm-button",
+        cancelButton: "custom-swal-cancel-button",
+      },
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axios.put(`http://localhost:8080/reviews/${id}`, {
+          content: editingContent,
+          rating: editingRating,
+        });
+        setReviews(
+          reviews.map((review) =>
+            review.id === id
+              ? { ...review, content: editingContent, rating: editingRating }
+              : review
+          )
+        );
+        setEditingReviewId(null);
+        Swal.fire({
+          title: "수정 완료!",
+          text: "리뷰가 성공적으로 수정되었습니다.",
+          icon: "success",
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+          },
+        });
+      } catch (error) {
+        console.error("리뷰 수정에 실패했습니다.", error);
+        Swal.fire({
+          text: "리뷰 수정에 실패했습니다.",
+          icon: "error",
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+          },
+        });
+      }
     }
   };
 
@@ -137,7 +221,11 @@ const MyReview: React.FC = () => {
   return (
     <div className="user-reviews">
       <hr className="reviewhr1" />
-      <h1 style={{ fontSize: "3rem", marginBottom: "-20px", marginTop: "55px" }}>My Review</h1>
+      <h1
+        style={{ fontSize: "3rem", marginBottom: "-20px", marginTop: "55px" }}
+      >
+        My Review
+      </h1>
       <hr className="reviewhr2" />
       {reviews.length > 0 ? (
         reviews.map((review) => (
@@ -179,7 +267,9 @@ const MyReview: React.FC = () => {
                     onChange={setEditingRating}
                   />
                   <div className="review-buttons">
-                    <button onClick={() => handleSaveReview(review.id)}>저장</button>
+                    <button onClick={() => handleSaveReview(review.id)}>
+                      저장
+                    </button>
                     &nbsp;&nbsp;
                     <button onClick={handleCancelEdit}>취소</button>
                   </div>
@@ -190,13 +280,19 @@ const MyReview: React.FC = () => {
                   <div className="review-buttons">
                     <button
                       onClick={() =>
-                        handleEditReview(review.id, review.content, review.rating)
+                        handleEditReview(
+                          review.id,
+                          review.content,
+                          review.rating
+                        )
                       }
                     >
                       수정
                     </button>
                     &nbsp;&nbsp;
-                    <button onClick={() => handleDeleteReview(review.id)}>삭제</button>
+                    <button onClick={() => handleDeleteReview(review.id)}>
+                      삭제
+                    </button>
                   </div>
                 </div>
               )}

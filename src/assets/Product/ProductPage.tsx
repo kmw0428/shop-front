@@ -151,9 +151,8 @@ const ProductPage: React.FC = () => {
       console.error("Order creation failed:", error);
       {
         Swal.fire({
-          title: "Warning",
           text: "상품 추가 중 오류가 발생하였습니다.",
-          icon: "warning",
+          icon: "error",
           showCancelButton: true,
           customClass: {
             popup: "custom-swal-popup",
@@ -201,7 +200,7 @@ const ProductPage: React.FC = () => {
         });
         setFavoriteProducts(favoriteProducts.filter(id => id !== product.id));
         Swal.fire({
-          title: "위시리스트에서 삭제되었습니다.",
+          title: "즐겨찾기에서 삭제되었습니다.",
           icon: "success",
           customClass: {
             popup: "custom-swal-popup",
@@ -243,9 +242,8 @@ const ProductPage: React.FC = () => {
     } catch (error) {
       console.error("Error updating wishlist:", error);
       Swal.fire({
-        title: "Warning",
-        text: "위시리스트 업데이트 중 오류가 발생하였습니다.",
-        icon: "warning",
+        text: "즐겨찾기 업데이트 중 오류가 발생하였습니다.",
+        icon: "error",
         customClass: {
           popup: "custom-swal-popup",
           title: "custom-swal-title",

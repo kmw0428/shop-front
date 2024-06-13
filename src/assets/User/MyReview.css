@@ -22,8 +22,8 @@
 .review-item {
   position: relative;
   background: #f1eae6;
+  border: 1px solid #7b695e;
   border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   margin: 40px;
   padding: 30px;
   width: calc(72% - 40px);
@@ -105,7 +105,7 @@
 }
 
 .star.filled {
-  color: #ffcc00;
+  color: #9c8779;
 }
 
 .edit-review-input {
@@ -121,7 +121,7 @@
 }
 
 .edit-review-input:focus {
-  border-color: #9c8779;
+  border-color: #7b695e;
   outline: none;
   background-color: #ffffff;
   box-shadow: 0 0 5px rgba(156, 135, 121, 0.5);
