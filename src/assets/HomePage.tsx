@@ -1,27 +1,40 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Banner from "./Components/Banner";
 import ProductCard from "./Components/ProductCard";
+import axios from "axios";
 
 // 임시 제품 데이터 타입 정의
 interface Product {
   id: number;
-  image: string;
   name: string;
+  imageUrl: string;
   link: string;
 }
 
-// 임시 제품 데이터
-const products: Product[] = [
-  { id: 1, image: "path/to/image1.jpg", name: "Product 1", link: "/product1" },
-  { id: 2, image: "path/to/image2.jpg", name: "Product 2", link: "/product2" },
-  { id: 3, image: "path/to/image3.jpg", name: "Product 3", link: "/product3" },
-  { id: 4, image: "path/to/image4.jpg", name: "Product 4", link: "/product4" },
-  { id: 5, image: "path/to/image5.jpg", name: "Product 5", link: "/product5" },
-];
-
 const HomePage: React.FC = () => {
+  const [, setProducts] = useState<Product[]>([]);
+  const [displayProducts, setDisplayProducts] = useState<Product[]>([]);
   const imageRef = useRef<HTMLImageElement>(null);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/products/status/best");
+        const productsData = response.data;
+        setProducts(productsData);
+        setDisplayProducts(
+          productsData.sort(() => 0.5 - Math.random()).slice(0, 6)
+        );
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     if (imageRef.current) {
@@ -40,6 +53,10 @@ const HomePage: React.FC = () => {
     }
   }, []);
 
+  const handleViewAllClick = () => {
+    navigate("/bestproduct");
+  };
+
   return (
     <div className="container">
       <div className="banner">
@@ -48,15 +65,15 @@ const HomePage: React.FC = () => {
       <div className="recommend1">
         <div className="header">
           <p>Products</p>
-          <button className="view-all-button">추천 모든 제품 보기</button>
+          <button className="view-all-button" onClick={handleViewAllClick}>BEST 제품 보기</button>
         </div>
         <div className="product-list">
-          {products.map((product) => (
+          {displayProducts.map((product) => (
             <ProductCard
               key={product.id}
-              image={product.image}
+              image={`http://localhost:8080${product.imageUrl}`}
               name={product.name}
-              link={product.link}
+              link={`http://localhost:8080/products/${product.id}`}
             />
           ))}
         </div>

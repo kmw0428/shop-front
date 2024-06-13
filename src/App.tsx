@@ -14,6 +14,8 @@ import SkinResult from "./assets/Diagnosis/SkinResult";
 import ScalpResult from "./assets/Diagnosis/ScalpResult";
 import CartPage from "./assets/User/CartPage";
 import ProductPage from "./assets/Product/ProductPage";
+import NewProduct from "./assets/Product/NewProduct";
+import BestProduct from "./assets/Product/BestProduct";
 import Wishlist from "./assets/User/Wishlist";
 import Mypage from "./assets/User/Mypage";
 import SearchResults from "./assets/Product/SearchResult";
@@ -59,6 +61,8 @@ const App: React.FC = () => {
             <Route path="/product-list" element={<ProductList />} />
             <Route path="/product-list/:category" element={<ProductList />} />
             <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="/newproduct" element={<NewProduct />} />
+            <Route path="/bestproduct" element={<BestProduct />} />
             <Route path="/skinresult" element={<SkinResult />} />
             <Route path="/scalpresult" element={<ScalpResult />} />
             <Route path="/cartpage" element={<CartPage />} />
