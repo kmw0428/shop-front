@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export function SuccessPage() {
   const navigate = useNavigate();
@@ -43,6 +44,15 @@ export function SuccessPage() {
         console.log(json);
         navigate(`/fail?code=${json.code}&message=${json.message}`);
         return;
+      }
+
+      try {
+        const orderId = searchParams.get("orderId");
+        await axios.put(`http://localhost:8080/orders/${orderId}/status`, null, {
+          params: { status: "PAID" },
+        });
+      } catch (error) {
+        console.error("Failed to update order status:", error);
       }
 
       // TODO: 결제 성공 비즈니스 로직을 구현하세요.
