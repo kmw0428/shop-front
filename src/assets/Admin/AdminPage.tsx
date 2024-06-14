@@ -36,16 +36,7 @@ const AdminPage: React.FC = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get("http://localhost:8080/orders");
-        const ordersWithUserDetails = await Promise.all(
-          response.data.map(async (order: Order) => {
-            const userResponse = await axios.get(`http://localhost:8080/api/users/${order.user}`);
-            return {
-              ...order,
-              user: userResponse.data
-            };
-          })
-        );
-        setOrders(ordersWithUserDetails);
+        setOrders(response.data);
       } catch (error) {
         console.error("Failed to fetch orders:", error);
       }
