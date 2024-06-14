@@ -44,9 +44,7 @@ const CartPage: React.FC = () => {
     const userId = getUserId();
     if (userId) {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/orders/user/${userId}`
-        );
+        const response = await axios.get(`http://localhost:8080/orders/user/${userId}`);
         const orders: Order[] = response.data.map((order: Order) => ({
           ...order,
           products: order.products.map((product: Product) => ({
@@ -56,9 +54,12 @@ const CartPage: React.FC = () => {
           })),
           orderDate: new Date(order.orderDate),
         }));
-        setOrders(orders);
-        const allProducts = orders.flatMap((order) => order.products);
-        setProducts(allProducts);
+
+        const pendingOrders = orders.filter(order => order.status === 'PENDING');
+        setOrders(pendingOrders);
+
+        const allPendingProducts = pendingOrders.flatMap(order => order.products);
+        setProducts(allPendingProducts);
       } catch (error) {
         console.log(error);
         Swal.fire({
@@ -115,7 +116,7 @@ const CartPage: React.FC = () => {
   };
 
   const getOverallTotal = () => {
-    return products.reduce(
+    return products.filter(product => product.isSelected).reduce(
       (total, product) => total + product.price * product.quantity,
       0
     );
@@ -334,8 +335,26 @@ const CartPage: React.FC = () => {
         return;
       }
 
-      const totalPrice = getOverallTotal();
-      navigate("/checkout", { state: { totalPrice, orders } });
+      // 선택된 제품만 필터링
+      const selectedProducts = products.filter(product => product.isSelected);
+      const selectedProductIds = selectedProducts.map(product => product.id);
+
+      // 선택된 주문만 필터링
+      const selectedOrders = orders
+        .map(order => ({
+          ...order,
+          products: order.products.filter(product => selectedProductIds.includes(product.id)),
+        }))
+        .filter(order => order.products.length > 0);
+
+      const selectedOrderIds = selectedOrders.map(order => order.id);
+
+      const totalPrice = selectedProducts.reduce(
+        (total, product) => total + product.price * product.quantity,
+        0
+      );
+      
+      navigate("/checkout", { state: { selectedOrderIds, selectedOrders, totalPrice } });
     }
   };
 
@@ -430,7 +449,7 @@ const CartPage: React.FC = () => {
       </div>
       <div className="order-summary">
         <h2>주문 제품</h2>
-        {products.map((product) => (
+        {products.filter(product => product.isSelected).map((product) => (
           <div className="product-item" key={product.id}>
             <img
               src={`http://localhost:8080${product.imageUrl}`}

@@ -73,7 +73,7 @@ const HomePage: React.FC = () => {
               key={product.id}
               image={`http://localhost:8080${product.imageUrl}`}
               name={product.name}
-              link={`http://localhost:8080/products/${product.id}`}
+              link={`product/${product.id}`}
             />
           ))}
         </div>

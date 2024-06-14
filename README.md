@@ -1,3 +1,6 @@
+# V 2.01
+결제 진행 후 주문의 상채르 PAID로 변경
+
 ## V 1.20
 신상품 및 Best 상품 추가 <br />
 이벤트페이지 추가 <br />
@@ -85,7 +88,7 @@ css 찾아보고 진단테스트 스타일 꾸미기
 npm install axios <br />
 제품 나열하는 리스트 작성
 
-## V 1.01
+# V 1.01
 npm install react-router-dom <br />
 파일 시작시 export default function 이름(){} <br />
 BrowserRouter - Routes - Route 순서대로, BrowserRouter은 무조건 최상위 <br />

@@ -32,7 +32,7 @@ interface Order {
 
 function CheckoutPage() {
   const location = useLocation();
-  const { totalPrice, orders } = location.state as { totalPrice: number; orders: Order[] };
+  const { totalPrice = 0, selectedOrders = [], selectedOrderIds = "" } = location.state || {};
   const { data: paymentWidget } = usePaymentWidget(clientKey, customerKey);
   const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance["renderPaymentMethods"]> | null>(null);
   const [price] = useState(totalPrice);
@@ -88,6 +88,9 @@ function CheckoutPage() {
 
   const getOrderName = (orders: Order[]) => {
     const allProducts = orders.flatMap(order => order.products);
+    if (allProducts.length === 0) {
+      return "No products";
+    }
     if (allProducts.length === 1) {
       return allProducts[0].name;
     }
@@ -95,7 +98,6 @@ function CheckoutPage() {
   };
 
   const formatPhoneNumber = (phoneNumber: string) => {
-    // Remove non-numeric characters
     return phoneNumber.replace(/\D/g, '');
   };
 
@@ -107,9 +109,9 @@ function CheckoutPage() {
         <div>
           <h2>총 결제 금액: {price}원</h2>
           <ul>
-            {orders.map(order => (
+            {selectedOrders.map((order: Order) => (
               <li key={order.id}>
-                {order.products.map(product => (
+                {order.products.map((product: Product) => (
                   <div key={product.id}>
                     {product.name} - {calculateQuantity(order.totalAmount, product.price)}개
                   </div>
@@ -128,15 +130,17 @@ function CheckoutPage() {
               if (!formattedPhoneNumber) {
                 throw new Error("Invalid phone number format");
               }
+
               await paymentWidget?.requestPayment({
                 orderId: nanoid(),
-                orderName: getOrderName(orders),
+                orderName: getOrderName(selectedOrders),
                 customerName: user?.nickname,
                 customerEmail: user?.email,
                 customerMobilePhone: formattedPhoneNumber,
-                successUrl: `${window.location.origin}/success`,
+                successUrl: `${window.location.origin}/success?orderIds=${selectedOrderIds}`,
                 failUrl: `${window.location.origin}/fail`,
               });
+
             } catch (error) {
               console.error(error);
             }
