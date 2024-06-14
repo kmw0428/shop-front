@@ -12,7 +12,6 @@
     padding: 20px; /* 섹션 내부 여백 */
     background-color: #fff; /* 섹션 배경색 */
     border-radius: 8px; /* 섹션 모서리 둥글게 설정 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 섹션 그림자 설정 */
   }
   
   /* 사용자 목록과 주문 목록을 3열 그리드로 설정 */
@@ -30,7 +29,6 @@
     border-radius: 8px; /* 항목 모서리 둥글게 설정 */
     padding: 20px; /* 항목 내부 여백 */
     background-color: #fff; /* 항목 배경색 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 항목 그림자 */
     cursor: pointer; /* 마우스 커서 모양 변경 */
   }
   
@@ -57,7 +55,7 @@
   }
   
   .admin-delete-button:hover, .admin-status-button:hover {
-    background-color: #131313;
+    background-color: #b32f2f;
   }
   
   /* 제품 목록 스타일 설정 */

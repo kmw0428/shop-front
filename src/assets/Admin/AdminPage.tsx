@@ -136,49 +136,56 @@ const AdminPage: React.FC = () => {
         {filteredOrders.length === 0 ? (
           <p className="admin-no-data">No orders found.</p>
         ) : (
-          filteredOrders.map(order => (
-            <div key={order.id} className="admin-order">
-              <p className="admin-order-info">User: {users.find(user => user.id === order.userId)?.nickname}</p>
-              <p className="admin-order-info">Status: {order.status}</p>
-              <p className="admin-order-info">Total Amount: {order.totalAmount.toLocaleString()}원</p>
-              <div className="admin-products">
-                {order.products.map(product => (
-                  <div key={product.id} className="admin-product">
-                    <img className="admin-product-image" src={`http://localhost:8080${product.imageUrl}`} alt={product.name} />
-                    <div className="admin-product-details">
-                      <p className="admin-product-name">{product.name}</p>
-                      <p className="admin-product-price">Price: {product.price.toLocaleString()}원</p>
-                      <p className="admin-product-quantity">Quantity: {order.totalAmount / product.price}개</p>
+          filteredOrders.map(order => {
+            // User 정보를 찾기 위한 변수 선언
+            const user = users.find(user => user.id === order.userId);
+            return (
+              <div key={order.id} className="admin-order">
+                {/* User 정보 가져오기 */}
+                <p className="admin-order-info">User: {user ? user.nickname : 'Unknown'}</p>
+                <p className="admin-order-info">Status: {order.status}</p>
+                <p className="admin-order-info">Total Amount: {order.totalAmount.toLocaleString()}원</p>
+                <div className="admin-products">
+                  {order.products.map(product => (
+                    <div key={product.id} className="admin-product">
+                      <img className="admin-product-image" src={`http://localhost:8080${product.imageUrl}`} alt={product.name} />
+                      <div className="admin-product-details">
+                        <p className="admin-product-name">{product.name}</p>
+                        <p className="admin-product-price">Price: {product.price.toLocaleString()}원</p>
+                        <p className="admin-product-quantity">Quantity: {order.totalAmount / product.price}개</p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                <div className="admin-status-buttons">
+                  {/* 주문 상태 업데이트 버튼 */}
+                  <button
+                    className="admin-status-button"
+                    onClick={() => updateOrderStatus(order.id, "READY_TO_SHIP")}
+                    disabled={order.status === "PENDING"}
+                  >
+                    Ready to Ship
+                  </button>
+                  <button
+                    className="admin-status-button"
+                    onClick={() => updateOrderStatus(order.id, "SHIPPING")}
+                    disabled={order.status === "PENDING"}
+                  >
+                    Shipping
+                  </button>
+                  <button
+                    className="admin-status-button"
+                    onClick={() => updateOrderStatus(order.id, "DELIVERED")}
+                    disabled={order.status === "PENDING"}
+                  >
+                    Delivered
+                  </button>
+                </div>
               </div>
-              <div className="admin-status-buttons">
-                <button
-                  className="admin-status-button"
-                  onClick={() => updateOrderStatus(order.id, "READY_TO_SHIP")}
-                  disabled={order.status === "PENDING"}
-                >
-                  Ready to Ship
-                </button>
-                <button
-                  className="admin-status-button"
-                  onClick={() => updateOrderStatus(order.id, "SHIPPING")}
-                  disabled={order.status === "PENDING"}
-                >
-                  Shipping
-                </button>
-                <button
-                  className="admin-status-button"
-                  onClick={() => updateOrderStatus(order.id, "DELIVERED")}
-                  disabled={order.status === "PENDING"}
-                >
-                  Delivered
-                </button>
-              </div>
-            </div>
-          ))
+            );
+          })
         )}
+
       </div>
     </div>
   );
