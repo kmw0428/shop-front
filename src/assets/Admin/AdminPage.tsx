@@ -11,8 +11,7 @@ interface Product {
 
 interface Order {
   id: string;
-  userId: string;
-  user: string;
+  user: { id: string; nickname: string }; // 사용자 정보를 객체로 정의
   products: Product[];
   totalAmount: number;
   status: string;
@@ -20,7 +19,7 @@ interface Order {
 }
 
 interface User {
-  id: string;
+  id: string; // 사용자 ID를 문자열로 정의
   nickname: string;
   email: string;
   phoneNumber: string;
@@ -37,7 +36,16 @@ const AdminPage: React.FC = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get("http://localhost:8080/orders");
-        setOrders(response.data);
+        const ordersWithUserDetails = await Promise.all(
+          response.data.map(async (order: Order) => {
+            const userResponse = await axios.get(`http://localhost:8080/api/users/${order.user}`);
+            return {
+              ...order,
+              user: userResponse.data
+            };
+          })
+        );
+        setOrders(ordersWithUserDetails);
       } catch (error) {
         console.error("Failed to fetch orders:", error);
       }
@@ -99,11 +107,11 @@ const AdminPage: React.FC = () => {
   };
 
   const handleUserClick = (userId: string) => {
-    setSelectedUserId(userId);
+    setSelectedUserId(prevSelectedUserId => (prevSelectedUserId === userId ? null : userId));
   };
 
   const filteredOrders = selectedUserId
-    ? userOrders.filter(order => order.userId === selectedUserId)
+    ? userOrders.filter(order => order.user.id === selectedUserId)
     : orders;
 
   return (
@@ -137,12 +145,10 @@ const AdminPage: React.FC = () => {
           <p className="admin-no-data">No orders found.</p>
         ) : (
           filteredOrders.map(order => {
-            // User 정보를 찾기 위한 변수 선언
-            const user = users.find(user => user.id === order.userId);
             return (
               <div key={order.id} className="admin-order">
                 {/* User 정보 가져오기 */}
-                <p className="admin-order-info">User: {user ? user.nickname : 'Unknown'}</p>
+                <p className="admin-order-info">User: {order.user.nickname}</p>
                 <p className="admin-order-info">Status: {order.status}</p>
                 <p className="admin-order-info">Total Amount: {order.totalAmount.toLocaleString()}원</p>
                 <div className="admin-products">
@@ -175,6 +181,13 @@ const AdminPage: React.FC = () => {
                   </button>
                   <button
                     className="admin-status-button"
+                    onClick={() => updateOrderStatus(order.id, "DELIVERING")}
+                    disabled={order.status === "PENDING"}
+                  >
+                    Delivering
+                  </button>
+                  <button
+                    className="admin-status-button"
                     onClick={() => updateOrderStatus(order.id, "DELIVERED")}
                     disabled={order.status === "PENDING"}
                   >
@@ -185,7 +198,6 @@ const AdminPage: React.FC = () => {
             );
           })
         )}
-
       </div>
     </div>
   );

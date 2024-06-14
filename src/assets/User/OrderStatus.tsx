@@ -50,8 +50,10 @@ const OrderStatus: React.FC = () => {
         return 2;
       case "SHIPPING":
         return 3;
-      case "DELIVERED":
+      case "DELIVERING":
         return 4;
+      case "DELIVERED":
+        return 5;
       default:
         return 0;
     }
@@ -65,8 +67,10 @@ const OrderStatus: React.FC = () => {
         return "상품 확인 중";
       case "SHIPPING":
         return "배송 시작";
-      case "DELIVERED":
+      case "DELIVERING":
         return "배송 중";
+      case "DELIVERED":
+        return "배송 완료";
       default:
         return "알 수 없음";
     }
