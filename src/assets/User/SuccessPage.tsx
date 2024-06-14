@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import "./SuccessPage.css"; // 추가된 부분
 
 export function SuccessPage() {
   const navigate = useNavigate();
@@ -58,51 +59,51 @@ export function SuccessPage() {
     });
   }, [searchParams]);
 
+  const numericOrderId = Number(searchParams.get("orderId"));
+
   return (
     <>
-      <div className="box_section" style={{ width: "600px" }}>
+      <div className="success-box_section">
         <img
           width="100px"
-          src="https://static.toss.im/illusts/check-blue-spot-ending-frame.png"
+          src="/successicon.png"
+          alt="결제 완료"
         />
-        <h2>결제를 완료했어요</h2>
-        <div className="p-grid typography--p" style={{ marginTop: "50px" }}>
-          <div className="p-grid-col text--left">
+        <h2 className="success-h2">결제를 완료했어요</h2>
+        <div className="success-grid success-typography--p">
+          <div className="success-grid-col success-text--left">
             <b>결제금액</b>
           </div>
-          <div className="p-grid-col text--right" id="amount">
+          <div className="success-grid-col success-text--right" id="amount">
             {`${Number(searchParams.get("amount")).toLocaleString()}원`}
           </div>
         </div>
-        <div className="p-grid typography--p" style={{ marginTop: "10px" }}>
-          <div className="p-grid-col text--left">
+        <div className="success-grid success-typography--p">
+          <div className="success-grid-col success-text--left">
             <b>주문번호</b>
           </div>
-          <div className="p-grid-col text--right" id="orderId">
-            {`${searchParams.get("orderId")}`}
+          <div className="success-grid-col success-text--right" id="orderId">
+            {isNaN(numericOrderId) ? "Invalid Order ID" : numericOrderId.toLocaleString()}
           </div>
         </div>
-        <div className="p-grid typography--p" style={{ marginTop: "10px" }}>
-          <div className="p-grid-col text--left">
+        <div className="success-grid success-typography--p">
+          <div className="success-grid-col success-text--left">
             <b>paymentKey</b>
           </div>
           <div
-            className="p-grid-col text--right"
+            className="success-grid-col success-text--right"
             id="paymentKey"
             style={{ whiteSpace: "initial", width: "250px" }}
           >
             {`${searchParams.get("paymentKey")}`}
           </div>
         </div>
-        <div className="p-grid-col">
+        <div className="success-grid-col">
           <Link to="https://docs.tosspayments.com/guides/payment-widget/integration">
-            <button className="button p-grid-col5">연동 문서</button>
+            <button className="success-button success-button-col5">연동 문서</button>
           </Link>
           <Link to="https://discord.gg/A4fRFXQhRu">
-            <button
-              className="button p-grid-col5"
-              style={{ backgroundColor: "#e8f3ff", color: "#1b64da" }}
-            >
+            <button className="success-button success-button-secondary success-button-col5">
               실시간 문의
             </button>
           </Link>

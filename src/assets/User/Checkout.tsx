@@ -101,14 +101,20 @@ function CheckoutPage() {
     return phoneNumber.replace(/\D/g, '');
   };
 
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('ko-KR', {
+      currency: 'KRW',
+    }).format(price);
+  };
+
   return (
     <div className="wrapper">
       <div className="box_section">
         <div id="payment-widget" />
         <div id="agreement" />
         <div>
-          <h2>총 결제 금액: {price}원</h2>
-          <ul>
+          <h2 className="payh2">총 결제 금액: {formatPrice(price)}</h2>
+          <ul className="payul">
             {selectedOrders.map((order: Order) => (
               <li key={order.id}>
                 {order.products.map((product: Product) => (

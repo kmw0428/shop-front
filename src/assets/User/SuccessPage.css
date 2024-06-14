@@ -1,0 +1,98 @@
+@font-face {
+    font-family: "NEXON Lv1 Gothic OTF";
+    src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF.woff")
+      format("woff");
+  }
+
+.success-wrapper {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.success-box_section {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 600px;
+  box-sizing: border-box;
+  text-align: center;
+  margin-top: 120px;
+}
+
+.success-box_section img {
+  margin-bottom: 20px;
+}
+
+.success-h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+}
+
+.success-typography--p {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.success-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.success-grid-col {
+  flex: 1;
+}
+
+.success-text--left {
+  text-align: left;
+  font-weight: 500;
+}
+
+.success-text--right {
+  text-align: right;
+  font-weight: 400;
+}
+
+.success-button {
+  display: inline-block;
+  width: 45%;
+  margin: -20px 2.5%;
+  background-color: #9c8779;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-top: 30px;
+}
+
+.success-button:hover {
+  background-color: #63554c;
+}
+
+.success-button-col5 {
+  width: calc(50% - 10px);
+}
+
+.success-button-secondary {
+  background-color: #9c8779;
+  color: #fff;
+}
+
+.success-button-secondary:hover {
+  background-color: #63554c;
+}
