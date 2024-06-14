@@ -1,0 +1,154 @@
+.order-status-page {
+  margin-bottom: 50px;
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.order-status-page h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.order-hr {
+  width: 90%;
+  border: none;
+  height: 1px;
+  background-color: #9c8779;
+  margin-top: 3px;
+  margin: 0 auto;
+}
+
+.order {
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.order-p1 {
+  font-size: 1.2em;
+  margin: 12px;
+  text-align: center;
+  width: 100%;
+  font-weight: bold;
+}
+
+.order-products {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  width: 100%;
+}
+
+.order-product {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  padding: 15px;
+  border-radius: 5px;
+  background: #f8f5ef;
+  border: #7b695e 1px solid;
+  margin-bottom: 15px;
+}
+
+.order-product img {
+  max-width: 150px;
+  height: auto;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.order-product-details {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.order-product-header {
+  display: flex;
+  align-items: center;
+  margin-left: 55px;
+}
+
+.order-product-header p {
+  margin: 5px 0;
+  text-align: center;
+  width: 100%;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.order-product-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-product-options p,
+.order-product-footer p {
+  margin: 5px 0;
+  font-size: 0.9em;
+}
+
+.order-product-footer {
+  margin-top: 20px;
+  text-align: left;
+  margin-right: 20px;
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0;
+  width: 100%;
+}
+
+.progress-bar .step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.progress-bar .step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 100%;
+  height: 2px;
+  background: #ddd;
+  z-index: -1;
+}
+
+.progress-bar .step .circle {
+  width: 20px;
+  height: 20px;
+  background: #ddd;
+  border-radius: 50%;
+  margin-bottom: 5px;
+}
+
+.progress-bar .step.active .circle {
+  background: #7b695e;
+}
+
+.progress-bar .step.active .label {
+  font-weight: bold;
+  color: #7b695e;
+}
+
+.ohp {
+  width: 90%;
+  border: none;
+  height: 1px;
+  background-color: #9c8779;
+  margin-top: 3px;
+  margin: 0 auto;
+}
