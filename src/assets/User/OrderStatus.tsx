@@ -21,6 +21,7 @@ interface Order {
 
 const OrderStatus: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
+  const [expandedOrderIds, setExpandedOrderIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -71,6 +72,18 @@ const OrderStatus: React.FC = () => {
     }
   };
 
+  const handleOrderClick = (orderId: string) => {
+    setExpandedOrderIds(prevExpandedOrderIds => {
+      const newExpandedOrderIds = new Set(prevExpandedOrderIds);
+      if (newExpandedOrderIds.has(orderId)) {
+        newExpandedOrderIds.delete(orderId);
+      } else {
+        newExpandedOrderIds.add(orderId);
+      }
+      return newExpandedOrderIds;
+    });
+  };
+
   return (
     <div className="order-status-page">
       <h1>Order Status</h1>
@@ -80,53 +93,57 @@ const OrderStatus: React.FC = () => {
       ) : (
         orders.map((order) => (
           <div key={order.id} className="order">
-            <div className="progress-bar">
-              <div
-                className={`step ${
-                  getStatusStep(order.status) >= 1 ? "active" : ""
-                }`}
-              >
-                <div className="circle"></div>
-                <div className="label">결제 완료</div>
-              </div>
-              <div
-                className={`step ${
-                  getStatusStep(order.status) >= 2 ? "active" : ""
-                }`}
-              >
-                <div className="circle"></div>
-                <div className="label">상품 확인 중</div>
-              </div>
-              <div
-                className={`step ${
-                  getStatusStep(order.status) >= 3 ? "active" : ""
-                }`}
-              >
-                <div className="circle"></div>
-                <div className="label">배송 시작</div>
-              </div>
-              <div
-                className={`step ${
-                  getStatusStep(order.status) >= 4 ? "active" : ""
-                }`}
-              >
-                <div className="circle"></div>
-                <div className="label">배송 중</div>
-              </div>
-              <div
-                className={`step ${
-                  getStatusStep(order.status) >= 5 ? "active" : ""
-                }`}
-              >
-                <div className="circle"></div>
-                <div className="label">배송 완료</div>
-              </div>
-            </div>
-            <p className="order-p1 ">
-              총 금액: {order.totalAmount.toLocaleString()}원
-            </p>
-            <hr className="ohp"></hr>
-            <div className="order-products">
+            {expandedOrderIds.has(order.id) && (
+              <>
+                <div className="progress-bar">
+                  <div
+                    className={`step ${
+                      getStatusStep(order.status) >= 1 ? "active" : ""
+                    }`}
+                  >
+                    <div className="circle"></div>
+                    <div className="label">결제 완료</div>
+                  </div>
+                  <div
+                    className={`step ${
+                      getStatusStep(order.status) >= 2 ? "active" : ""
+                    }`}
+                  >
+                    <div className="circle"></div>
+                    <div className="label">상품 확인 중</div>
+                  </div>
+                  <div
+                    className={`step ${
+                      getStatusStep(order.status) >= 3 ? "active" : ""
+                    }`}
+                  >
+                    <div className="circle"></div>
+                    <div className="label">배송 시작</div>
+                  </div>
+                  <div
+                    className={`step ${
+                      getStatusStep(order.status) >= 4 ? "active" : ""
+                    }`}
+                  >
+                    <div className="circle"></div>
+                    <div className="label">배송 중</div>
+                  </div>
+                  <div
+                    className={`step ${
+                      getStatusStep(order.status) >= 5 ? "active" : ""
+                    }`}
+                  >
+                    <div className="circle"></div>
+                    <div className="label">배송 완료</div>
+                  </div>
+                </div>
+                <p className="order-p1">
+                  총 금액: {order.totalAmount.toLocaleString()}원
+                </p>
+                <hr className="ohp"></hr>
+              </>
+            )}
+            <div className="order-products" onClick={() => handleOrderClick(order.id)}>
               {order.products.map((product) => (
                 <div key={product.id} className="order-product">
                   <img
