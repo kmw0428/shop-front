@@ -11,7 +11,7 @@ interface Product {
 
 interface Order {
   id: string;
-  user: { id: string; nickname: string }; // 사용자 정보를 객체로 정의
+  user: { id: string; nickname: string } | null; // 사용자 정보를 객체로 정의, null 허용
   products: Product[];
   totalAmount: number;
   status: string;
@@ -102,7 +102,7 @@ const AdminPage: React.FC = () => {
   };
 
   const filteredOrders = selectedUserId
-    ? userOrders.filter(order => order.user.id === selectedUserId)
+    ? userOrders.filter(order => order.user?.id === selectedUserId)
     : orders;
 
   return (
@@ -139,7 +139,7 @@ const AdminPage: React.FC = () => {
             return (
               <div key={order.id} className="admin-order">
                 {/* User 정보 가져오기 */}
-                <p className="admin-order-info">User: {order.user.nickname}</p>
+                <p className="admin-order-info">User: {order.user?.nickname || "Unknown"}</p>
                 <p className="admin-order-info">Status: {order.status}</p>
                 <p className="admin-order-info">Total Amount: {order.totalAmount.toLocaleString()}원</p>
                 <div className="admin-products">
