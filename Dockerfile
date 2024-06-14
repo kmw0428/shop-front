@@ -19,11 +19,17 @@ RUN npm run build
 # Stage 2: Serve the build output with a static server
 FROM nginx:alpine
 
+# Remove the default Nginx configuration file
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copy the custom Nginx configuration file
+COPY nginx.conf /etc/nginx/conf.d
+
 # Copy the build output from the builder stage to the NGINX html directory
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Expose the port that NGINX is listening on
-EXPOSE 80
+EXPOSE 5173
 
 # Start NGINX server
 CMD ["nginx", "-g", "daemon off;"]
