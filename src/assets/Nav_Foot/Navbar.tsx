@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
         }
       });
     } else {
-      navigate("/wishlist");
+      navigate("/mypage/wishlist");
     }
   };
 
@@ -88,7 +88,7 @@ const Navbar: React.FC = () => {
         }
       });
     } else {
-      navigate("/cartpage");
+      navigate("/mypage/cartpage");
     }
   };
 

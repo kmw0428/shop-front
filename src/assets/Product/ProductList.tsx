@@ -158,7 +158,7 @@ export default function ProductList() {
         },
       }).then((result) => {
         if (result.isConfirmed) {
-          window.location.href = "/cartpage";
+          window.location.href = "/mypage/cartpage";
         }
       });
     } catch (error) {
@@ -250,7 +250,7 @@ export default function ProductList() {
           },
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location.href = "/wishlist";
+            window.location.href = "/mypage/wishlist";
           }
         });
       }

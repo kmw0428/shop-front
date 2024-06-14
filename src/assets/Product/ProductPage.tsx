@@ -145,7 +145,7 @@ const ProductPage: React.FC = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           // If "장바구니 이동" button is clicked
-          window.location.href = "/cartpage";
+          window.location.href = "/mypage/cartpage";
         }
       });
     } catch (error) {
@@ -236,7 +236,7 @@ const ProductPage: React.FC = () => {
           },
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location.href = "/wishlist";
+            window.location.href = "/mypage/wishlist";
           }
         });
       }

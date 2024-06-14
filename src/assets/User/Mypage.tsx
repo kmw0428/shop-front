@@ -191,7 +191,7 @@ const Mypage: React.FC = () => {
             <img src="/wishlist.png" alt='wishlist' className='mypageimg'></img>
             <div className='movebtn'>
               <p className='mypagetext1'>찜한 상품</p>&nbsp;
-              <button onClick={() => handleNavigation('/wishlist')} className='nav-button' style={{ cursor: 'pointer' }}>
+              <button onClick={() => handleNavigation('/mypage/wishlist')} className='nav-button' style={{ cursor: 'pointer' }}>
                 <img src="/move.png" alt="이동" className='move-icon' />
               </button>
             </div>
@@ -202,7 +202,7 @@ const Mypage: React.FC = () => {
             <img src="/cart.png" alt='cart' className='mypageimg' style={{ marginTop: '22px' }}></img>
             <div className='movebtn'>
               <p className='mypagetext1'>장바구니</p>&nbsp;
-              <button onClick={() => handleNavigation('/cartpage')} className='nav-button' style={{ cursor: 'pointer' }}>
+              <button onClick={() => handleNavigation('/mypage/cartpage')} className='nav-button' style={{ cursor: 'pointer' }}>
                 <img src="/move.png" alt="이동" className='move-icon' />
               </button>
             </div>
@@ -213,7 +213,7 @@ const Mypage: React.FC = () => {
             <img src="/truck.png" alt='truck' className='mypageimg' style={{ width: '50px', marginBottom: '-10px' }}></img>
             <div className='movebtn'>
               <p className='mypagetext1'>주문 상품</p>&nbsp;
-              <button onClick={() => handleNavigation('/')} className='nav-button' style={{ cursor: 'pointer' }}>
+              <button onClick={() => handleNavigation('/mypage/orderstatus')} className='nav-button' style={{ cursor: 'pointer' }}>
                 <img src="/move.png" alt="이동" className='move-icon' />
               </button>
             </div>
