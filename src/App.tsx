@@ -27,6 +27,7 @@ import { SuccessPage } from "./assets/User/SuccessPage";
 import { FailPage } from "./assets/User/FailPage";
 import ScrollToTopButton from "./assets/Components/ScrollToTopButton";
 import EventPage from "./assets/Product/EventPage";
+import AdminPage from "./assets/Admin/AdminPage";
 
 const queryClient = new QueryClient(); // 추가된 부분
 
@@ -78,6 +79,7 @@ const App: React.FC = () => {
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/fail" element={<FailPage />} />
             <Route path="/eventpage" element={<EventPage />} />
+            <Route path="/adminpage" element={<AdminPage />} />
           </Routes>
         </div>
         <Footer />
