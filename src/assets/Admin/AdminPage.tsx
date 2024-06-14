@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "./AdminPage.css";
 
 interface Product {
   id: string;
@@ -10,6 +11,7 @@ interface Product {
 
 interface Order {
   id: string;
+  userId: string;
   user: string;
   products: Product[];
   totalAmount: number;
@@ -28,6 +30,8 @@ interface User {
 const AdminPage: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [users, setUsers] = useState<User[]>([]);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [userOrders, setUserOrders] = useState<Order[]>([]);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -51,6 +55,24 @@ const AdminPage: React.FC = () => {
     fetchOrders();
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    const fetchUserOrders = async () => {
+      if (selectedUserId) {
+        try {
+          const response = await axios.get(`http://localhost:8080/orders?userId=${selectedUserId}`);
+          setUserOrders(response.data);
+        } catch (error) {
+          console.error(`Failed to fetch orders for user ${selectedUserId}:`, error);
+          setUserOrders([]); // 에러 발생 시 빈 배열로 설정하여 "No orders found." 표시
+        }
+      } else {
+        setUserOrders([]);
+      }
+    };
+
+    fetchUserOrders();
+  }, [selectedUserId]);
 
   const updateOrderStatus = async (orderId: string, status: string) => {
     try {
@@ -76,63 +98,79 @@ const AdminPage: React.FC = () => {
     }
   };
 
+  const handleUserClick = (userId: string) => {
+    setSelectedUserId(userId);
+  };
+
+  const filteredOrders = selectedUserId
+    ? userOrders.filter(order => order.userId === selectedUserId)
+    : orders;
+
   return (
     <div className="admin-page">
-      <h1>Admin Page</h1>
-      <div className="users-section">
-        <h2>Users</h2>
+      <h1 className="admin-title">Admin Page</h1>
+      <div className="admin-users-section">
+        <h2 className="admin-section-title">Users</h2>
         {users.length === 0 ? (
-          <p>No users found.</p>
+          <p className="admin-no-data">No users found.</p>
         ) : (
-          <ul>
+          <ul className="admin-users-list">
             {users.map(user => (
-              <li key={user.id}>
-                <p>Nickname: {user.nickname}</p>
-                <p>Email: {user.email}</p>
-                <p>Phone Number: {user.phoneNumber}</p>
-                <p>Role: {user.role}</p>
-                <button onClick={() => deleteUser(user.id)}>Delete User</button>
+              <li
+                key={user.id}
+                className={`admin-user-item ${selectedUserId === user.id ? 'selected' : ''}`}
+                onClick={() => handleUserClick(user.id)}
+              >
+                <p className="admin-user-info">Nickname: {user.nickname}</p>
+                <p className="admin-user-info">Email: {user.email}</p>
+                <p className="admin-user-info">Phone Number: {user.phoneNumber}</p>
+                <p className="admin-user-info">Role: {user.role}</p>
+                <button className="admin-delete-button" onClick={(e) => { e.stopPropagation(); deleteUser(user.id); }}>Delete User</button>
               </li>
             ))}
           </ul>
         )}
       </div>
-      <div className="orders-section">
-        <h2>Orders</h2>
-        {orders.length === 0 ? (
-          <p>No orders found.</p>
+      <div className="admin-orders-section">
+        <h2 className="admin-section-title">Orders</h2>
+        {filteredOrders.length === 0 ? (
+          <p className="admin-no-data">No orders found.</p>
         ) : (
-          orders.map(order => (
-            <div key={order.id} className="order">
-              <p>Status: {order.status}</p>
-              <p>Total Amount: {order.totalAmount.toLocaleString()}원</p>
-              <div className="products">
+          filteredOrders.map(order => (
+            <div key={order.id} className="admin-order">
+              <p className="admin-order-info">User: {users.find(user => user.id === order.userId)?.nickname}</p>
+              <p className="admin-order-info">Status: {order.status}</p>
+              <p className="admin-order-info">Total Amount: {order.totalAmount.toLocaleString()}원</p>
+              <div className="admin-products">
                 {order.products.map(product => (
-                  <div key={product.id} className="product">
-                    <img src={`http://localhost:8080${product.imageUrl}`} alt={product.name} />
-                    <div>
-                      <p>{product.name}</p>
-                      <p>Price: {product.price.toLocaleString()}원</p>
-                      <p>Quantity: {order.totalAmount / product.price}개</p>
+                  <div key={product.id} className="admin-product">
+                    <img className="admin-product-image" src={`http://localhost:8080${product.imageUrl}`} alt={product.name} />
+                    <div className="admin-product-details">
+                      <p className="admin-product-name">{product.name}</p>
+                      <p className="admin-product-price">Price: {product.price.toLocaleString()}원</p>
+                      <p className="admin-product-quantity">Quantity: {order.totalAmount / product.price}개</p>
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="status-buttons">
-                <button 
-                  onClick={() => updateOrderStatus(order.id, "READY_TO_SHIP")} 
+              <div className="admin-status-buttons">
+                <button
+                  className="admin-status-button"
+                  onClick={() => updateOrderStatus(order.id, "READY_TO_SHIP")}
                   disabled={order.status === "PENDING"}
                 >
                   Ready to Ship
                 </button>
-                <button 
-                  onClick={() => updateOrderStatus(order.id, "SHIPPING")} 
+                <button
+                  className="admin-status-button"
+                  onClick={() => updateOrderStatus(order.id, "SHIPPING")}
                   disabled={order.status === "PENDING"}
                 >
                   Shipping
                 </button>
-                <button 
-                  onClick={() => updateOrderStatus(order.id, "DELIVERED")} 
+                <button
+                  className="admin-status-button"
+                  onClick={() => updateOrderStatus(order.id, "DELIVERED")}
                   disabled={order.status === "PENDING"}
                 >
                   Delivered

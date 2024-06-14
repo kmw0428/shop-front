@@ -1,0 +1,122 @@
+
+.admin-page {
+
+    padding: 20px; /* 페이지 내부 여백 설정 */
+    background-color: #f5f5f5;
+  }
+  
+  
+  /* 사용자 섹션 및 주문 섹션 스타일 설정 */
+  .admin-users-section, .admin-orders-section {
+    margin-bottom: 40px; /* 섹션 하단 여백 */
+    padding: 20px; /* 섹션 내부 여백 */
+    background-color: #fff; /* 섹션 배경색 */
+    border-radius: 8px; /* 섹션 모서리 둥글게 설정 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 섹션 그림자 설정 */
+  }
+  
+  /* 사용자 목록과 주문 목록을 3열 그리드로 설정 */
+  .admin-users-list, .admin-orders-list {
+    display: grid; /* 그리드 레이아웃 사용 */
+    grid-template-columns: repeat(3, 1fr); /* 3열 그리드 설정 */
+    gap: 20px; /* 그리드 아이템 간격 */
+    list-style: none; /* 리스트 스타일 제거 */
+    padding: 0; /* 리스트 패딩 제거 */
+  }
+  
+  /* 개별 사용자 항목 및 주문 항목 스타일 설정 */
+  .admin-user-item, .admin-order {
+    border: 1px solid #ddd; /* 항목 테두리 색상 */
+    border-radius: 8px; /* 항목 모서리 둥글게 설정 */
+    padding: 20px; /* 항목 내부 여백 */
+    background-color: #fff; /* 항목 배경색 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 항목 그림자 */
+    cursor: pointer; /* 마우스 커서 모양 변경 */
+  }
+  
+  /* 사용자 항목 및 주문 항목 호버 시 배경색 변경 */
+  .admin-user-item:hover, .admin-order:hover {
+    background-color: #f0f0f0; /* 호버 시 배경색 */
+  }
+  
+  /* 사용자 정보와 주문 정보 텍스트 스타일 설정 */
+  .admin-user-info, .admin-order-info {
+    margin: 5px 0; /* 텍스트 상하 여백 */
+  }
+  
+  /* 삭제 버튼과 상태 변경 버튼 스타일 설정 */
+  .admin-delete-button, .admin-status-button {
+    padding: 10px 15px; /* 버튼 내부 여백 */
+    margin-top: 10px; /* 버튼 상단 여백 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 버튼 모서리 둥글게 설정 */
+    cursor: pointer; /* 마우스 커서 모양 변경 */
+    background-color: #444444;
+    color: #fff;
+    font-size: 14px;
+  }
+  
+  .admin-delete-button:hover, .admin-status-button:hover {
+    background-color: #131313;
+  }
+  
+  /* 제품 목록 스타일 설정 */
+  .admin-products {
+    display: flex; /* 플렉스 레이아웃 사용 */
+    flex-wrap: wrap; /* 아이템 줄바꿈 설정 */
+    gap: 20px; /* 아이템 간격 */
+  }
+  
+  /* 개별 제품 스타일 설정 */
+  .admin-product {
+    display: flex; /* 플렉스 레이아웃 사용 */
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center; /* 중앙 정렬 */
+    border: 1px solid #ddd; /* 테두리 색상 */
+    border-radius: 5px; /* 모서리 둥글게 설정 */
+    overflow: hidden; /* 내용 넘칠 시 숨기기 */
+    padding: 10px; /* 내부 여백 */
+  }
+  
+  /* 제품 이미지 스타일 설정 */
+  .admin-product-image {
+    max-width: 100px; /* 최대 너비 */
+    max-height: 100px; /* 최대 높이 */
+    object-fit: cover; /* 이미지 커버 방식 */
+  }
+  
+  /* 제품 세부 정보 스타일 설정 */
+  .admin-product-details {
+    padding: 10px; /* 내부 여백 */
+    display: flex; /* 플렉스 레이아웃 사용 */
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center; /* 중앙 정렬 */
+  }
+  
+  /* 상태 변경 버튼 컨테이너 스타일 설정 */
+  .admin-status-buttons {
+    display: flex; /* 플렉스 레이아웃 사용 */
+    gap: 10px; /* 버튼 간격 */
+    margin-top: 10px; /* 상단 여백 */
+  }
+  
+  /* 상태 변경 버튼 스타일 설정 */
+  .admin-status-button {
+    background-color: #002c8a; /* 버튼 배경색 */
+  }
+  
+  /* 비활성화된 버튼 스타일 설정 */
+  .admin-status-button[disabled] {
+    background-color: #be4040; /* 비활성화 배경색 */
+    cursor: not-allowed; /* 마우스 커서 모양 변경 */
+  }
+  
+  /* 데이터가 없을 때 표시할 텍스트 스타일 설정 */
+  .admin-no-data {
+    color: #883030; /* 글자 색상 */
+  }
+  
+  /* 선택된 사용자 강조 스타일 */
+  .admin-user-item.selected {
+    border: 2px solid #007bff; /* 선택된 사용자 테두리 색상 */
+  }
