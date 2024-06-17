@@ -55,12 +55,11 @@
   }
   
   .admin-delete-button:hover, .admin-status-button:hover {
-    background-color: #b32f2f;
+    background-color: #444444;
   }
   
   /* 제품 목록 스타일 설정 */
   .admin-products {
-    display: flex; /* 플렉스 레이아웃 사용 */
     flex-wrap: wrap; /* 아이템 줄바꿈 설정 */
     gap: 20px; /* 아이템 간격 */
   }
@@ -96,6 +95,7 @@
     display: flex; /* 플렉스 레이아웃 사용 */
     gap: 10px; /* 버튼 간격 */
     margin-top: 10px; /* 상단 여백 */
+    justify-content: center;
   }
   
   /* 상태 변경 버튼 스타일 설정 */
