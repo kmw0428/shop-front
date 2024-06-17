@@ -6,11 +6,13 @@ import { useAuth } from "../Auth/AuthProvider";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Navbar: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [showSearch, setShowSearch] = useState(false);
   const { isLoggedIn, logout } = useAuth();
+  const [userRole, setUserRole] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleSearchClick = () => {
@@ -35,6 +37,24 @@ const Navbar: React.FC = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        try {
+          const response = await axios.get(`http://localhost:8081/api/users/${userId}`);
+          setUserRole(response.data.role);
+        } catch (error) {
+          console.error("Failed to fetch user role:", error);
+        }
+      }
+    };
+
+    if (isLoggedIn) {
+      fetchUserRole();
+    }
+  }, [isLoggedIn]);
 
   const handleLogout = () => {
     logout();
@@ -63,7 +83,7 @@ const Navbar: React.FC = () => {
         }
       });
     } else {
-      navigate("/mypage/wishlist");
+      navigate(userRole === "ROLE_ADMIN" ? "/adminpage" : "/mypage/wishlist");
     }
   };
 
@@ -88,7 +108,7 @@ const Navbar: React.FC = () => {
         }
       });
     } else {
-      navigate("/mypage/cartpage");
+      navigate(userRole === "ROLE_ADMIN" ? "/adminpage" : "/mypage/cartpage");
     }
   };
 
@@ -175,7 +195,7 @@ const Navbar: React.FC = () => {
           </li>
           {isLoggedIn ? (
             <li>
-              <Link to="/mypage">마이페이지</Link> /{" "}
+              <Link to={userRole === "ROLE_ADMIN" ? "/adminpage" : "/mypage"}>{userRole === "ROLE_ADMIN" ? "관리 페이지" : "마이페이지"}</Link> /{" "}
               <Link to="/" onClick={handleLogout}>
                 로그아웃
               </Link>

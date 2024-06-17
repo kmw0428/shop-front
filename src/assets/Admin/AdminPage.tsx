@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import "./AdminPage.css";
 
 interface Product {
@@ -11,15 +13,16 @@ interface Product {
 
 interface Order {
   id: string;
-  user: { id: string; nickname: string } | null; // 사용자 정보를 객체로 정의, null 허용
+  user: { id: string; nickname: string } | null;
   products: Product[];
   totalAmount: number;
   status: string;
   orderDate: Date;
+  quantity: number;
 }
 
 interface User {
-  id: string; // 사용자 ID를 문자열로 정의
+  id: string;
   nickname: string;
   email: string;
   phoneNumber: string;
@@ -31,29 +34,93 @@ const AdminPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [userOrders, setUserOrders] = useState<Order[]>([]);
+  const [isLoading, setIsLoading] = useState(true);  // 로딩 상태 추가
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await axios.get("http://localhost:8081/orders");
-        setOrders(response.data);
-      } catch (error) {
-        console.error("Failed to fetch orders:", error);
+    const checkUserRole = async () => {
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        try {
+          const response = await axios.get(`http://localhost:8081/api/users/${userId}`);
+          const user: User = response.data;
+          if (user.role !== "ROLE_ADMIN") {
+            Swal.fire({
+              title: "권한 없음",
+              text: "관리자 권한이 필요합니다.",
+              icon: "warning",
+              confirmButtonText: "확인",
+              customClass: {
+                popup: "custom-swal-popup",
+                title: "custom-swal-title",
+                confirmButton: "custom-swal-confirm-button",
+              },
+            }).then(() => {
+              navigate("/"); // 관리자가 아니면 홈으로 리디렉션
+            });
+          } else {
+            setIsLoading(false);  // 관리자가 확인되면 로딩 상태 해제
+          }
+        } catch (error) {
+          console.error("Failed to fetch user data:", error);
+          Swal.fire({
+            title: "에러 발생",
+            text: "사용자 정보를 가져오는 데 실패했습니다.",
+            icon: "error",
+            confirmButtonText: "확인",
+            customClass: {
+              popup: "custom-swal-popup",
+              title: "custom-swal-title",
+              confirmButton: "custom-swal-confirm-button",
+            },
+          }).then(() => {
+            navigate("/"); // 에러 발생 시 홈으로 리디렉션
+          });
+        }
+      } else {
+        Swal.fire({
+          title: "로그인 필요",
+          text: "로그인이 필요합니다.",
+          icon: "warning",
+          confirmButtonText: "로그인",
+          customClass: {
+            popup: "custom-swal-popup",
+            title: "custom-swal-title",
+            confirmButton: "custom-swal-confirm-button",
+          },
+        }).then(() => {
+          navigate("/login"); // 로그인하지 않은 경우 로그인 페이지로 리디렉션
+        });
       }
     };
 
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get("http://localhost:8081/api/users");
-        setUsers(response.data);
-      } catch (error) {
-        console.error("Failed to fetch users:", error);
-      }
-    };
+    checkUserRole();
+  }, [navigate]);
 
-    fetchOrders();
-    fetchUsers();
-  }, []);
+  useEffect(() => {
+    if (!isLoading) {  // 관리자인 경우에만 데이터를 가져옴
+      const fetchOrders = async () => {
+        try {
+          const response = await axios.get("http://localhost:8081/orders");
+          setOrders(response.data);
+        } catch (error) {
+          console.error("Failed to fetch orders:", error);
+        }
+      };
+
+      const fetchUsers = async () => {
+        try {
+          const response = await axios.get("http://localhost:8081/api/users");
+          setUsers(response.data);
+        } catch (error) {
+          console.error("Failed to fetch users:", error);
+        }
+      };
+
+      fetchOrders();
+      fetchUsers();
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     const fetchUserOrders = async () => {
@@ -105,6 +172,10 @@ const AdminPage: React.FC = () => {
     ? userOrders.filter(order => order.user?.id === selectedUserId)
     : orders;
 
+  if (isLoading) {
+    return null;  // 로딩 중일 때는 아무것도 렌더링하지 않음
+  }
+
   return (
     <div className="admin-page">
       <h1 className="admin-title">Admin Page</h1>
@@ -138,7 +209,6 @@ const AdminPage: React.FC = () => {
           filteredOrders.map(order => {
             return (
               <div key={order.id} className="admin-order">
-                {/* User 정보 가져오기 */}
                 <p className="admin-order-info">User: {order.user?.nickname || "Unknown"}</p>
                 <p className="admin-order-info">Status: {order.status}</p>
                 <p className="admin-order-info">Total Amount: {order.totalAmount.toLocaleString()}원</p>
@@ -155,7 +225,6 @@ const AdminPage: React.FC = () => {
                   ))}
                 </div>
                 <div className="admin-status-buttons">
-                  {/* 주문 상태 업데이트 버튼 */}
                   <button
                     className="admin-status-button"
                     onClick={() => updateOrderStatus(order.id, "READY_TO_SHIP")}

@@ -14,6 +14,7 @@ const Login: React.FC<LoginFormProps> = () => {
   const [password, setPassword] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
+  const [, setUserRole] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
@@ -38,11 +39,20 @@ const Login: React.FC<LoginFormProps> = () => {
             title: "custom-swal-title",
             confirmButton: "custom-swal-confirm-button",
           },
-        }).then(() => {
+        }).then(async() => {
           localStorage.setItem("token", response.data.accessToken); // JWT 액세스 토큰을 로컬 스토리지에 저장
           localStorage.setItem("userId", response.data.userId);
           console.log("Token stored:", response.data.accessToken); // 저장된 토큰 로그
-          navigate("/mypage");
+          try {
+            const userId = response.data.userId;
+            const userResponse = await axios.get(`http://localhost:8081/api/users/${userId}`);
+            const role = userResponse.data.role;
+            setUserRole(role);
+            navigate(role === "ROLE_ADMIN" ? "/adminpage" : "/mypage");
+          } catch (error) {
+            console.error("Failed to fetch user role:", error);
+          }
+  
           window.location.reload(); // 페이지 새로고침
         });
       } else {
