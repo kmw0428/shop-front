@@ -27,7 +27,7 @@ const ProductPage: React.FC = () => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/products/${id}`
+          `http://localhost:8081/products/${id}`
         );
         setProduct(response.data);
       } catch (error) {
@@ -123,7 +123,7 @@ const ProductPage: React.FC = () => {
       };
       console.log(orderPayload);
 
-      await axios.post("http://localhost:8080/orders", orderPayload, {
+      await axios.post("http://localhost:8081/orders", orderPayload, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -193,8 +193,8 @@ const ProductPage: React.FC = () => {
     try {
       if (favoriteProducts.includes(product.id!)) {
         // 위시리스트에서 제거
-        const wish = await axios.get(`http://localhost:8080/wish/product/${product.id}/user/${userId}`);
-        await axios.delete(`http://localhost:8080/wish/${wish.data.id}`, {
+        const wish = await axios.get(`http://localhost:8081/wish/product/${product.id}/user/${userId}`);
+        await axios.delete(`http://localhost:8081/wish/${wish.data.id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -215,7 +215,7 @@ const ProductPage: React.FC = () => {
           user: { id: userId },
           product: { id: product.id },
         };
-        await axios.post("http://localhost:8080/wish", wishload, {
+        await axios.post("http://localhost:8081/wish", wishload, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -263,7 +263,7 @@ const ProductPage: React.FC = () => {
       <div className="product-page">
         <div className="product-image-container">
           <img
-            src={`http://localhost:8080${product.imageUrl}`} // 제품에 맞는 이미지 경로 사용
+            src={`http://localhost:8081${product.imageUrl}`} // 제품에 맞는 이미지 경로 사용
             alt="Product"
             className="product-image"
           />

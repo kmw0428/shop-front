@@ -44,7 +44,7 @@ export function SuccessPage() {
 
       try {
         for (const orderId of orderIds) {
-          await axios.put(`http://localhost:8080/orders/${orderId}/status`, null, {
+          await axios.put(`http://localhost:8081/orders/${orderId}/status`, null, {
             params: { status: "PAID" },
           });
         }

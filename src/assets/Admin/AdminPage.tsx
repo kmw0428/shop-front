@@ -35,7 +35,7 @@ const AdminPage: React.FC = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/orders");
+        const response = await axios.get("http://localhost:8081/orders");
         setOrders(response.data);
       } catch (error) {
         console.error("Failed to fetch orders:", error);
@@ -44,7 +44,7 @@ const AdminPage: React.FC = () => {
 
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/users");
+        const response = await axios.get("http://localhost:8081/api/users");
         setUsers(response.data);
       } catch (error) {
         console.error("Failed to fetch users:", error);
@@ -59,7 +59,7 @@ const AdminPage: React.FC = () => {
     const fetchUserOrders = async () => {
       if (selectedUserId) {
         try {
-          const response = await axios.get(`http://localhost:8080/orders?userId=${selectedUserId}`);
+          const response = await axios.get(`http://localhost:8081/orders?userId=${selectedUserId}`);
           setUserOrders(response.data);
         } catch (error) {
           console.error(`Failed to fetch orders for user ${selectedUserId}:`, error);
@@ -75,7 +75,7 @@ const AdminPage: React.FC = () => {
 
   const updateOrderStatus = async (orderId: string, status: string) => {
     try {
-      await axios.put(`http://localhost:8080/orders/${orderId}/status`, null, {
+      await axios.put(`http://localhost:8081/orders/${orderId}/status`, null, {
         params: { status },
       });
       setOrders(prevOrders =>
@@ -90,7 +90,7 @@ const AdminPage: React.FC = () => {
 
   const deleteUser = async (userId: string) => {
     try {
-      await axios.delete(`http://localhost:8080/api/users/${userId}`);
+      await axios.delete(`http://localhost:8081/api/users/${userId}`);
       setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
     } catch (error) {
       console.error("Failed to delete user:", error);
@@ -145,7 +145,7 @@ const AdminPage: React.FC = () => {
                 <div className="admin-products">
                   {order.products.map(product => (
                     <div key={product.id} className="admin-product">
-                      <img className="admin-product-image" src={`http://localhost:8080${product.imageUrl}`} alt={product.name} />
+                      <img className="admin-product-image" src={`http://localhost:8081${product.imageUrl}`} alt={product.name} />
                       <div className="admin-product-details">
                         <p className="admin-product-name">{product.name}</p>
                         <p className="admin-product-price">Price: {product.price.toLocaleString()}원</p>

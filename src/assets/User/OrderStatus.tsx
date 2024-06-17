@@ -28,7 +28,7 @@ const OrderStatus: React.FC = () => {
       try {
         const userId = localStorage.getItem("userId");
         const response = await axios.get(
-          `http://localhost:8080/orders/user/${userId}`
+          `http://localhost:8081/orders/user/${userId}`
         );
         const fetchedOrders: Order[] = response.data.filter(
           (order: Order) => order.status !== "PENDING"
@@ -151,7 +151,7 @@ const OrderStatus: React.FC = () => {
               {order.products.map((product) => (
                 <div key={product.id} className="order-product">
                   <img
-                    src={`http://localhost:8080${product.imageUrl}`}
+                    src={`http://localhost:8081${product.imageUrl}`}
                     alt={product.name}
                   />
                   <div className="order-product-details">

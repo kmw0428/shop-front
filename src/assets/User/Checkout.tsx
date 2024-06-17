@@ -43,7 +43,7 @@ function CheckoutPage() {
 
   useEffect(() => {
     if (userId) {
-      axios.get(`http://localhost:8080/api/users/${userId}`)
+      axios.get(`http://localhost:8081/api/users/${userId}`)
         .then(response => {
           setUser(response.data);
         })

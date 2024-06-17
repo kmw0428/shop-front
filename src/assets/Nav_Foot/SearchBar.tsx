@@ -7,7 +7,7 @@ const SearchBar: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSearch = () => {
-    axios.get(`http://localhost:8080/products/search`, { params: { name: searchTerm } })
+    axios.get(`http://localhost:8081/products/search`, { params: { name: searchTerm } })
       .then(response => {
         console.log("Search results:", response.data);
         navigate('/search-results', { state: { results: response.data } });
