@@ -8,6 +8,7 @@ export function SuccessPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [, setResponseData] = useState(null);
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     const requestData = {
@@ -16,6 +17,8 @@ export function SuccessPage() {
       paymentKey: searchParams.get("paymentKey"),
     };
 
+    const orderIdsParam = searchParams.get("orderIds");
+    console.log("Received orderIdsParam:", orderIdsParam);  // 로그 추가
     const orderIds = searchParams.get("orderIds")?.split(',') || [];
 
     const secretKey = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6";
@@ -43,13 +46,17 @@ export function SuccessPage() {
       }
 
       try {
-        for (const orderId of orderIds) {
-          await axios.put(`http://localhost:8081/orders/${orderId}/status`, null, {
-            params: { status: "PAID" },
-          });
-        }
+        console.log("Merging orders with userId:", userId, "orderIds:", orderIds, "status: PAID");
+
+        await axios.put(`http://localhost:8081/orders/merge`, {
+          userId,
+          orderIds,
+          status: "PAID",
+        });
+
+        console.log("Successfully merged orders");
       } catch (error) {
-        console.error("Failed to update order status:", error);
+        console.error("Failed to update order status or merge orders:", error);
       }
 
       return json;
@@ -57,7 +64,7 @@ export function SuccessPage() {
     confirm().then((data) => {
       setResponseData(data);
     });
-  }, [searchParams]);
+  }, [searchParams, userId]);
 
   const numericOrderId = Number(searchParams.get("orderId"));
 

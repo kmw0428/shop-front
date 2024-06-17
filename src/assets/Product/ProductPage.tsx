@@ -323,7 +323,6 @@ const ProductPage: React.FC = () => {
               </h3>
               <hr />
               <div className="PPbuttons">
-                <button className="buy-button">BUY NOW</button>
                 <div className="cart-wishlist">
                   <button
                     className="add-cart"
@@ -345,7 +344,6 @@ const ProductPage: React.FC = () => {
             <>
               <h3>Total: 0원</h3>
               <div className="PPbuttons">
-                <button className="buy-button">BUY NOW</button>
                 <div className="cart-wishlist">
                   <button
                     className="add-cart"

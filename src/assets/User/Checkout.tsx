@@ -107,6 +107,8 @@ function CheckoutPage() {
     }).format(price);
   };
 
+  console.log("Selected Order IDs:", selectedOrderIds); // 추가된 로그
+
   return (
     <div className="wrapper">
       <div className="box_section">
