@@ -117,7 +117,7 @@ const ProductPage: React.FC = () => {
       const totalAmount = calculateTotalPrice(product.price, quantity);
       const orderPayload = {
         user: { id: userId },
-        products: [{ id: product.id }],
+        products: [{ id: product.id, price: product.price }],
         totalAmount, // 총 금액 계산
         orderDate: new Date(),
       };

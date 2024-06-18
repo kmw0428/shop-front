@@ -131,7 +131,7 @@ export default function ProductList() {
     try {
       const orderPayload = {
         user: { id: userId },
-        products: [{ id: product.id }],
+        products: [{ id: product.id, price: product.price }],
         totalAmount: product.price,
         orderDate: new Date(),
       };
