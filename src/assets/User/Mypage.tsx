@@ -31,7 +31,7 @@ const Mypage: React.FC = () => {
     const fetchUserData = async () => {
       const userId = localStorage.getItem("userId"); // 로컬 스토리지에서 사용자 ID 가져오기
       try {
-        const response = await axios.get(`http://localhost:8081/api/users/${userId}`);
+        const response = await axios.get(`http://1.226.84.83:8081/api/users/${userId}`);
         setUserData(response.data);
       } catch (error) {
         console.error("Failed to fetch user data:", error);
@@ -41,7 +41,7 @@ const Mypage: React.FC = () => {
     const fetchOrderCount = async () => {
       const userId = localStorage.getItem("userId");
       try {
-        const response = await axios.get(`http://localhost:8081/orders/user/${userId}`);
+        const response = await axios.get(`http://1.226.84.83:8081/orders/user/${userId}`);
         const orders: Order[] = response.data;
         const pendingOrders = orders.filter(order => order.status === 'PENDING').length;
         const paidOrders = orders.filter(order => order.status !== 'PENDING').length;
@@ -55,7 +55,7 @@ const Mypage: React.FC = () => {
     const fetchReviewCount = async () => {
       const userId = localStorage.getItem("userId");
       try {
-        const response = await axios.get(`http://localhost:8081/reviews/user/${userId}`);
+        const response = await axios.get(`http://1.226.84.83:8081/reviews/user/${userId}`);
         setReviewCount(response.data.length); // 리뷰 개수를 상태에 저장
       } catch (error) {
         console.error("Failed to fetch review count:", error);
@@ -65,7 +65,7 @@ const Mypage: React.FC = () => {
     const fetchWishCount = async () => {
       const userId = localStorage.getItem("userId");
       try {
-        const response = await axios.get(`http://localhost:8081/wish/user/${userId}`);
+        const response = await axios.get(`http://1.226.84.83:8081/wish/user/${userId}`);
         setWishCount(response.data.length);
       } catch (error) {
         console.error("Failed to fetch wish count:", error);

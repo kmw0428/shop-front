@@ -123,7 +123,7 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get(`http://localhost:8081/reviews/product/${productId}`);
+        const response = await axios.get(`http://1.226.84.83:8081/reviews/product/${productId}`);
         setReviews(response.data);
       } catch (error) {
         console.error("Error fetching reviews:", error);
@@ -136,7 +136,7 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
         return;
       }
       try {
-        const response = await axios.get(`http://localhost:8081/api/users/${userId}`);
+        const response = await axios.get(`http://1.226.84.83:8081/api/users/${userId}`);
         setUser(response.data);
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -161,7 +161,7 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
         user: { id: userId }
       };
 
-      const response = await axios.post("http://localhost:8081/reviews", reviewPayload);
+      const response = await axios.post("http://1.226.84.83:8081/reviews", reviewPayload);
       setReviews([...reviews, response.data]);
       setShowForm(false);
     } catch (error) {
@@ -171,7 +171,7 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
 
   const handleDeleteReview = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:8081/reviews/${id}`);
+      await axios.delete(`http://1.226.84.83:8081/reviews/${id}`);
       setReviews(reviews.filter((review) => review.id !== id));
     } catch (error) {
       console.error("Error deleting review:", error);
@@ -188,7 +188,7 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ productName, productId }) => 
 
   const handleSaveReview = async (id: string, content: string, rating: number) => {
     try {
-      const response = await axios.put(`http://localhost:8081/reviews/${id}`, { content, rating });
+      const response = await axios.put(`http://1.226.84.83:8081/reviews/${id}`, { content, rating });
       setReviews(reviews.map((review) => (review.id === id ? response.data : review)));
       setIsEditModalOpen(false);
       setEditReview(null);

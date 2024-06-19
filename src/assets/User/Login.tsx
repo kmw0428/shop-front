@@ -22,7 +22,7 @@ const Login: React.FC<LoginFormProps> = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8081/api/auth/login",
+        "http://1.226.84.83:8081/api/auth/login",
         { username, password }
       );
 
@@ -45,7 +45,7 @@ const Login: React.FC<LoginFormProps> = () => {
           console.log("Token stored:", response.data.accessToken); // 저장된 토큰 로그
           try {
             const userId = response.data.userId;
-            const userResponse = await axios.get(`http://localhost:8081/api/users/${userId}`);
+            const userResponse = await axios.get(`http://1.226.84.83:8081/api/users/${userId}`);
             const role = userResponse.data.role;
             setUserRole(role);
             navigate(role === "ROLE_ADMIN" ? "/adminpage" : "/mypage");
@@ -100,7 +100,7 @@ const Login: React.FC<LoginFormProps> = () => {
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8081/api/auth/register", {
+      await axios.post("http://1.226.84.83:8081/api/auth/register", {
         username,
         email,
         password,

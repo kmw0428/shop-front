@@ -45,7 +45,7 @@ const AccordionPage: React.FC<AccordionProps> = ({ image, productId }) => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8081/products/${productId}`);
+        const response = await axios.get(`http://1.226.84.83:8081/products/${productId}`);
         setProductDetails(response.data);
       } catch (error) {
         console.error("Error fetching product details:", error);

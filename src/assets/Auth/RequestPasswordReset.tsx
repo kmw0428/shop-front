@@ -10,7 +10,7 @@ export default function RequestPasswordReset() {
         e.preventDefault();
         try {
             const response = await axios.post(
-                'http://localhost:8081/api/auth/reset-password',
+                'http://1.226.84.83:8081/api/auth/reset-password',
                 new URLSearchParams({ email })
             );
             const token = response.data.split(': ')[1];

@@ -48,7 +48,7 @@ const SkinResult: React.FC = () => {
         console.log("Saving skin type with data:", data);
 
         await axios.put(
-          `http://localhost:8081/api/users/${userId}`,
+          `http://1.226.84.83:8081/api/users/${userId}`,
           JSON.stringify(data),
           {
             headers: {
@@ -122,7 +122,7 @@ const SkinResult: React.FC = () => {
         if (!uniqueProductIds.has(product.id)) {
           uniqueProductIds.add(product.id);
           try {
-            const response = await axios.get(`http://localhost:8081/products/${product.id}`);
+            const response = await axios.get(`http://1.226.84.83:8081/products/${product.id}`);
             recommendations.push({ ...product, ...response.data });
           } catch (error) {
             console.error(`Failed to fetch product with ID ${product.id}`, error);
@@ -174,7 +174,7 @@ const SkinResult: React.FC = () => {
           <div className="result-grid">
             {recommendations.map((product) => (
               <div key={product.id}>
-                <img src={`http://localhost:8081${product.imageUrl}`} alt={product.name} style={{ width: "100px" }} />
+                <img src={`http://1.226.84.83:8081${product.imageUrl}`} alt={product.name} style={{ width: "100px" }} />
                 <p>{product.name}</p>
                 <a href={`/product/${product.id}`}>제품 보러 가기</a>
               </div>

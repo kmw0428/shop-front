@@ -23,7 +23,7 @@ export default function ConfirmPasswordReset() {
         e.preventDefault();
         try {
             const response = await axios.post(
-                'http://localhost:8081/api/auth/confirm-reset',
+                'http://1.226.84.83:8081/api/auth/confirm-reset',
                 new URLSearchParams({ token, newPassword }), // x-www-form-urlencoded 형식으로 데이터 전송
                 {
                     headers: {

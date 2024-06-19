@@ -49,7 +49,7 @@ const AdminPage: React.FC = () => {
       const userId = localStorage.getItem("userId");
       if (userId) {
         try {
-          const response = await axios.get(`http://localhost:8081/api/users/${userId}`);
+          const response = await axios.get(`http://1.226.84.83:8081/api/users/${userId}`);
           const user: User = response.data;
           if (user.role !== "ROLE_ADMIN") {
             Swal.fire({
@@ -108,7 +108,7 @@ const AdminPage: React.FC = () => {
     if (!isLoading) {
       const fetchOrders = async () => {
         try {
-          const response = await axios.get("http://localhost:8081/orders");
+          const response = await axios.get("http://1.226.84.83:8081/orders");
           const pendingOrders = response.data.filter((order: Order) => order.status === "PENDING");
           setOrders(pendingOrders);
         } catch (error) {
@@ -118,7 +118,7 @@ const AdminPage: React.FC = () => {
 
       const fetchOrderStatuses = async () => {
         try {
-          const response = await axios.get("http://localhost:8081/orders/orderstatuses");
+          const response = await axios.get("http://1.226.84.83:8081/orders/orderstatuses");
           setOrderStatuses(response.data);
 
           const orderIds = response.data.flatMap((orderStatus: OrderStatus) => orderStatus.orders.map(order => typeof order === 'string' ? order : order.id));
@@ -132,7 +132,7 @@ const AdminPage: React.FC = () => {
 
       const fetchUsers = async () => {
         try {
-          const response = await axios.get("http://localhost:8081/api/users");
+          const response = await axios.get("http://1.226.84.83:8081/api/users");
           setUsers(response.data);
         } catch (error) {
           console.error("Failed to fetch users:", error);
@@ -147,7 +147,7 @@ const AdminPage: React.FC = () => {
 
   const fetchOrderById = async (orderId: string) => {
     try {
-      const response = await axios.get(`http://localhost:8081/orders/${orderId}`);
+      const response = await axios.get(`http://1.226.84.83:8081/orders/${orderId}`);
       return response.data;
     } catch (error) {
       console.error("Failed to fetch order:", error);
@@ -157,7 +157,7 @@ const AdminPage: React.FC = () => {
 
   const updateOrderStatus = async (orderId: string, status: string) => {
     try {
-      await axios.put(`http://localhost:8081/orders/${orderId}/status`, null, {
+      await axios.put(`http://1.226.84.83:8081/orders/${orderId}/status`, null, {
         params: { status },
       });
       setOrdersMap(prevOrders => {
@@ -202,7 +202,7 @@ const AdminPage: React.FC = () => {
 
   const deleteUser = async (userId: string) => {
     try {
-      await axios.delete(`http://localhost:8081/api/users/${userId}`);
+      await axios.delete(`http://1.226.84.83:8081/api/users/${userId}`);
       setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
     } catch (error) {
       console.error("Failed to delete user:", error);
@@ -234,10 +234,10 @@ const AdminPage: React.FC = () => {
 
     if (userId) {
       try {
-        const ordersResponse = await axios.get(`http://localhost:8081/orders/user/${userId}`);
+        const ordersResponse = await axios.get(`http://1.226.84.83:8081/orders/user/${userId}`);
         setOrders(ordersResponse.data.filter((order: Order) => order.status === "PENDING"));
 
-        const orderStatusesResponse = await axios.get(`http://localhost:8081/orders/${userId}/status`);
+        const orderStatusesResponse = await axios.get(`http://1.226.84.83:8081/orders/${userId}/status`);
         setOrderStatuses(orderStatusesResponse.data);
 
         const orderIds = orderStatusesResponse.data.flatMap((orderStatus: OrderStatus) => orderStatus.orders.map(order => typeof order === 'string' ? order : order.id));
@@ -299,7 +299,7 @@ const AdminPage: React.FC = () => {
               <div className="admin-products">
                 {order.products.map(product => (
                   <div key={product.id} className="admin-product">
-                    <img className="admin-product-image" src={`http://localhost:8081${product.imageUrl}`} alt={product.name} />
+                    <img className="admin-product-image" src={`http://1.226.84.83:8081${product.imageUrl}`} alt={product.name} />
                     <div className="admin-product-details">
                       <p className="admin-product-name">{product.name}</p>
                       <p className="admin-product-price">Price: {product.price.toLocaleString()}원</p>
@@ -332,7 +332,7 @@ const AdminPage: React.FC = () => {
                       <div className="admin-products">
                         {orderData.products.map(product => (
                           <div key={product.id} className="admin-product">
-                            <img className="admin-product-image" src={`http://localhost:8081${product.imageUrl}`} alt={product.name} />
+                            <img className="admin-product-image" src={`http://1.226.84.83:8081${product.imageUrl}`} alt={product.name} />
                             <div className="admin-product-details">
                               <p className="admin-product-name">{product.name}</p>
                               <p className="admin-product-price">Price: {product.price.toLocaleString()}원</p>

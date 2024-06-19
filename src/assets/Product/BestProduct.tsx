@@ -25,7 +25,7 @@ export default function BestProduct() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:8081/products/status/best");
+        const response = await axios.get("http://1.226.84.83:8081/products/status/best");
         console.log(response.data);
         setProducts(response.data);
       } catch (error) {
@@ -43,7 +43,7 @@ export default function BestProduct() {
 
       try {
         const response = await axios.get(
-          `http://localhost:8081/wish/user/${userId}`
+          `http://1.226.84.83:8081/wish/user/${userId}`
         );
         const favoriteProductIds = response.data.map(
           (wish: any) => wish.product.id
@@ -120,7 +120,7 @@ export default function BestProduct() {
       };
       console.log(orderPayload);
 
-      await axios.post("http://localhost:8081/orders", orderPayload, {
+      await axios.post("http://1.226.84.83:8081/orders", orderPayload, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -189,9 +189,9 @@ export default function BestProduct() {
       if (favoriteProducts.includes(product.id)) {
         // 위시리스트에서 제거
         const wish = await axios.get(
-          `http://localhost:8081/wish/product/${product.id}/user/${userId}`
+          `http://1.226.84.83:8081/wish/product/${product.id}/user/${userId}`
         );
-        await axios.delete(`http://localhost:8081/wish/${wish.data.id}`, {
+        await axios.delete(`http://1.226.84.83:8081/wish/${wish.data.id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -212,7 +212,7 @@ export default function BestProduct() {
           user: { id: userId },
           product: { id: product.id },
         };
-        await axios.post("http://localhost:8081/wish", wishload, {
+        await axios.post("http://1.226.84.83:8081/wish", wishload, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -292,7 +292,7 @@ export default function BestProduct() {
             <div className="productlist-1" key={product.id}>
               <div className="part-1">
                 <img
-                  src={`http://localhost:8081${product.imageUrl}`}
+                  src={`http://1.226.84.83:8081${product.imageUrl}`}
                   alt={product.name}
                 />
                 <span className="best">best</span>

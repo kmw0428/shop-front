@@ -44,7 +44,7 @@ const CartPage: React.FC = () => {
     const userId = getUserId();
     if (userId) {
       try {
-        const response = await axios.get(`http://localhost:8081/orders/user/${userId}`);
+        const response = await axios.get(`http://1.226.84.83:8081/orders/user/${userId}`);
         const orders: Order[] = response.data.map((order: Order) => ({
           ...order,
           products: order.products.map((product: Product) => ({
@@ -93,7 +93,7 @@ const CartPage: React.FC = () => {
     const userId = getUserId();
     if (userId) {
       try {
-        const response = await axios.get(`http://localhost:8081/api/users/${userId}`);
+        const response = await axios.get(`http://1.226.84.83:8081/api/users/${userId}`);
         setUser(response.data);
       } catch (error) {
         console.error("Failed to fetch user data:", error);
@@ -144,7 +144,7 @@ const CartPage: React.FC = () => {
       }
 
       await axios.put(
-        `http://localhost:8081/orders/user/${userId}/products/${productId}`,
+        `http://1.226.84.83:8081/orders/user/${userId}/products/${productId}`,
         null,
         {
           params: {
@@ -268,7 +268,7 @@ const CartPage: React.FC = () => {
 
       await Promise.all(
         selectedOrderIds.map(async (orderId) => {
-          await axios.delete(`http://localhost:8081/orders/${orderId}`);
+          await axios.delete(`http://1.226.84.83:8081/orders/${orderId}`);
         })
       );
 
@@ -403,7 +403,7 @@ const CartPage: React.FC = () => {
                 <td className="product-col">
                   <div className="product-flex-container">
                     <img
-                      src={`http://localhost:8081${product.imageUrl}`}
+                      src={`http://1.226.84.83:8081${product.imageUrl}`}
                       alt={product.name}
                       className="product-image"
                     />
@@ -452,7 +452,7 @@ const CartPage: React.FC = () => {
         {products.filter(product => product.isSelected).map((product) => (
           <div className="product-item" key={product.id}>
             <img
-              src={`http://localhost:8081${product.imageUrl}`}
+              src={`http://1.226.84.83:8081${product.imageUrl}`}
               alt={product.name}
             />
             <span className="product-imgtext">

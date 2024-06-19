@@ -43,7 +43,7 @@ const Navbar: React.FC = () => {
       const userId = localStorage.getItem("userId");
       if (userId) {
         try {
-          const response = await axios.get(`http://localhost:8081/api/users/${userId}`);
+          const response = await axios.get(`http://1.226.84.83:8081/api/users/${userId}`);
           setUserRole(response.data.role);
         } catch (error) {
           console.error("Failed to fetch user role:", error);
