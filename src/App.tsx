@@ -7,6 +7,8 @@ import Footer from "./assets/Nav_Foot/Footer";
 import ScrollToTop from "./assets/ScrollToTop";
 import HomePage from "./assets/HomePage";
 import Login from "./assets/User/Login";
+import RequestPasswordReset from "./assets/Auth/RequestPasswordReset";
+import ConfirmPasswordReset from "./assets/Auth/ConfirmPasswordReset";
 import ProductList from "./assets/Product/ProductList";
 import DiagnosisScalp from "./assets/Diagnosis/DiagonsisScalp";
 import DiagnosisSkin from "./assets/Diagnosis/DiagnosisSkin";
@@ -59,6 +61,8 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/request" element={<RequestPasswordReset />} />
+            <Route path="/resetpassword" element={<ConfirmPasswordReset />} />
             <Route path="/diagnosisScalp" element={<DiagnosisScalp />} />
             <Route path="/diagnosisSkin" element={<DiagnosisSkin />} />
             <Route path="/product-list" element={<ProductList />} />

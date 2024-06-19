@@ -193,7 +193,7 @@ const Login: React.FC<LoginFormProps> = () => {
                 </button>
               )}
             </div>
-            <a className="outer-link pull-left" href="#/forgot">
+            <a className="outer-link pull-left" href="/request">
               Forgot Password
             </a>
             <button
