@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import './ConfirmPasswordReset.css';  // CSS 파일 임포트
 
 export default function ConfirmPasswordReset() {
     const [token, setToken] = useState('');
@@ -47,23 +48,25 @@ export default function ConfirmPasswordReset() {
     };
 
     return (
-        <>
-            <form onSubmit={handleSubmit}>
-                <label>Token:</label>
+        <div className="cpr-container">
+            <form onSubmit={handleSubmit} className="cpr-form">
+                <label className="cpr-label">Token</label>
                 <input
                     type="text"
                     value={token}
                     readOnly
+                    className="cpr-input"
                 />
-                <label>New Password</label>
+                <label className="cpr-label">New Password</label>
                 <input
                     type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     required
+                    className="cpr-input"
                 />
-                <button type="submit">Confirm Reset</button>
+                <button type="submit" className="cpr-button">Confirm Reset</button>
             </form>
-        </>
+        </div>
     );
 }
