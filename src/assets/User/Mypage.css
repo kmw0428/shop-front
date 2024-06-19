@@ -8,21 +8,21 @@
   background-color: #F1EAE6;
   padding: 20px;
   width: 1900px;
-  height: 330px;
+  height: 500px;
   margin-top: 3px;
 }
 
 .Boxcontainer {
   display: flex;
   justify-content: center;
-  margin-top: 50px;
+  margin-top: 100px;
   gap: 25px;
 }
 
 .Mypagebox1 {
   background-color: #fff;
   width: 280px;
-  height: 170px;
+  height: 200px;
 }
 
 .Mypageimage {
@@ -33,7 +33,7 @@
 
 .Mypagename {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 45px;
   font-size: 21px;
 }
 
@@ -46,7 +46,7 @@
 .Mypagebox2 {
   background-color: #fff;
   width: 200px;
-  height: 170px;
+  height: 200px;
 } 
 
 .Mypagebtn2 {
@@ -56,18 +56,18 @@
 
 .Skintype {
   text-align: center;
-  margin-top: 15px;
+  margin-top: 25px;
 }
 
 .Mypagebox3 {
   background-color: #fff;
   width: 200px;
-  height: 170px;
+  height: 200px;
 } 
 
 .Scalptype {
   text-align: center;
-  margin-top: 15px;
+  margin-top: 25px;
 }
 
 .Mypagebtn3 {
@@ -78,7 +78,7 @@
 .Mypagebox4 {
   background-color: #fff;
   width: 760px;
-  height: 170px;
+  height: 200px;
   display: flex;
   justify-content: space-between;
   align-items: center;

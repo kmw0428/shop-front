@@ -170,7 +170,7 @@ const Mypage: React.FC = () => {
 
   return (
     <div className="Mypagetop">
-      <h1 style={{ marginTop: '25px', fontSize: '40px' }}>My page</h1>
+      <h1 style={{ marginTop: '70px', fontSize: '40px' }}>My page</h1>
       <div className="Boxcontainer">
         <div className='Mypagebox1'>
           <h3 className='Mypagename'>{userData?.nickname || "회원"}님의 회원정보</h3>
