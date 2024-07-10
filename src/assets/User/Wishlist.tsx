@@ -43,7 +43,7 @@ const Wishlist: React.FC = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:8081/wish/user/${userId}`
+          `https://shoppingback-ltd0.onrender.com/wish/user/${userId}`
         );
         setWishlist(response.data);
       } catch (error) {
@@ -79,7 +79,7 @@ const Wishlist: React.FC = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:8081/wish/${id}`);
+        await axios.delete(`https://shoppingback-ltd0.onrender.com/wish/${id}`);
         setWishlist(wishlist.filter((wish) => wish.id !== id));
         Swal.fire({
           title: "삭제 완료!",
@@ -120,7 +120,7 @@ const Wishlist: React.FC = () => {
           wishlist.map((wish) => (
             <div key={wish.id} className="wish-product-item">
               <img
-                src={`http://localhost:8081${wish.product.imageUrl}`}
+                src={`https://shoppingback-ltd0.onrender.com${wish.product.imageUrl}`}
                 alt={wish.product.name}
                 className="wish-product-image"
               />

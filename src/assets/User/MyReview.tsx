@@ -93,7 +93,7 @@ const MyReview: React.FC = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:8081/reviews/user/${userId}`
+          `https://shoppingback-ltd0.onrender.com/reviews/user/${userId}`
         );
         setReviews(response.data);
       } catch (error) {
@@ -129,7 +129,7 @@ const MyReview: React.FC = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:8081/reviews/${id}`);
+        await axios.delete(`https://shoppingback-ltd0.onrender.com/reviews/${id}`);
         setReviews(reviews.filter((review) => review.id !== id));
         Swal.fire({
           title: "삭제 완료!",
@@ -178,7 +178,7 @@ const MyReview: React.FC = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.put(`http://localhost:8081/reviews/${id}`, {
+        await axios.put(`https://shoppingback-ltd0.onrender.com/reviews/${id}`, {
           content: editingContent,
           rating: editingRating,
         });
@@ -234,7 +234,7 @@ const MyReview: React.FC = () => {
             <div className="review-product">
               <div className="review-product-image-container">
                 <img
-                  src={`http://localhost:8081${review.product.imageUrl}`}
+                  src={`https://shoppingback-ltd0.onrender.com${review.product.imageUrl}`}
                   alt={review.product.name}
                   className="review-product-image"
                 />

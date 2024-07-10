@@ -22,7 +22,7 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:8081/products/status/best");
+        const response = await axios.get("https://shoppingback-ltd0.onrender.com/products/status/best");
         const productsData = response.data;
         setProducts(productsData);
         setDisplayProducts(
@@ -71,7 +71,7 @@ const HomePage: React.FC = () => {
           {displayProducts.map((product) => (
             <ProductCard
               key={product.id}
-              image={`http://localhost:8081${product.imageUrl}`}
+              image={`https://shoppingback-ltd0.onrender.com${product.imageUrl}`}
               name={product.name}
               link={`product/${product.id}`}
             />

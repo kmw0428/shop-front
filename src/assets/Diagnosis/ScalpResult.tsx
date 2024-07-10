@@ -46,7 +46,7 @@ const ScalpResult: React.FC = () => {
         console.log("Saving scalp type with data:", data);
 
         await axios.put(
-          `http://localhost:8081/api/users/${userId}`,
+          `https://shoppingback-ltd0.onrender.com/api/users/${userId}`,
           JSON.stringify(data),
           {
             headers: {
@@ -118,7 +118,7 @@ const ScalpResult: React.FC = () => {
         if (!uniqueProductIds.has(product.id)) {
           uniqueProductIds.add(product.id);
           try {
-            const response = await axios.get(`http://localhost:8081/products/${product.id}`);
+            const response = await axios.get(`https://shoppingback-ltd0.onrender.com/products/${product.id}`);
             recommendations.push({ ...product, ...response.data });
           } catch (error) {
             console.error(`Failed to fetch product with ID ${product.id}`, error);
@@ -170,7 +170,7 @@ const ScalpResult: React.FC = () => {
           <div className="result-grid">
             {recommendations.map((product) => (
               <div key={product.id}>
-                <img src={`http://localhost:8081${product.imageUrl}`} alt={product.name} style={{ width: "100px" }} />
+                <img src={`https://shoppingback-ltd0.onrender.com${product.imageUrl}`} alt={product.name} style={{ width: "100px" }} />
                 <p>{product.name}</p>
                 <a href={`/product/${product.id}`}>제품 보러 가기</a>
               </div>

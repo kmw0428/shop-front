@@ -11,7 +11,7 @@ export default function RequestPasswordReset() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8081/api/auth/reset-password",
+        "https://shoppingback-ltd0.onrender.com/api/auth/reset-password",
         new URLSearchParams({ email })
       );
       const token = response.data.split(": ")[1];

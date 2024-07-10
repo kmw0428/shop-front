@@ -40,8 +40,8 @@ export default function ProductList() {
       try {
         const url =
           !category || category === "ALL"
-            ? "http://localhost:8081/products"
-            : `http://localhost:8081/products/category/${category}`;
+            ? "https://shoppingback-ltd0.onrender.com/products"
+            : `https://shoppingback-ltd0.onrender.com/products/category/${category}`;
         const response = await axios.get(url);
         setOriginalProducts(response.data);
         setProducts(response.data);
@@ -60,7 +60,7 @@ export default function ProductList() {
 
       try {
         const response = await axios.get(
-          `http://localhost:8081/wish/user/${userId}`
+          `https://shoppingback-ltd0.onrender.com/wish/user/${userId}`
         );
         const favoriteProductIds = response.data.map(
           (wish: any) => wish.product.id
@@ -137,7 +137,7 @@ export default function ProductList() {
       };
       console.log(orderPayload);
 
-      await axios.post("http://localhost:8081/orders", orderPayload, {
+      await axios.post("https://shoppingback-ltd0.onrender.com/orders", orderPayload, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -206,9 +206,9 @@ export default function ProductList() {
       if (favoriteProducts.includes(product.id)) {
         // 위시리스트에서 제거
         const wish = await axios.get(
-          `http://localhost:8081/wish/product/${product.id}/user/${userId}`
+          `https://shoppingback-ltd0.onrender.com/wish/product/${product.id}/user/${userId}`
         );
-        await axios.delete(`http://localhost:8081/wish/${wish.data.id}`, {
+        await axios.delete(`https://shoppingback-ltd0.onrender.com/wish/${wish.data.id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -229,7 +229,7 @@ export default function ProductList() {
           user: { id: userId },
           product: { id: product.id },
         };
-        await axios.post("http://localhost:8081/wish", wishload, {
+        await axios.post("https://shoppingback-ltd0.onrender.com/wish", wishload, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -311,7 +311,7 @@ export default function ProductList() {
             <div className="productlist-1" key={product.id}>
               <div className="part-1">
                 <img
-                  src={`http://localhost:8081${product.imageUrl}`}
+                  src={`https://shoppingback-ltd0.onrender.com${product.imageUrl}`}
                   alt={product.name}
                 />
                 {product.status === "new" && <span className="new">new</span>}

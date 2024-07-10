@@ -33,7 +33,7 @@ const OrderStatusComponent: React.FC = () => {
     const fetchOrderStatuses = async () => {
       try {
         const userId = localStorage.getItem("userId");
-        const response = await axios.get(`http://localhost:8081/orders/${userId}/status`);
+        const response = await axios.get(`https://shoppingback-ltd0.onrender.com/orders/${userId}/status`);
         setOrderStatuses(response.data);
 
         const orderIds = response.data.flatMap((orderStatus: OrderStatus) => orderStatus.orders.map(order => typeof order === 'string' ? order : order.id));
@@ -51,7 +51,7 @@ const OrderStatusComponent: React.FC = () => {
 
   const fetchOrderById = async (orderId: string) => {
     try {
-      const response = await axios.get(`http://localhost:8081/orders/${orderId}`);
+      const response = await axios.get(`https://shoppingback-ltd0.onrender.com/orders/${orderId}`);
       return response.data;
     } catch (error) {
       console.error("Failed to fetch order:", error);
@@ -158,7 +158,7 @@ const OrderStatusComponent: React.FC = () => {
                 <div className="order-products">
                   {products.map((product, index) => (
                     <div key={`${product.id}-${index}`} className="order-product">
-                      <img src={`http://localhost:8081${product.imageUrl}`} alt={product.name} />
+                      <img src={`https://shoppingback-ltd0.onrender.com${product.imageUrl}`} alt={product.name} />
                       <div className="order-product-details">
                         <div className="order-product-header">
                           <p>{product.name}</p>

@@ -64,7 +64,7 @@ const EditUser: React.FC = () => {
       }
       try {
         const response = await axiosInstance.get(
-          `http://localhost:8081/api/users/${userId}`
+          `https://shoppingback-ltd0.onrender.com/api/users/${userId}`
         );
         console.log("User data fetched successfully:", response.data);
         setUser(response.data);
@@ -184,7 +184,7 @@ const EditUser: React.FC = () => {
         if (result.isConfirmed) {
           try {
             await axiosInstance.put(
-              `http://localhost:8081/api/users/${user.id}`,
+              `https://shoppingback-ltd0.onrender.com/api/users/${user.id}`,
               {
                 ...user,
                 address: `${postcode}||${address}||${detailAddress}||${extraAddress}`,

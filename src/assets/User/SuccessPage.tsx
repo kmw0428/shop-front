@@ -48,7 +48,7 @@ export function SuccessPage() {
       try {
         console.log("Merging orders with userId:", userId, "orderIds:", orderIds, "status: PAID");
 
-        await axios.put(`http://localhost:8081/orders/merge`, {
+        await axios.put(`https://shoppingback-ltd0.onrender.com/orders/merge`, {
           userId,
           orderIds,
           status: "PAID",
